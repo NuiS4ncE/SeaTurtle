@@ -10,8 +10,13 @@ plugins {
     id 'application'
 }
 
+
 application {
-    mainClass = 'seaturtle.Main'
+    mainClass = 'SeaTurtle.Main'
+}
+
+compileJava {
+    exclude '*/dao/**'
 }
 
 run {
