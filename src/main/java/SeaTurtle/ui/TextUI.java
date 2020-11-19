@@ -2,9 +2,9 @@ package seaturtle.ui;
 
 import java.util.Scanner;   
 
-public class TekstiUI {
+public class TextiUI {
 
-    public TekstiUI() {
+    public TextUI() {
         
     }
     
