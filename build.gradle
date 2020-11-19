@@ -11,7 +11,7 @@ plugins {
 }
 
 application {
-    mainClass = 'Main'
+    mainClass = 'seaturtle.Main'
 }
 
 run {
