@@ -11,40 +11,48 @@ public class TextUI {
     
     public void run(Scanner s) {
         this.help();
+        
         while(true) {
 
             System.out.print("> ");
             String input = s.nextLine();
-
+            
             switch (input) {
-                case "exit":
-                    System.exit(0);
+                case "k":
+                    this.addBook();
                     break;
-                case "help":
+                case "h":
                     this.help();
                     break;
-                    
-
+                    case "q":
+                    this.exit();
+                    break;
                 default:
                     System.out.println(ConsoleColors.RED + "komentoa ei tunnistettu." + ConsoleColors.RESET); 
                     this.help();
                     break;
             }
-
-
-
         }
     }
+
+    public void addBook() {
+        System.out.println(ConsoleColors.GREEN +  "kirjavinkki lisätty" + ConsoleColors.RESET);
+    }
+
 
     public void help() {
         System.out.println("\n"
         + "Käytettävissä olevat komennot:\n" 
-        + "[L]isää uusi lukuvinkki\n"
+        + "[k] lisää uusi kirjavinkki\n"
         + "---\n"
-        + "[help] listaa käytettävät komennot\n"
-        + "[exit] poistu ohjelmasta\n"
+        + "[h] listaa komennot\n"
+        + "[q] poistu ohjelmasta\n"
         );
     }
 
+    public void exit() {
+        System.out.println("\nHei hei!\n");
+        System.exit(0);
+    }
 
 }
