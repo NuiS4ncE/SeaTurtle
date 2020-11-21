@@ -8,9 +8,8 @@ public class Main {
         System.out.println("Hello SeaTurtle!\n");
         
         TextUI UI = new TextUI();
-        Scanner s = new Scanner(System.in);        
+        Scanner s = new Scanner(System.in);
         UI.run(s);
-        
         
     }
 }
