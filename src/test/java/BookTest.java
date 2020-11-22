@@ -1,5 +1,5 @@
 import SeaTurtle.Book;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,12 +19,12 @@ public class BookTest {
     
     @Test
     public void bookHasNoAuthor() {
-        assertEquals("-", book.getAuthor());
+        assertNull(book.getAuthor());
     }
     
     @Test
     public void bookHasNoPageCount() {
-        assertEquals("-", book.getPageCount());
+        assertNull(book.getPageCount());
     }
     
     @Test
@@ -35,13 +35,32 @@ public class BookTest {
     
     @Test
     public void bookHasCorrectPageCount() {
-        book.setPageCount("200");
-        assertEquals("200", book.getPageCount());
+        book.setPageCount(200);
+        assertEquals(200, (int) book.getPageCount());
     }
     
     @Test
-    public void bookHasCorrectString() {
-        assertEquals("Kirjan nimi: Title, kirjoittaja: -, sivumäärä: -", book.toString());
+    public void bookHasCorrectStringWithJustTitle() {
+        assertEquals("Kirjan nimi: Title.", book.toString());
+    }
+    
+    @Test
+    public void bookHasCorrectStringWithTitleAndAuthor() {
+        book.setAuthor("Author");
+        assertEquals("Kirjan nimi: Title. Kirjoittaja: Author.", book.toString());
+    }
+    
+    @Test
+    public void bookHasCorrectStringWithTitleAndPageCount() {
+        book.setPageCount(200);
+        assertEquals("Kirjan nimi: Title. 200 sivua.", book.toString());
+    }
+    
+    @Test
+    public void bookHasCorrectStringWithAllDetails() {
+        book.setAuthor("Author");
+        book.setPageCount(200);
+        assertEquals("Kirjan nimi: Title. Kirjoittaja: Author. 200 sivua.", book.toString());
     }
     
 }
