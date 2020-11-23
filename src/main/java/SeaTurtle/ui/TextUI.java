@@ -2,19 +2,20 @@ package SeaTurtle.ui;
 
 import SeaTurtle.Book;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;   
 
 public class TextUI {
     private ArrayList<Book> books;
+    private Scanner s;
 
     public TextUI() {
         books = new ArrayList<>();
+        s  = new Scanner(System.in);
     }
 
     
-    public void run(Scanner s) {
+    public void run() {
         this.help();
         
         while(true) {
@@ -85,13 +86,17 @@ public class TextUI {
             String choice = s.nextLine();
             if (choice.equals("k")) {
                 addBook(s);
-            } else if (choice.equals("v")) {
-                run(s);
+            } 
+            
+            else if (choice.equals("v")) {
+                this.help();
+                return;
             }
+            
         }
         
     }
-    
+
     public void help() {
         System.out.println("\n"
         + "Käytettävissä olevat komennot:\n" 

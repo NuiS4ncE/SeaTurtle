@@ -6,3 +6,8 @@ build
 
 # Ignore IntelliJ Idea project-specific cache directory
 .idea
+
+.classpath
+.project
+.settings/
+bin/
