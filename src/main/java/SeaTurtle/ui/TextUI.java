@@ -16,9 +16,9 @@ public class TextUI {
 
     
     public void run() {
-        this.help();
-        
+
         while(true) {
+            this.help();
 
             System.out.print("> ");
             String input = s.nextLine();
@@ -89,7 +89,6 @@ public class TextUI {
             } 
             
             else if (choice.equals("v")) {
-                this.help();
                 return;
             }
             
