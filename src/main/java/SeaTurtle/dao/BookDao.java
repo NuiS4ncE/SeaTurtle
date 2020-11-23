@@ -6,7 +6,7 @@ import java.util.*;
 public interface BookDao<T, K> {
 
     void createTable() throws SQLException;
-    void create(T object, K key) throws SQLException;
+    void create(T object) throws SQLException;
     T read(T object, K key) throws SQLException;
     void delete(T object, K key) throws SQLException;
     List<T> list(K key) throws SQLException;
