@@ -46,7 +46,7 @@ public class DBBookDao implements BookDao<Book, Integer> {
 
     @Override
     public void create(Book kirja) throws SQLException {
-        createTable();
+//        createTable();
 
         startCon();
         prepstmt = con.prepareStatement("INSERT INTO Book "
