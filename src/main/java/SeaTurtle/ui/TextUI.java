@@ -1,17 +1,21 @@
 package SeaTurtle.ui;
 
 import SeaTurtle.Book;
+import SeaTurtle.database.DBService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;   
 
 public class TextUI {
+
+    private DBService dbService;
     private ArrayList<Book> books;
     private Scanner s;
 
-    public TextUI() {
+    public TextUI(DBService dbService) {
         books = new ArrayList<>();
         s  = new Scanner(System.in);
+        this.dbService = dbService; 
     }
 
     
@@ -45,7 +49,7 @@ public class TextUI {
         
         System.out.println("kirjan nimi: ");
         String title = s.nextLine();
-        while(title.isBlank()) {
+        while(title.isEmpty()) {
             System.out.println("anna kirjan nimi:");
             title = s.nextLine();
         }
@@ -53,14 +57,14 @@ public class TextUI {
 
         System.out.println("kirjan kirjoittaja: ");
         String author = s.nextLine();
-        if (!author.isBlank()) {
+        if (!author.isEmpty()) {
             newBook.setAuthor(author);
         }
         
         while (true) {
             System.out.println("kirjan sivumäärä: ");
             String pageCount = s.nextLine();
-            if(pageCount.isBlank()) {
+            if(pageCount.isEmpty()) {
                 break;
             } else if(pageCount.matches("\\d+")) {
                 newBook.setPageCount(Integer.valueOf(pageCount));
@@ -70,6 +74,8 @@ public class TextUI {
         }
 
         books.add(newBook);
+        dbService.createBook(newBook); 
+
         System.out.println(ConsoleColors.GREEN +  "kirjavinkki lisätty" + ConsoleColors.RESET);
         
         System.out.println("");
