@@ -1,6 +1,6 @@
 # SeaTurtle
 
-![GitHub Actions](https://github.com/NuiS4ncE/SeaTrutle/workflows/Java%20CI%20with%20Gradle/badge.svg)
+![GitHub Actions](https://github.com/NuiS4ncE/SeaTurtle/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
 ## Projektidokumentaatio
 - [Product backlog](https://github.com/NuiS4ncE/SeaTurtle/projects/1)
