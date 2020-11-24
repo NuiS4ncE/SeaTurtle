@@ -68,7 +68,7 @@ public class TextUI {
             if(pageCount.isEmpty()) {
                 break;
             } else if(pageCount.matches("\\d+")) {
-                newBook.setPageCount(Integer.valueOf(pageCount));
+                newBook.setPageCount(pageCount);
                 break;
             }
             System.out.println("anna sivumäärä numerona tai paina enter, jos haluat jättää kentän tyhjäksi");
