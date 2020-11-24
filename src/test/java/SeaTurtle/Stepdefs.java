@@ -38,9 +38,7 @@ public class Stepdefs {
 
     @When("a book with title {string}, author {string} and {int} pages is created")
     public void bookIsCreatedWithAllDetails(String title, String author, int pageCount) {
-        Book book = new Book(title);
-        book.setAuthor(author);
-        book.setPageCount(pageCount);
+        Book book = new Book(title, author, pageCount);
         testbooks.add(book);
     }
 
