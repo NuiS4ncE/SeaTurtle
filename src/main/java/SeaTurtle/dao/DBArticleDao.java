@@ -38,10 +38,10 @@ public class DBArticleDao implements BookDao<Artikkeli, Integer> {
     }
 
     @Override
-    public Artikkeli read(Artikkeli artikkeli, Integer id) throws SQLException {
+    public Artikkeli read(Artikkeli artikkeli) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("SELECT id FROM Artikkeli WHERE id = ?");
-        prepstmt.setInt(1, id);
+        //prepstmt = con.prepareStatement("SELECT id FROM Artikkeli WHERE id = ?");
+        //prepstmt.setInt(1, id);
         ResultSet rs = prepstmt.executeQuery();
         int rsId;
         if (!rs.next()) {

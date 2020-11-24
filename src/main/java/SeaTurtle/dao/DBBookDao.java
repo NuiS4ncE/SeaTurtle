@@ -69,26 +69,23 @@ public class DBBookDao implements BookDao<Book, Integer> {
     }
 
     @Override
-    public Book read(Book kirja, Integer id) throws SQLException {
+    public Book read(Book book) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("SELECT id FROM Book WHERE id = ?");
-        prepstmt.setInt(1, id);
+        Book returnBook;
+        prepstmt = con.prepareStatement("SELECT * FROM Book WHERE title = ? AND author = ? AND pagecount = ?");
+        prepstmt.setString(1, book.getTitle());
+        prepstmt.setString(2, book.getAuthor());
+        prepstmt.setString(3, book.getPageCount());
         ResultSet rs = prepstmt.executeQuery();
-        int rsId;
         if (!rs.next()) {
             return null;
         } else {
-            rsId = rs.getInt("id");
-        }
-        if (rsId == id) {
-            rs.close();
-            closeCon();
-            return kirja;
+            returnBook = new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"));
         }
         rs.close();
         prepstmt.close();
         closeCon();
-        return null;
+        return returnBook;
     }
 
     @Override
