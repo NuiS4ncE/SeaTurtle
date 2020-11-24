@@ -14,7 +14,12 @@ public class TextUI {
     private Scanner s;
 
     public TextUI(DBBookDao bookDao) {
-        books = new ArrayList<>();
+        try{
+            books = bookDao.list();
+        } catch (SQLException e) {
+        System.out.print(e.getMessage());
+    }
+
         s  = new Scanner(System.in);
         this.bookDao = bookDao; 
     }

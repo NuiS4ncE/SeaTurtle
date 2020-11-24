@@ -92,24 +92,25 @@ public class DBBookDao implements BookDao<Book, Integer> {
     }
 
     @Override
-    public void delete(Book kirja, Integer id) throws SQLException {
+    public void delete(Book kirja) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("DELETE FROM Book WHERE id = ?");
-        prepstmt.setInt(1, id);
+        prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND author = ? AND pagecount = ?");
+        prepstmt.setString(1, kirja.getTitle());
+        prepstmt.setString(2, kirja.getAuthor());
+        prepstmt.setString(3, kirja.getPageCount());
         prepstmt.executeUpdate();
         prepstmt.close();
         closeCon();
     }
 
     @Override
-    public List<Book> list(Integer id) throws SQLException {
+    public ArrayList<Book> list() throws SQLException {
         startCon();
-        List<Book> kirjaList = new ArrayList<>();
-        prepstmt = con.prepareStatement("SELECT * FROM Book WHERE id = ?");
-        prepstmt.setInt(1, id);
+        ArrayList<Book> kirjaList = new ArrayList<>();
+        prepstmt = con.prepareStatement("SELECT * FROM Book");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-//            kirjaList.add(new Book(rs.getInt("id"), rs.getString("otsikko"), rs.getString("kirjoittaja"), rs.getInt("sivumaara")));
+            kirjaList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
         }
         prepstmt.close();
         closeCon();
