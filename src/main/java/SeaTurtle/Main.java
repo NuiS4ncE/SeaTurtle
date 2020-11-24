@@ -1,7 +1,6 @@
 package SeaTurtle;
 
 import SeaTurtle.dao.DBBookDao;
-import SeaTurtle.database.DBService;
 import SeaTurtle.ui.TextUI;
 
 
@@ -10,9 +9,8 @@ public class Main {
         System.out.println("Hello SeaTurtle!\n");
         
         DBBookDao bookDao = new DBBookDao();
-        DBService dbService = new DBService(bookDao);
         
-        TextUI UI = new TextUI(dbService);
+        TextUI UI = new TextUI(bookDao);
         UI.run();
         
     }

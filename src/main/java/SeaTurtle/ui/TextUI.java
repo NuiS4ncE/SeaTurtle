@@ -1,21 +1,22 @@
 package SeaTurtle.ui;
 
 import SeaTurtle.Book;
-import SeaTurtle.database.DBService;
+import SeaTurtle.dao.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;   
 
 public class TextUI {
 
-    private DBService dbService;
+    private DBBookDao bookDao;
     private ArrayList<Book> books;
     private Scanner s;
 
-    public TextUI(DBService dbService) {
+    public TextUI(DBBookDao bookDao) {
         books = new ArrayList<>();
         s  = new Scanner(System.in);
-        this.dbService = dbService; 
+        this.bookDao = bookDao; 
     }
 
     
@@ -74,7 +75,12 @@ public class TextUI {
         }
 
         books.add(newBook);
-        dbService.createBook(newBook); 
+        try {
+            bookDao.create(newBook);
+        } catch (SQLException e) {
+            System.out.print(e.getMessage());
+        }
+//        dbService.createBook(newBook); 
 
         System.out.println(ConsoleColors.GREEN +  "kirjavinkki lisätty" + ConsoleColors.RESET);
         

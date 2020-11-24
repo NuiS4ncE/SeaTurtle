@@ -16,6 +16,14 @@ public class DBBookDao implements BookDao<Book, Integer> {
     private PreparedStatement prepstmt;
     private Statement stmt;
 
+    public DBBookDao() {
+        try {
+            createTable();
+        } catch (SQLException e) {
+            System.out.print(e.getMessage());
+        }
+    }
+
     private void startCon() throws SQLException {
         con = DriverManager.getConnection("jdbc:sqlite:seaturtle.db");
 //        System.out.println("Connection to SQLite has been established.");
