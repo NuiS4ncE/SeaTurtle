@@ -58,12 +58,12 @@ public class Stepdefs {
     }
 
     @Then("book's title {string} and page count of {string} is returned")
-    public void returnTitleAndPageCountAsString(String title, int pageCount) {
+    public void returnTitleAndPageCountAsString(String title, String pageCount) {
         assertEquals("Kirjan nimi: " + title + ". " + pageCount + " sivua.", testbooks.get(0).toString());
     }
 
     @Then("book's title {string}, author {string} and page count of {string} is returned")
-    public void returnAllDetailsAsString(String title, String author, int pageCount) {
+    public void returnAllDetailsAsString(String title, String author, String pageCount) {
         assertEquals("Kirjan nimi: " + title + ". Kirjoittaja: " + author + ". " + pageCount + " sivua.", testbooks.get(0).toString());
     }
 
