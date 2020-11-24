@@ -98,6 +98,7 @@ public class TextUI {
             String choice = s.nextLine();
             if (choice.equals("k")) {
                 addBook(s);
+                break;
             } 
             
             else if (choice.equals("v")) {
