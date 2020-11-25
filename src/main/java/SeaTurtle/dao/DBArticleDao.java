@@ -38,10 +38,10 @@ public class DBArticleDao implements BookDao<Artikkeli, Integer> {
     }
 
     @Override
-    public Artikkeli read(Artikkeli artikkeli, Integer id) throws SQLException {
+    public Artikkeli read(Artikkeli artikkeli) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("SELECT id FROM Artikkeli WHERE id = ?");
-        prepstmt.setInt(1, id);
+        //prepstmt = con.prepareStatement("SELECT id FROM Artikkeli WHERE id = ?");
+        //prepstmt.setInt(1, id);
         ResultSet rs = prepstmt.executeQuery();
         int rsId;
         if (!rs.next()) {
@@ -61,7 +61,7 @@ public class DBArticleDao implements BookDao<Artikkeli, Integer> {
     }
 
     @Override
-    public void delete(Artikkeli artikkeli, Integer id) throws SQLException {
+    public void delete(Artikkeli artikkeli) throws SQLException {
         startCon();
         prepstmt = con.prepareStatement("DELETE FROM Artikkeli WHERE id = ?");
         prepstmt.setInt(1, id);
@@ -71,11 +71,11 @@ public class DBArticleDao implements BookDao<Artikkeli, Integer> {
     }
 
     @Override
-    public List<Artikkeli> list(Integer id) throws SQLException {
+    public ArrayList<Artikkeli> list() throws SQLException {
         startCon();
-        List<Artikkeli> artikkeliList = new ArrayList<>();
+        ArrayList<Artikkeli> artikkeliList = new ArrayList<>();
         prepstmt = con.prepareStatement("SELECT * FROM Artikkeli WHERE id = ?");
-        prepstmt.setInt(1, id);
+        //prepstmt.setInt(1, id);
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
             artikkeliList.add(new Artikkeli(rs.getInt("id"), rs.getString("otsikko"), rs.getString("kirjoittaja"), rs.getString("sivumaara")));

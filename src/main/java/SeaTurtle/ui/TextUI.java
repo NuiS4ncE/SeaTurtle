@@ -1,17 +1,27 @@
 package SeaTurtle.ui;
 
 import SeaTurtle.Book;
+import SeaTurtle.dao.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;   
 
 public class TextUI {
+
+    private DBBookDao bookDao;
     private ArrayList<Book> books;
     private Scanner s;
 
-    public TextUI() {
-        books = new ArrayList<>();
+    public TextUI(DBBookDao bookDao) {
+        try{
+            books = bookDao.list();
+        } catch (SQLException e) {
+        System.out.print(e.getMessage());
+    }
+
         s  = new Scanner(System.in);
+        this.bookDao = bookDao; 
     }
     
     public void run() {
@@ -45,7 +55,7 @@ public class TextUI {
         
         System.out.println("kirjan nimi: ");
         String title = s.nextLine();
-        while(title.isBlank()) {
+        while(title.isEmpty()) {
             System.out.println("anna kirjan nimi:");
             title = s.nextLine();
         }
@@ -53,23 +63,30 @@ public class TextUI {
 
         System.out.println("kirjan kirjoittaja: ");
         String author = s.nextLine();
-        if (!author.isBlank()) {
+        if (!author.isEmpty()) {
             newBook.setAuthor(author);
         }
         
         while (true) {
             System.out.println("kirjan sivumäärä: ");
             String pageCount = s.nextLine();
-            if(pageCount.isBlank()) {
+            if(pageCount.isEmpty()) {
                 break;
             } else if(pageCount.matches("\\d+")) {
-                newBook.setPageCount(Integer.valueOf(pageCount));
+                newBook.setPageCount(pageCount);
                 break;
             }
             System.out.println("anna sivumäärä numerona tai paina enter, jos haluat jättää kentän tyhjäksi");
         }
 
         books.add(newBook);
+        try {
+            bookDao.create(newBook);
+        } catch (SQLException e) {
+            System.out.print(e.getMessage());
+        }
+//        dbService.createBook(newBook); 
+
         System.out.println(ConsoleColors.GREEN +  "kirjavinkki lisätty" + ConsoleColors.RESET);
         
         System.out.println("");
@@ -86,6 +103,7 @@ public class TextUI {
             String choice = s.nextLine();
             if (choice.equals("k")) {
                 addBook(s);
+                break;
             } 
             
             else if (choice.equals("v")) {

@@ -1,5 +1,6 @@
 package SeaTurtle.dao;
 
+import SeaTurtle.Book;
 import java.io.File;
 import java.sql.*;
 import java.sql.DatabaseMetaData;
@@ -9,14 +10,23 @@ import java.sql.Statement;
 import java.util.*;
 import java.util.List;
 
-public class DBBookDao implements BookDao<Kirja, Integer> {
+public class DBBookDao implements BookDao<Book, Integer> {
 
     private Connection con;
     private PreparedStatement prepstmt;
     private Statement stmt;
 
+    public DBBookDao() {
+        try {
+            createTable();
+        } catch (SQLException e) {
+            System.out.print(e.getMessage());
+        }
+    }
+
     private void startCon() throws SQLException {
-        con = DriverManager.getConnection("jdbc:sqlite:database:db");
+        con = DriverManager.getConnection("jdbc:sqlite:seaturtle.db");
+//        System.out.println("Connection to SQLite has been established.");
         stmt = con.createStatement();
     }
 
@@ -26,60 +36,78 @@ public class DBBookDao implements BookDao<Kirja, Integer> {
     }
 
     @Override
-    public void create(Kirja kirja, Integer id) throws SQLException {
+    public void createTable() throws SQLException {
+//        System.out.println("creating table Book");
         startCon();
-        prepstmt = con.prepareStatement("INSERT INTO Kirja"
-        + "(otsikko, kirjoittaja, sivumaara)"
-        + "VALUES (?,?,?)");
-        prepstmt.setString(1, kirja.getNimi());
-        prepstmt.setString(2, kirja.getKirjoittaja());
-        prepstmt.setString(3, kirja.getSivumaara());
+        prepstmt = con.prepareStatement("CREATE TABLE IF NOT EXISTS " 
+        + "Book (" 
+        + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        + "title TEXT, "
+        + "author TEXT, "
+        + "pagecount TEXT" 
+        + ")"
+        );
+
         prepstmt.executeUpdate();
         closeCon();
     }
 
     @Override
-    public Kirja read(Kirja kirja, Integer id) throws SQLException {
+    public void create(Book kirja) throws SQLException {
+//        createTable();
+
         startCon();
-        prepstmt = con.prepareStatement("SELECT id FROM Kirja WHERE id = ?");
-        prepstmt.setInt(1, id);
+        prepstmt = con.prepareStatement("INSERT INTO Book "
+        + "(title, author, pagecount)"
+        + "VALUES (?,?,?)");
+        prepstmt.setString(1, kirja.getTitle());
+        prepstmt.setString(2, kirja.getAuthor());
+        String pCount = "" + kirja.getPageCount();
+        prepstmt.setString(3, pCount);
+        prepstmt.executeUpdate();
+        closeCon();
+    }
+
+    @Override
+    public Book read(Book book) throws SQLException {
+        startCon();
+        Book returnBook;
+        prepstmt = con.prepareStatement("SELECT * FROM Book WHERE title = ? AND author = ? AND pagecount = ?");
+        prepstmt.setString(1, book.getTitle());
+        prepstmt.setString(2, book.getAuthor());
+        prepstmt.setString(3, book.getPageCount());
         ResultSet rs = prepstmt.executeQuery();
-        int rsId;
         if (!rs.next()) {
             return null;
         } else {
-            rsId = rs.getInt("id");
-        }
-        if (rsId == id) {
-            rs.close();
-            closeCon();
-            return kirja;
+            returnBook = new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"));
         }
         rs.close();
         prepstmt.close();
         closeCon();
-        return null;
+        return returnBook;
     }
 
     @Override
-    public void delete(Kirja kirja, Integer id) throws SQLException {
+    public void delete(Book kirja) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("DELETE FROM Kirja WHERE id = ?");
-        prepstmt.setInt(1, id);
+        prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND author = ? AND pagecount = ?");
+        prepstmt.setString(1, kirja.getTitle());
+        prepstmt.setString(2, kirja.getAuthor());
+        prepstmt.setString(3, kirja.getPageCount());
         prepstmt.executeUpdate();
         prepstmt.close();
         closeCon();
     }
 
     @Override
-    public List<Kirja> list(Integer id) throws SQLException {
+    public ArrayList<Book> list() throws SQLException {
         startCon();
-        List<Kirja> kirjaList = new ArrayList<>();
-        prepstmt = con.prepareStatement("SELECT * FROM Kirja WHERE id = ?");
-        prepstmt.setInt(1, id);
+        ArrayList<Book> kirjaList = new ArrayList<>();
+        prepstmt = con.prepareStatement("SELECT * FROM Book");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            kirjaList.add(new Kirja(rs.getInt("id"), rs.getString("otsikko"), rs.getString("kirjoittaja"), rs.getString("sivumaara")));
+            kirjaList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
         }
         prepstmt.close();
         closeCon();

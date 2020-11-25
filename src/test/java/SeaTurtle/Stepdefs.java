@@ -29,18 +29,16 @@ public class Stepdefs {
         testbooks.add(book);
     }
 
-    @When("a book with title {string} and {int} pages is created")
-    public void bookIsCreatedWithTitleAndPageCount(String title, int pageCount) {
+    @When("a book with title {string} and {string} pages is created")
+    public void bookIsCreatedWithTitleAndPageCount(String title, String pageCount) {
         Book book = new Book(title);
         book.setPageCount(pageCount);
         testbooks.add(book);
     }
 
-    @When("a book with title {string}, author {string} and {int} pages is created")
-    public void bookIsCreatedWithAllDetails(String title, String author, int pageCount) {
-        Book book = new Book(title);
-        book.setAuthor(author);
-        book.setPageCount(pageCount);
+    @When("a book with title {string}, author {string} and {string} pages is created")
+    public void bookIsCreatedWithAllDetails(String title, String author, String pageCount) {
+        Book book = new Book(title, author, pageCount);
         testbooks.add(book);
     }
 
@@ -59,13 +57,13 @@ public class Stepdefs {
         assertEquals("Kirjan nimi: " + title + ". Kirjoittaja: " + author + ".", testbooks.get(0).toString());
     }
 
-    @Then("book's title {string} and page count of {int} is returned")
-    public void returnTitleAndPageCountAsString(String title, int pageCount) {
+    @Then("book's title {string} and page count of {string} is returned")
+    public void returnTitleAndPageCountAsString(String title, String pageCount) {
         assertEquals("Kirjan nimi: " + title + ". " + pageCount + " sivua.", testbooks.get(0).toString());
     }
 
-    @Then("book's title {string}, author {string} and page count of {int} is returned")
-    public void returnAllDetailsAsString(String title, String author, int pageCount) {
+    @Then("book's title {string}, author {string} and page count of {string} is returned")
+    public void returnAllDetailsAsString(String title, String author, String pageCount) {
         assertEquals("Kirjan nimi: " + title + ". Kirjoittaja: " + author + ". " + pageCount + " sivua.", testbooks.get(0).toString());
     }
 

@@ -4,7 +4,7 @@ public class Book implements Comparable<Book>{
     
     private String title;
     private String author;
-    private Integer pageCount;
+    private String pageCount;
     
     public Book(String title) {
         this.title = title;
@@ -12,7 +12,7 @@ public class Book implements Comparable<Book>{
         this.pageCount = null;
     }
     
-    public Book(String title, String author, int pageCount) {
+    public Book(String title, String author, String pageCount) {
         this.title = title;
         this.author = author;
         this.pageCount = pageCount;
@@ -26,7 +26,7 @@ public class Book implements Comparable<Book>{
         return author;
     }
     
-    public Integer getPageCount() {
+    public String getPageCount() {
         return pageCount;
     }
     
@@ -34,7 +34,7 @@ public class Book implements Comparable<Book>{
         this.author = author;
     }
     
-    public void setPageCount(Integer pageCount) {
+    public void setPageCount(String pageCount) {
         this.pageCount = pageCount;
     }
     

@@ -1,4 +1,5 @@
-import SeaTurtle.Book;
+package SeaTurtle;
+
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,8 +36,8 @@ public class BookTest {
     
     @Test
     public void bookHasCorrectPageCount() {
-        book.setPageCount(200);
-        assertEquals(200, (int) book.getPageCount());
+        book.setPageCount("200");
+        assertEquals("200", book.getPageCount());
     }
     
     @Test
@@ -52,14 +53,14 @@ public class BookTest {
     
     @Test
     public void bookHasCorrectStringWithTitleAndPageCount() {
-        book.setPageCount(200);
+        book.setPageCount("200");
         assertEquals("Kirjan nimi: Title. 200 sivua.", book.toString());
     }
     
     @Test
     public void bookHasCorrectStringWithAllDetails() {
         book.setAuthor("Author");
-        book.setPageCount(200);
+        book.setPageCount("200");
         assertEquals("Kirjan nimi: Title. Kirjoittaja: Author. 200 sivua.", book.toString());
     }
     

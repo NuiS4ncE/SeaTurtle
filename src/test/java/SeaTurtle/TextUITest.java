@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import SeaTurtle.dao.DBBookDao;
 import SeaTurtle.ui.*;
 
 public class TextUITest {
@@ -18,8 +19,8 @@ public class TextUITest {
 
     @Before
     public void setUp() {
-        textUI = new TextUI();
         s = new Scanner(System.in);
+        textUI = new TextUI(new DBBookDao());
     }
 
 
