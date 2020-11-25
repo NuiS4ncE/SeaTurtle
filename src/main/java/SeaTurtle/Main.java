@@ -1,5 +1,7 @@
 package SeaTurtle;
 
+import java.util.Scanner;
+
 import SeaTurtle.dao.DBBookDao;
 import SeaTurtle.ui.TextUI;
 
@@ -9,8 +11,9 @@ public class Main {
         System.out.println("Hello SeaTurtle!\n");
         
         DBBookDao bookDao = new DBBookDao();
-        
-        TextUI UI = new TextUI(bookDao);
+        Scanner s  = new Scanner(System.in);
+
+        TextUI UI = new TextUI(s, bookDao);
         UI.run();
         
     }

@@ -19,22 +19,20 @@ public class TextUITest {
 
     @Before
     public void setUp() {
-        s = new Scanner(System.in);
-        textUI = new TextUI(new DBBookDao());
     }
 
 
     @Test
     public void textUICreateAndExit() {
 
-        /*
-        ByteArrayInputStream in = new ByteArrayInputStream("q".getBytes());
+        
+        ByteArrayInputStream in = new ByteArrayInputStream("q\n".getBytes());
         System.setIn(in);
-
+        Scanner s = new Scanner(System.in);
+        TextUI textUI = new TextUI(s, new DBBookDao());
+        
         textUI.run();
-        //textUI.getInput();
-        System.setIn(System.in);
-        */
+        
     }
 
 
