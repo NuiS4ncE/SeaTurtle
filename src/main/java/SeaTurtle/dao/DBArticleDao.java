@@ -1,5 +1,7 @@
 package SeaTurtle.dao;
 
+import SeaTurtle.Book;
+
 import java.io.File;
 import java.sql.*;
 import java.sql.DatabaseMetaData;
@@ -23,6 +25,11 @@ public class DBArticleDao implements BookDao<Artikkeli, Integer> {
     private void closeCon() throws SQLException {
         stmt.close();
         con.close();
+    }
+
+    @Override
+    public void createTable() throws SQLException {
+
     }
 
     @Override
@@ -83,6 +90,11 @@ public class DBArticleDao implements BookDao<Artikkeli, Integer> {
         prepstmt.close();
         closeCon();
         return artikkeliList;
+    }
+
+    @Override
+    public ArrayList<Artikkeli> findAndList(String searchWord) throws SQLException {
+        return null;
     }
 
 }

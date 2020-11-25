@@ -10,4 +10,5 @@ public interface BookDao<T, K> {
     T read(T object) throws SQLException;
     void delete(T object) throws SQLException;
     ArrayList<T> list() throws SQLException;
+    ArrayList<T> findAndList(String L) throws SQLException;
 }

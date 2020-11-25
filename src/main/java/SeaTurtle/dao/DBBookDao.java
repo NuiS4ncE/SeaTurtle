@@ -62,7 +62,6 @@ public class DBBookDao implements BookDao<Book, Integer> {
         + "VALUES (?,?,?)");
         prepstmt.setString(1, book.getTitle());
         prepstmt.setString(2, book.getAuthor());
-        //String pCount = "" + kirja.getPageCount();
         prepstmt.setString(3, book.getPageCount());
         prepstmt.executeUpdate();
         closeCon();
@@ -113,4 +112,21 @@ public class DBBookDao implements BookDao<Book, Integer> {
         closeCon();
         return bookList;
     }
+
+    @Override
+    public ArrayList<Book> findAndList(String searchWord) throws SQLException {
+        startCon();
+        ArrayList<Book> findBookList = new ArrayList<>();
+        prepstmt = con.prepareStatement("SELECT * FROM Book WHERE title LIKE ?");
+        prepstmt.setString(1, searchWord);
+        ResultSet rs = prepstmt.executeQuery();
+        while (rs.next()) {
+            findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
+        }
+        prepstmt.close();
+        closeCon();
+
+        return findBookList;
+    }
+
 }
