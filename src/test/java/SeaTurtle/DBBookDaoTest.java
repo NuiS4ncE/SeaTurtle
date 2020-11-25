@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import SeaTurtle.dao.DBBookDao;
 
-public class DaoTest {
+public class DBBookDaoTest {
 
     private Connection con;
     private PreparedStatement prepstmt;
