@@ -15,11 +15,7 @@ public class TextUI {
 
     public TextUI(Scanner s, DBBookDao bookDao) {
         this.bookDao = bookDao;
-        try{
-            books = bookDao.list();
-        } catch (SQLException e) {
-        System.out.print(e.getMessage());
-    }
+        updateBooks();
         this.s = s;
     }
     
@@ -79,11 +75,10 @@ public class TextUI {
 
         try {
             bookDao.create(newBook);
-            books = bookDao.list();
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
-
+        updateBooks();
 //        dbService.createBook(newBook); 
 
         System.out.println(ConsoleColors.GREEN +  "kirjavinkki lisätty" + ConsoleColors.RESET);
@@ -109,6 +104,14 @@ public class TextUI {
                 return;
             }   
         }        
+    }
+
+    public void updateBooks() {
+        try {
+            books = bookDao.list();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     public void help() {
