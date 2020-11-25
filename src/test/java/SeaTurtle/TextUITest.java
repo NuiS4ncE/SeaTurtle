@@ -1,5 +1,7 @@
 package SeaTurtle;
 
+import java.lang.System;
+import java.io.ByteArrayInputStream;
 import java.util.Scanner;
 
 import org.junit.Before;
@@ -16,17 +18,21 @@ public class TextUITest {
 
     @Before
     public void setUp() {
-        s = new Scanner(System.in);
         textUI = new TextUI();
+        s = new Scanner(System.in);
     }
 
 
     @Test
     public void textUICreateAndExit() {
 
-    
+        
+        ByteArrayInputStream in = new ByteArrayInputStream("q".getBytes());
+        System.setIn(in);
 
-
+        textUI.run();
+        //textUI.getInput();
+        System.setIn(System.in);
     }
 
 

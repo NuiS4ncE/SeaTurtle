@@ -13,7 +13,6 @@ public class TextUI {
         books = new ArrayList<>();
         s  = new Scanner(System.in);
     }
-
     
     public void run() {
 
@@ -22,7 +21,8 @@ public class TextUI {
 
             System.out.print("> ");
             String input = s.nextLine();
-            
+            //String input = getInput();
+
             switch (input) {
                 case "k":
                     this.addBook(s);
@@ -90,10 +90,15 @@ public class TextUI {
             
             else if (choice.equals("v")) {
                 return;
-            }
-            
-        }
-        
+            }   
+        }        
+    }
+
+    public String getInput() {
+        Scanner s = new Scanner(System.in);
+        String temp = s.nextLine();
+        s.close();
+        return temp;
     }
 
     public void help() {
