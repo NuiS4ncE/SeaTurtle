@@ -14,13 +14,13 @@ public class TextUI {
     private Scanner s;
 
     public TextUI(Scanner s, DBBookDao bookDao) {
+        this.bookDao = bookDao;
         try{
             books = bookDao.list();
         } catch (SQLException e) {
         System.out.print(e.getMessage());
     }
         this.s = s;
-        this.bookDao = bookDao; 
     }
     
     public void run() {
@@ -77,12 +77,13 @@ public class TextUI {
             System.out.println("anna sivumäärä numerona tai paina enter, jos haluat jättää kentän tyhjäksi");
         }
 
-        books.add(newBook);
         try {
             bookDao.create(newBook);
+            books = bookDao.list();
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
+
 //        dbService.createBook(newBook); 
 
         System.out.println(ConsoleColors.GREEN +  "kirjavinkki lisätty" + ConsoleColors.RESET);
