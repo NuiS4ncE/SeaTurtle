@@ -16,10 +16,11 @@ public class Book implements Comparable<Book>{
         this.bookmark = null;
     }
     
-    public Book(String title, String author, String pageCount) {
+    public Book(String title, String author, String pageCount, String bookmark) {
         this.title = title;
         this.author = author;
         this.pageCount = pageCount;
+        this.bookmark = bookmark;
     }
     
     public String getTitle() {

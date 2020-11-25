@@ -44,7 +44,8 @@ public class DBBookDao implements BookDao<Book, Integer> {
         + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         + "title TEXT, "
         + "author TEXT, "
-        + "pagecount TEXT" 
+        + "pagecount TEXT, "
+        + "bookmark TEXT"
         + ")"
         );
 
@@ -58,11 +59,12 @@ public class DBBookDao implements BookDao<Book, Integer> {
 
         startCon();
         prepstmt = con.prepareStatement("INSERT INTO Book "
-        + "(title, author, pagecount)"
-        + "VALUES (?,?,?)");
+        + "(title, author, pagecount, bookmark)"
+        + "VALUES (?,?,?,?)");
         prepstmt.setString(1, book.getTitle());
         prepstmt.setString(2, book.getAuthor());
         prepstmt.setString(3, book.getPageCount());
+        prepstmt.setString(4, book.getBookmark());
         prepstmt.executeUpdate();
         closeCon();
     }
@@ -71,15 +73,16 @@ public class DBBookDao implements BookDao<Book, Integer> {
     public Book read(Book book) throws SQLException {
         startCon();
         Book returnBook;
-        prepstmt = con.prepareStatement("SELECT * FROM Book WHERE title = ? AND author = ? AND pagecount = ?");
+        prepstmt = con.prepareStatement("SELECT * FROM Book WHERE title = ? AND author = ? AND pagecount = ? AND bookmark = ?");
         prepstmt.setString(1, book.getTitle());
         prepstmt.setString(2, book.getAuthor());
         prepstmt.setString(3, book.getPageCount());
+        prepstmt.setString(4, book.getBookmark());
         ResultSet rs = prepstmt.executeQuery();
         if (!rs.next()) {
             return null;
         } else {
-            returnBook = new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"));
+            returnBook = new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark"));
         }
         rs.close();
         prepstmt.close();
@@ -90,10 +93,23 @@ public class DBBookDao implements BookDao<Book, Integer> {
     @Override
     public void delete(Book book) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND author = ? AND pagecount = ?");
+        prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND author = ? AND pagecount = ? AND bookmark = ?");
         prepstmt.setString(1, book.getTitle());
         prepstmt.setString(2, book.getAuthor());
         prepstmt.setString(3, book.getPageCount());
+        prepstmt.setString(4, book.getBookmark());
+        prepstmt.executeUpdate();
+        //prepstmt.close();
+        closeCon();
+    }
+    
+    public void update(Book book) throws SQLException {
+        startCon();
+        prepstmt = con.prepareStatement("UPDATE Book SET author = ? AND pagecount = ? AND bookmark = ? WHERE title = ?");
+        prepstmt.setString(1, book.getAuthor());
+        prepstmt.setString(2, book.getPageCount());
+        prepstmt.setString(3, book.getBookmark());
+        prepstmt.setString(4, book.getTitle());
         prepstmt.executeUpdate();
         prepstmt.close();
         closeCon();
@@ -106,7 +122,7 @@ public class DBBookDao implements BookDao<Book, Integer> {
         prepstmt = con.prepareStatement("SELECT * FROM Book");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            bookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
+            bookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark")));
         }
         prepstmt.close();
         closeCon();
@@ -121,7 +137,7 @@ public class DBBookDao implements BookDao<Book, Integer> {
         prepstmt.setString(1, searchWord);
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
+            findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark")));
         }
         prepstmt.close();
         closeCon();
