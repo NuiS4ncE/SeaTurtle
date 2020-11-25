@@ -12,3 +12,7 @@ build
 .settings/
 bin/
 seaturtle.db
+
+# Ignore vscode directories
+.vscode
+
