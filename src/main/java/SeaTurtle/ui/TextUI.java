@@ -30,7 +30,6 @@ public class TextUI {
 
             System.out.print("> ");
             String input = s.nextLine();
-            //String input = getInput();
 
             switch (input) {
                 case "k":
@@ -41,7 +40,7 @@ public class TextUI {
                     break;
                 case "q":
                     this.exit();
-                    break;
+                    return;
                 default:
                     System.out.println(ConsoleColors.RED + "komentoa ei tunnistettu." + ConsoleColors.RESET); 
                     this.help();
@@ -111,13 +110,6 @@ public class TextUI {
         }        
     }
 
-    public String getInput() {
-        Scanner s = new Scanner(System.in);
-        String temp = s.nextLine();
-        s.close();
-        return temp;
-    }
-
     public void help() {
         System.out.println("\n"
         + "Käytettävissä olevat komennot:\n" 
@@ -130,7 +122,7 @@ public class TextUI {
 
     public void exit() {
         System.out.println("\nHei hei!\n");
-        System.exit(0);
+        return;
     }
 
 }

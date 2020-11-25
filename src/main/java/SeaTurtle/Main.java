@@ -16,5 +16,6 @@ public class Main {
         TextUI UI = new TextUI(s, bookDao);
         UI.run();
         
+        s.close();
     }
 }
