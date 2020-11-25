@@ -53,17 +53,17 @@ public class DBBookDao implements BookDao<Book, Integer> {
     }
 
     @Override
-    public void create(Book kirja) throws SQLException {
+    public void create(Book book) throws SQLException {
 //        createTable();
 
         startCon();
         prepstmt = con.prepareStatement("INSERT INTO Book "
         + "(title, author, pagecount)"
         + "VALUES (?,?,?)");
-        prepstmt.setString(1, kirja.getTitle());
-        prepstmt.setString(2, kirja.getAuthor());
-        String pCount = "" + kirja.getPageCount();
-        prepstmt.setString(3, pCount);
+        prepstmt.setString(1, book.getTitle());
+        prepstmt.setString(2, book.getAuthor());
+        //String pCount = "" + kirja.getPageCount();
+        prepstmt.setString(3, book.getPageCount());
         prepstmt.executeUpdate();
         closeCon();
     }
@@ -89,12 +89,12 @@ public class DBBookDao implements BookDao<Book, Integer> {
     }
 
     @Override
-    public void delete(Book kirja) throws SQLException {
+    public void delete(Book book) throws SQLException {
         startCon();
         prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND author = ? AND pagecount = ?");
-        prepstmt.setString(1, kirja.getTitle());
-        prepstmt.setString(2, kirja.getAuthor());
-        prepstmt.setString(3, kirja.getPageCount());
+        prepstmt.setString(1, book.getTitle());
+        prepstmt.setString(2, book.getAuthor());
+        prepstmt.setString(3, book.getPageCount());
         prepstmt.executeUpdate();
         prepstmt.close();
         closeCon();
@@ -103,14 +103,14 @@ public class DBBookDao implements BookDao<Book, Integer> {
     @Override
     public ArrayList<Book> list() throws SQLException {
         startCon();
-        ArrayList<Book> kirjaList = new ArrayList<>();
+        ArrayList<Book> bookList = new ArrayList<>();
         prepstmt = con.prepareStatement("SELECT * FROM Book");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            kirjaList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
+            bookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
         }
         prepstmt.close();
         closeCon();
-        return kirjaList;
+        return bookList;
     }
 }

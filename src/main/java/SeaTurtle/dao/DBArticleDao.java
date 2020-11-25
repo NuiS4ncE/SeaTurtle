@@ -26,7 +26,7 @@ public class DBArticleDao implements BookDao<Artikkeli, Integer> {
     }
 
     @Override
-    public void create(Artikkeli artikkeli, Integer id) throws SQLException {
+    public void create(Artikkeli artikkeli) throws SQLException {
         startCon();
         prepstmt = con.prepareStatement("INSERT INTO Artikkeli"
                 + "(otsikko, url)"
