@@ -24,59 +24,41 @@ public class DBBookDaoTest {
     private DBBookDao dbBookDao;
 
     @Before
-    public void startConAndSetUp() {
+    public void setUp() {
         dbBookDao = new DBBookDao("jdbc:sqlite:seaturtletest.db");
     }
 
     @After
-    public void emptyDb() {
-        try {
-            dbBookDao.dropTable();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+    public void emptyDb() throws SQLException {
+        dbBookDao.dropTable();
     }
 
     public ArrayList<Book> exampleBooks() {
         ArrayList<Book> books = new ArrayList<>();        
-        books.add(new Book("history of apple", "someone at apple", "20"));
         books.add(new Book("test", "tester", "666"));
+        books.add(new Book("history of apple", "someone at apple", "70"));
         books.add(new Book("computers r cool", "dijkstra", "1000"));
         return books;
     }
 
-    
     @Test
-    public void listAllBooks() {
+    public void createsABookAndRetrievesFromDB() throws Exception {
+        Book testBook = exampleBooks().get(0);
+        dbBookDao.create(testBook);
+        
+        assertTrue(dbBookDao.list().contains(testBook));
+    }
+
+    @Test
+    public void createsMultipleBooksAndRetrievesFromDB() throws SQLException{
         ArrayList<Book> expectedBooks = exampleBooks();
         for (int i = 0; i < expectedBooks.size(); i++) {
-            try {
-                dbBookDao.create(expectedBooks.get(i));
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            dbBookDao.create(expectedBooks.get(i));
         }
-        
-        try {
-            assertEquals(expectedBooks, dbBookDao.list());
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+    
+        assertEquals(expectedBooks, dbBookDao.list());
     }
-/*
-    @Test
-    public void createBookAndRetrieveFromDB() throws Exception {
-        //ArrayList<Book> expectedAL = new ArrayList<>();
-        Book testBook = new Book("test", "tester", "666", "42");
-        //expectedAL.add(testBook);
-        try {
-            dbBookDao.create(testBook);
-            assertTrue(dbBookDao.list().contains(testBook));
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
-    */
+
 
 
 }

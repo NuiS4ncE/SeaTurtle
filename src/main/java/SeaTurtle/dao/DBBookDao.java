@@ -36,9 +36,8 @@ public class DBBookDao implements BookDao<Book, Integer> {
     }
 
     private void startCon() throws SQLException {
-//        con = DriverManager.getConnection("jdbc:sqlite:seaturtle.db");
         con = DriverManager.getConnection(dbFile);
-        System.out.println("Connection to SQLite has been established.");
+//        System.out.println("Connection to SQLite has been established.");
         stmt = con.createStatement();
     }
 
@@ -49,7 +48,6 @@ public class DBBookDao implements BookDao<Book, Integer> {
 
     @Override
     public void createTable() throws SQLException {
-//        System.out.println("creating table Book");
         startCon();
         prepstmt = con.prepareStatement("CREATE TABLE IF NOT EXISTS " 
             + "Book (" 
@@ -68,9 +66,7 @@ public class DBBookDao implements BookDao<Book, Integer> {
     @Override
     public void dropTable() throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("DROP TABLE" 
-        + "Book"
-        );
+        prepstmt = con.prepareStatement("DROP TABLE Book");
 
         prepstmt.executeUpdate();
         closeCon();
