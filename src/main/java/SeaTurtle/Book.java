@@ -22,6 +22,12 @@ public class Book implements Comparable<Book>{
         this.pageCount = pageCount;
         this.bookmark = bookmark;
     }
+
+    public Book(String title, String author, String pageCount) {
+        this.title = title;
+        this.author = author;
+        this.pageCount = pageCount;
+    }
     
     public String getTitle() {
         return title;
@@ -76,5 +82,28 @@ public class Book implements Comparable<Book>{
     @Override
     public int compareTo(Book other) {
         return this.title.compareTo(other.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 6;
+        result += this.title.hashCode();
+        result += this.author.hashCode();
+        result += this.pageCount.hashCode();
+
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Book)) {
+            return false;
+        }
+
+        Book other = (Book) obj;         
+        return this.title.equals(other.getTitle())
+        && this.author.equals(other.getAuthor()) 
+        && this.pageCount.equals(other.getPageCount());
+        
     }
 }

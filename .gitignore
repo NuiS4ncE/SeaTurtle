@@ -12,6 +12,7 @@ build
 .settings/
 bin/
 seaturtle.db
+seaturtletest.db
 
 # Ignore vscode directories
 .vscode
