@@ -34,6 +34,9 @@ public class TextUI {
                 case "m":
                     this.updateBookmark(s);
                     break;
+                case "l":
+                    this.listBooks();
+                    break;
                 case "h":
                     this.help();
                     break;
@@ -114,6 +117,9 @@ public class TextUI {
         System.out.println("");
         System.out.println("kaikki kirjavinkit:");
         Collections.sort(books);
+        
+        System.out.println(books);
+
         if(books.isEmpty()) {
             System.out.println("ei kirjavinkkejä");
             return false;
@@ -187,6 +193,7 @@ public class TextUI {
         + "Käytettävissä olevat komennot:\n" 
         + "[k] lisää uusi kirjavinkki\n"
         + "[m] lisää tai päivitä kirjanmerkki\n"
+        + "[l] listaa kaikki kirjavinkit\n"
         + "---\n"
         + "[h] listaa komennot\n"
         + "[q] poistu ohjelmasta\n"
