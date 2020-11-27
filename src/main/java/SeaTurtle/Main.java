@@ -9,7 +9,7 @@ import SeaTurtle.ui.TextUI;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello SeaTurtle!\n");
-        
+         
         DBBookDao bookDao = new DBBookDao();
         Scanner s  = new Scanner(System.in);
 

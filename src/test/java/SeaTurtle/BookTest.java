@@ -1,5 +1,7 @@
 package SeaTurtle;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,4 +66,12 @@ public class BookTest {
         assertEquals("Kirjan nimi: Title. Kirjoittaja: Author. 200 sivua.", book.toString());
     }
     
+    @Test
+    public void bookComparedCorrectly() {
+        ArrayList<Book> books = new ArrayList<Book>();
+        books.add(book);
+        books.add(new Book("Other"));
+        Collections.sort(books);
+        assertEquals("Kirjan nimi: Other.", books.get(0).toString());
+    }
 }

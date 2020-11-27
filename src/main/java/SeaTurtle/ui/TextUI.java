@@ -14,13 +14,9 @@ public class TextUI {
     private Scanner s;
 
     public TextUI(Scanner s, DBBookDao bookDao) {
-        try{
-            books = bookDao.list();
-        } catch (SQLException e) {
-        System.out.print(e.getMessage());
-    }
+        this.bookDao = bookDao;
+        updateBooks();
         this.s = s;
-        this.bookDao = bookDao; 
     }
     
     public void run() {
@@ -34,6 +30,9 @@ public class TextUI {
             switch (input) {
                 case "k":
                     this.addBook(s);
+                    break;
+                case "m":
+                    this.updateBookmark(s);
                     break;
                 case "h":
                     this.help();
@@ -72,28 +71,29 @@ public class TextUI {
                 break;
             } else if(pageCount.matches("\\d+")) {
                 newBook.setPageCount(pageCount);
+                System.out.println("paina [m] jos haluat lisätä kirjaan kirjanmerkin tai mitä tahansa muuta näppäintä tallentaaksesi kirjavinkin");
+                String addBookmark = s.nextLine();
+                if (addBookmark.equals("m")) {
+                    addBookmark(newBook);
+                }
                 break;
             }
             System.out.println("anna sivumäärä numerona tai paina enter, jos haluat jättää kentän tyhjäksi");
         }
+               
+        
 
-        books.add(newBook);
         try {
             bookDao.create(newBook);
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
-//        dbService.createBook(newBook); 
+        updateBooks();
+        //dbService.createBook(newBook); 
 
         System.out.println(ConsoleColors.GREEN +  "kirjavinkki lisätty" + ConsoleColors.RESET);
         
-        System.out.println("");
-        System.out.println("Kaikki kirjavinkit:");
-        Collections.sort(books);
-        for(Book book : books) {
-            System.out.println(book.toString());
-        }
-        System.out.println("");
+        listBooks();
         
         while(true) {
             System.out.println("[k] lisää uusi kirjavinkki\n"
@@ -109,11 +109,84 @@ public class TextUI {
             }   
         }        
     }
+    
+    public boolean listBooks() {
+        System.out.println("");
+        System.out.println("kaikki kirjavinkit:");
+        Collections.sort(books);
+        if(books.isEmpty()) {
+            System.out.println("ei kirjavinkkejä");
+            return false;
+        } else {
+            for(Book book : books) {
+                System.out.println(books.indexOf(book)+1 + ") " + book.toString());
+            }
+        }
+        System.out.println("");
+        return true;
+    }
+
+    public void updateBooks() {
+        try {
+            books = bookDao.list();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void updateBookmark(Scanner s) {
+        if (listBooks()) {
+            while (true) {
+            System.out.println("anna sen kirjan numero, jolle haluat asettaa kirjanmerkin, tai paina enter palataksesi valikkoon: ");
+            String selectBook = s.nextLine();
+                if(selectBook.isEmpty()) {
+                    break;
+                } else if(selectBook.matches("\\d+")) {
+                    int bookIndex = Integer.parseInt(selectBook);
+                    if(bookIndex <= books.size()+1 && bookIndex > 0) {
+                        Book book = books.get(bookIndex-1);
+                        if(book.getPageCount() != null) {
+                            addBookmark(book);
+                            try {
+                                bookDao.update(book);
+                            } catch (SQLException e) {
+                                System.out.print(e.getMessage());
+                            }
+                            updateBooks();
+                            listBooks();
+                            break;
+                        } else {
+                            System.out.println("kirjalla ei ole sivumäärää, joten kirjanmerkkiä ei voida lisätä");
+                            System.out.println("");
+                        }
+                    } else {
+                        System.out.println("väärä kirjan numero");
+                        System.out.println("");
+                    }
+                }
+            }
+        }
+    }
+    
+    public void addBookmark(Book book) {
+        while (true) {
+            System.out.println("kirjanmerkin sivunumero: ");
+            String bookmark = s.nextLine();
+            if(bookmark.isEmpty()) {
+                 break;
+            } else if(bookmark.matches("\\d+") && Integer.parseInt(bookmark) <= Integer.parseInt(book.getPageCount())) {
+                book.setBookmark(bookmark);
+                break;
+            }
+            System.out.println("sivunumero ei saa olla sivumäärää suurempi. paina enter, jos haluat jättää kentän tyhjäksi.");
+        }
+    }
 
     public void help() {
         System.out.println("\n"
         + "Käytettävissä olevat komennot:\n" 
         + "[k] lisää uusi kirjavinkki\n"
+        + "[m] lisää tai päivitä kirjanmerkki\n"
         + "---\n"
         + "[h] listaa komennot\n"
         + "[q] poistu ohjelmasta\n"
