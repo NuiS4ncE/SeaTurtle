@@ -46,7 +46,6 @@ public class TextUITest {
 
     @Test
     public void textUIHelp() {
-        //textUI = new TextUI(s, new DBBookDao());
         textUI = new TextUI(s, mockDBBookDao);
         textUI.help();
 
@@ -55,7 +54,6 @@ public class TextUITest {
 
     @Test
     public void TextUIExit() {
-        //textUI = new TextUI(s, new DBBookDao());
         textUI = new TextUI(s, mockDBBookDao);
         
         textUI.exit();
@@ -70,7 +68,6 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         s = new Scanner(System.in);
-        //textUI = new TextUI(s, new DBBookDao());
         textUI = new TextUI(s, mockDBBookDao);
 
         textUI.run();
@@ -85,7 +82,6 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
 
-        //textUI = new TextUI(s, new DBBookDao());
         textUI = new TextUI(s, mockDBBookDao);
         
         textUI.addBook(s);
@@ -102,7 +98,7 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         s = new Scanner(System.in);
-        //textUI = new TextUI(s, new DBBookDao());
+
         textUI = new TextUI(s, mockDBBookDao);
 
         textUI.run();
@@ -116,7 +112,6 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
         
-        //textUI = new TextUI(s, new DBBookDao());
         textUI = new TextUI(s, mockDBBookDao);
 
         textUI.run();
@@ -129,7 +124,7 @@ public class TextUITest {
         String data = "aku\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
-        //textUI = new TextUI(s, new DBBookDao());
+
         textUI = new TextUI(s, mockDBBookDao);
 
         textUI.run();
