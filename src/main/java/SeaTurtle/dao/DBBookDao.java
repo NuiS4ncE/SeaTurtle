@@ -55,7 +55,7 @@ public class DBBookDao implements BookDao<Book, Integer> {
             + "title TEXT, "
             + "author TEXT, "
             + "pagecount TEXT "
-//            + "bookmark TEXT"
+            + "bookmark TEXT"
             + ")"
         );
 
@@ -69,6 +69,7 @@ public class DBBookDao implements BookDao<Book, Integer> {
         prepstmt = con.prepareStatement("DROP TABLE Book");
 
         prepstmt.executeUpdate();
+        prepstmt.close();
         closeCon();
     }
 
@@ -86,6 +87,7 @@ public class DBBookDao implements BookDao<Book, Integer> {
         prepstmt.setString(3, book.getPageCount());
 //        prepstmt.setString(4, book.getBookmark());
         prepstmt.executeUpdate();
+        prepstmt.close();
         closeCon();
     }
 
@@ -158,7 +160,8 @@ public class DBBookDao implements BookDao<Book, Integer> {
         prepstmt.setString(1, searchWord);
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark")));
+            //findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark")));
+            findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
         }
         prepstmt.close();
         closeCon();
