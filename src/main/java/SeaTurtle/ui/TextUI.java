@@ -6,7 +6,7 @@ import SeaTurtle.dao.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;   
+import java.util.Scanner;
 
 public class TextUI {
 
@@ -23,10 +23,10 @@ public class TextUI {
         updateArticles();
         this.s = s;
     }
-    
+
     public void run() {
 
-        while(true) {
+        while (true) {
             this.help();
 
             System.out.println("Anna komento:");
@@ -47,6 +47,7 @@ public class TextUI {
                     break;
                 case "e":
                     this.find(s);
+                    break;
                 case "h":
                     this.help();
                     break;
@@ -54,7 +55,7 @@ public class TextUI {
                     this.exit();
                     return;
                 default:
-                    System.out.println(ConsoleColors.RED + "komentoa ei tunnistettu." + ConsoleColors.RESET); 
+                    System.out.println(ConsoleColors.RED + "komentoa ei tunnistettu." + ConsoleColors.RESET);
                     this.help();
                     break;
             }
@@ -62,29 +63,30 @@ public class TextUI {
     }
 
     public void addBook(Scanner s) {
-        
+
         System.out.println("kirjan nimi: ");
         String title = s.nextLine();
-        while(title.isEmpty()) {
+        while (title.isEmpty()) {
             System.out.println("anna kirjan nimi:");
             title = s.nextLine();
         }
-        Book newBook = new Book(title);       
+        Book newBook = new Book(title);
 
         System.out.println("kirjan kirjoittaja: ");
         String author = s.nextLine();
         if (!author.isEmpty()) {
             newBook.setAuthor(author);
         }
-        
+
         while (true) {
             System.out.println("kirjan sivumäärä: ");
             String pageCount = s.nextLine();
-            if(pageCount.isEmpty()) {
+            if (pageCount.isEmpty()) {
                 break;
-            } else if(pageCount.matches("\\d+")) {
+            } else if (pageCount.matches("\\d+")) {
                 newBook.setPageCount(pageCount);
-                System.out.println("paina [m] jos haluat lisätä kirjaan kirjanmerkin tai mitä tahansa muuta näppäintä tallentaaksesi kirjavinkin");
+                System.out.println(
+                        "paina [m] jos haluat lisätä kirjaan kirjanmerkin tai mitä tahansa muuta näppäintä tallentaaksesi kirjavinkin");
                 String addBookmark = s.nextLine();
                 if (addBookmark.equals("m")) {
                     addBookmark(newBook);
@@ -93,8 +95,6 @@ public class TextUI {
             }
             System.out.println("anna sivumäärä numerona tai paina enter, jos haluat jättää kentän tyhjäksi");
         }
-               
-        
 
         try {
             bookDao.create(newBook);
@@ -102,37 +102,36 @@ public class TextUI {
             System.out.print(e.getMessage());
         }
         updateBooks();
-        //dbService.createBook(newBook); 
+        // dbService.createBook(newBook);
 
-        System.out.println(ConsoleColors.GREEN +  "kirjavinkki lisätty" + ConsoleColors.RESET);
-        
+        System.out.println(ConsoleColors.GREEN + "kirjavinkki lisätty" + ConsoleColors.RESET);
+
         listBooks();
-        
-        while(true) {
-            System.out.println("[k] lisää uusi kirjavinkki\n"
-            + "[v] palaa valikkoon\n");
+
+        while (true) {
+            System.out.println("[k] lisää uusi kirjavinkki\n" + "[v] palaa valikkoon\n");
             String choice = s.nextLine();
             if (choice.equals("k")) {
                 addBook(s);
                 break;
-            } 
-            
+            }
+
             else if (choice.equals("v")) {
                 return;
-            }   
-        }        
+            }
+        }
     }
-    
+
     public boolean listBooks() {
         System.out.println("");
         System.out.println("kaikki kirjavinkit:");
         Collections.sort(books);
 
-        if(books.isEmpty()) {
+        if (books.isEmpty()) {
             System.out.println("ei kirjavinkkejä");
             return false;
         } else {
-            for(Book book : books) {
+            for (Book book : books) {
                 System.out.println((books.indexOf(book) + 1) + ") " + book.toString());
             }
         }
@@ -147,19 +146,20 @@ public class TextUI {
             System.out.println(e);
         }
     }
-    
+
     public void updateBookmark(Scanner s) {
         if (listBooks()) {
             while (true) {
-            System.out.println("anna sen kirjan numero, jolle haluat asettaa kirjanmerkin, tai paina enter palataksesi valikkoon: ");
-            String selectBook = s.nextLine();
-                if(selectBook.isEmpty()) {
+                System.out.println(
+                        "anna sen kirjan numero, jolle haluat asettaa kirjanmerkin, tai paina enter palataksesi valikkoon: ");
+                String selectBook = s.nextLine();
+                if (selectBook.isEmpty()) {
                     break;
-                } else if(selectBook.matches("\\d+")) {
+                } else if (selectBook.matches("\\d+")) {
                     int bookIndex = Integer.parseInt(selectBook);
-                    if(bookIndex <= books.size()+1 && bookIndex > 0) {
-                        Book book = books.get(bookIndex-1);
-                        if(book.getPageCount() != null) {
+                    if (bookIndex <= books.size() + 1 && bookIndex > 0) {
+                        Book book = books.get(bookIndex - 1);
+                        if (book.getPageCount() != null) {
                             addBookmark(book);
                             try {
                                 bookDao.update(book);
@@ -181,30 +181,32 @@ public class TextUI {
             }
         }
     }
-    
+
     public void addBookmark(Book book) {
         while (true) {
             System.out.println("kirjanmerkin sivunumero: ");
             String bookmark = s.nextLine();
-            if(bookmark.isEmpty()) {
-                 break;
-            } else if(bookmark.matches("\\d+") && Integer.parseInt(bookmark) <= Integer.parseInt(book.getPageCount())) {
+            if (bookmark.isEmpty()) {
+                break;
+            } else if (bookmark.matches("\\d+")
+                    && Integer.parseInt(bookmark) <= Integer.parseInt(book.getPageCount())) {
                 book.setBookmark(bookmark);
                 break;
             }
-            System.out.println("sivunumero ei saa olla sivumäärää suurempi. paina enter, jos haluat jättää kentän tyhjäksi.");
+            System.out.println(
+                    "sivunumero ei saa olla sivumäärää suurempi. paina enter, jos haluat jättää kentän tyhjäksi.");
         }
     }
 
     public void addArticle(Scanner s) {
-        
+
         System.out.println("artikkelin otsikko: ");
         String title = s.nextLine();
-        while(title.isEmpty()) {
+        while (title.isEmpty()) {
             System.out.println("anna artikkelin otsikko:");
             title = s.nextLine();
         }
-        Article newArticle = new Article(title);       
+        Article newArticle = new Article(title);
 
         System.out.println("artikkelin URL-osoite: ");
         String url = s.nextLine();
@@ -218,33 +220,32 @@ public class TextUI {
             System.out.print(e.getMessage());
         }
         updateArticles();
-        //dbService.createArticle(newArticle); 
+        // dbService.createArticle(newArticle);
 
-        System.out.println(ConsoleColors.GREEN +  "artikkelivinkki lisätty" + ConsoleColors.RESET);
-        
+        System.out.println(ConsoleColors.GREEN + "artikkelivinkki lisätty" + ConsoleColors.RESET);
+
         listArticles();
-        
-        while(true) {
-            System.out.println("[a] lisää uusi artikkelivinkki\n"
-            + "[v] palaa valikkoon\n");
+
+        while (true) {
+            System.out.println("[a] lisää uusi artikkelivinkki\n" + "[v] palaa valikkoon\n");
             String choice = s.nextLine();
             if (choice.equals("a")) {
                 addArticle(s);
                 break;
-            } 
-            
+            }
+
             else if (choice.equals("v")) {
                 return;
-            }   
-        }        
+            }
+        }
     }
-    
+
     public boolean listArticles() {
         System.out.println("");
         System.out.println("kaikki artikkelivinkit:");
         Collections.sort(articles);
 
-        if(articles.isEmpty()) {
+        if (articles.isEmpty()) {
             System.out.println("ei artikkelivinkkejä");
             return false;
         } else {
@@ -264,43 +265,44 @@ public class TextUI {
         }
     }
 
-    /** 
+    /**
      * Lists both books and articles based on search term
      */
     public void find(Scanner s) {
         ArrayList<Book> bookSearchResults = new ArrayList<>();
         ArrayList<Article> articleSearchResults = new ArrayList<>();
 
-        System.out.print("anna otsikon hakutermi: ");
-        String l = s.nextLine();
+        while (true) {
 
-        try {
-            bookSearchResults = bookDao.findAndList(l);
-        } catch (SQLException e) {
-            System.err.println(e);
-        };
-        try {
-            articleSearchResults = articleDao.findAndList(l);
-        } catch (SQLException e) {};
-        
-        System.out.println(bookSearchResults);
-        System.out.println(articleSearchResults);
+            System.out.println("anna otsikon hakutermi (tyhjällä pois hausta):");
+            String l = s.nextLine();
 
+            if (l.equals(""))
+                return;
+
+            try {
+                bookSearchResults = bookDao.findAndList(l);
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+
+            try {
+                articleSearchResults = articleDao.findAndList(l);
+            } catch (SQLException e) {
+            }
+
+            System.out.println("Löydetyt lukuvinkit");
+            bookSearchResults.forEach(System.out::println);
+            articleSearchResults.forEach(System.out::println);
+            System.out.println();
+        }
     }
 
-
     public void help() {
-        System.out.println("\n"
-        + "Käytettävissä olevat komennot:\n" 
-        + "[k] lisää uusi kirjavinkki\n"
-        + "[a] lisää uusi artikkelivinkki\n"
-        + "[m] lisää tai päivitä kirjanmerkki\n"
-        + "[l] listaa kaikki kirjavinkit\n"
-        + "[e] etsi lukuvinkki\n"
-        + "---\n"
-        + "[h] listaa komennot\n"
-        + "[q] poistu ohjelmasta\n"
-        );
+        System.out.println("\n" + "Käytettävissä olevat komennot:\n" + "[k] lisää uusi kirjavinkki\n"
+                + "[a] lisää uusi artikkelivinkki\n" + "[m] lisää tai päivitä kirjanmerkki\n"
+                + "[l] listaa kaikki kirjavinkit\n" + "[e] etsi lukuvinkki\n" + "---\n" + "[h] listaa komennot\n"
+                + "[q] poistu ohjelmasta\n");
     }
 
     public void exit() {
