@@ -1,24 +1,37 @@
 package SeaTurtle.dao;
 
-import SeaTurtle.Book;
+import SeaTurtle.model.Article;
 
-import java.io.File;
 import java.sql.*;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
-import java.util.List;
 
-public class DBArticleDao implements BookDao<Artikkeli, Integer> {
+public class DBArticleDao implements ArticleDao<Article, Integer> {
 
     private Connection con;
     private PreparedStatement prepstmt;
     private Statement stmt;
+    private String dbFile;
+
+    public DBArticleDao() {
+        this.dbFile = "jdbc:sqlite:seaturtle.db";
+        try {
+            createTable();
+        } catch (SQLException e) {
+            System.out.print(e.getMessage());
+        }
+    }
+
+    public DBArticleDao(String dbFile) {
+        this.dbFile = dbFile;
+        try {
+            createTable();
+        } catch (SQLException e) {
+            System.out.print(e.getMessage());
+        }
+    }
 
     private void startCon() throws SQLException {
-        con = DriverManager.getConnection("jdbc:sqlite:database:db");
+        con = DriverManager.getConnection(dbFile);
         stmt = con.createStatement();
     }
 
@@ -29,72 +42,107 @@ public class DBArticleDao implements BookDao<Artikkeli, Integer> {
 
     @Override
     public void createTable() throws SQLException {
-
-    }
-
-    @Override
-    public void create(Artikkeli artikkeli) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("INSERT INTO Artikkeli"
-                + "(otsikko, url)"
-                + "VALUES (?,?)");
-        prepstmt.setString(1, artikkeli.getOtsikko());
-        prepstmt.setString(2, artikkeli.getUrl());
+        prepstmt = con.prepareStatement("CREATE TABLE IF NOT EXISTS " 
+            + "Article (" 
+            + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + "title TEXT, "
+            + "url TEXT "
+            + ")"
+        );
+
+        prepstmt.executeUpdate();
+        closeCon();
+    }
+    
+    @Override
+    public void dropTable() throws SQLException {
+        startCon();
+        prepstmt = con.prepareStatement("DROP TABLE Article");
         prepstmt.executeUpdate();
         closeCon();
     }
 
     @Override
-    public Artikkeli read(Artikkeli artikkeli) throws SQLException {
+    public void create(Article article) throws SQLException {
         startCon();
-        //prepstmt = con.prepareStatement("SELECT id FROM Artikkeli WHERE id = ?");
-        //prepstmt.setInt(1, id);
+        prepstmt = con.prepareStatement("INSERT INTO Article"
+                + "(title, url)"
+                + "VALUES (?,?)");
+        prepstmt.setString(1, article.getTitle());
+        prepstmt.setString(2, article.getUrl());
+        prepstmt.executeUpdate();
+        closeCon();
+    }
+
+    @Override
+    public Article read(Article article) throws SQLException {
+        startCon();
+        Article returnArticle;
+        prepstmt = con.prepareStatement("SELECT * FROM Article WHERE title = ? AND url = ?");
+        prepstmt.setString(1, article.getTitle());
+        prepstmt.setString(2, article.getUrl());
         ResultSet rs = prepstmt.executeQuery();
-        int rsId;
         if (!rs.next()) {
             return null;
         } else {
-            rsId = rs.getInt("id");
-        }
-        if (rsId == id) {
-            rs.close();
-            closeCon();
-            return artikkeli;
+            returnArticle = new Article(rs.getString("title"), rs.getString("url"));
         }
         rs.close();
         prepstmt.close();
         closeCon();
-        return null;
+        return returnArticle;
     }
 
     @Override
-    public void delete(Artikkeli artikkeli) throws SQLException {
+    public void delete(Article article) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("DELETE FROM Artikkeli WHERE id = ?");
-        prepstmt.setInt(1, id);
+        prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND url = ?");
+        prepstmt.setString(1, article.getTitle());
+        prepstmt.setString(2, article.getUrl());
+        prepstmt.executeUpdate();
+        prepstmt.close();
+        closeCon();
+    }
+    
+    public void update(Article article) throws SQLException {
+        startCon();
+        prepstmt = con.prepareStatement("UPDATE Article SET url = ? WHERE title = ?");
+        prepstmt.setString(1, article.getUrl());
+        prepstmt.setString(2, article.getTitle());
         prepstmt.executeUpdate();
         prepstmt.close();
         closeCon();
     }
 
     @Override
-    public ArrayList<Artikkeli> list() throws SQLException {
+    public ArrayList<Article> list() throws SQLException {
         startCon();
-        ArrayList<Artikkeli> artikkeliList = new ArrayList<>();
-        prepstmt = con.prepareStatement("SELECT * FROM Artikkeli WHERE id = ?");
-        //prepstmt.setInt(1, id);
+        ArrayList<Article> articleList = new ArrayList<>();
+        prepstmt = con.prepareStatement("SELECT * FROM Article");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            artikkeliList.add(new Artikkeli(rs.getInt("id"), rs.getString("otsikko"), rs.getString("kirjoittaja"), rs.getString("sivumaara")));
+            articleList.add(new Article(rs.getString("title"), rs.getString("url")));
         }
         prepstmt.close();
         closeCon();
-        return artikkeliList;
+        return articleList;
     }
 
     @Override
-    public ArrayList<Artikkeli> findAndList(String searchWord) throws SQLException {
-        return null;
+    public ArrayList<Article> findAndList(String searchWord) throws SQLException {
+        startCon();
+        ArrayList<Article> findArticleList = new ArrayList<>();
+        prepstmt = con.prepareStatement("SELECT * FROM Article WHERE title LIKE ?");
+        prepstmt.setString(1, searchWord);
+        ResultSet rs = prepstmt.executeQuery();
+        while (rs.next()) {
+            findArticleList.add(new Article(rs.getString("title"), rs.getString("url")));
+        }
+        prepstmt.close();
+        closeCon();
+
+        return findArticleList;
     }
 
 }
