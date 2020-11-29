@@ -16,10 +16,6 @@ application {
     mainClass = 'SeaTurtle.Main'
 }
 
-compileJava {
-    exclude '*/dao/DBArticleDao.java'
-}
-
 run {
     standardInput = System.in
 }
