@@ -1,5 +1,6 @@
 package SeaTurtle;
 
+import SeaTurtle.model.Article;
 import SeaTurtle.model.Book;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,4 +76,36 @@ public class BookTest {
         Collections.sort(books);
         assertEquals("Kirjan nimi: Other.", books.get(0).toString());
     }
+    
+    @Test
+    public void booksAreEqualWhenSameDetails() {
+        book.setAuthor("Author");
+        book.setPageCount("100");
+        Book other = new Book("Title", "Author", "100");
+        assertTrue(book.equals(other));
+    }
+    
+    @Test
+    public void booksHaveSameHashcodeWhenSameDetails() {
+        book.setAuthor("Author");
+        book.setPageCount("100");
+        Book other = new Book("Title", "Author", "100");
+        assertEquals(book.hashCode(), other.hashCode());
+    }
+    
+    @Test
+    public void booksAreNotEqualWhenDifferentDetails() {
+        Book other = new Book("Title");
+        other.setAuthor("Author");
+        Book another = new Book("Other");
+        assertFalse(book.equals(other));
+        assertFalse(book.equals(another));
+    }
+    
+    @Test
+    public void bookDoesntEqualToArticle() {
+        Article article = new Article("Title");
+        assertFalse(book.equals(article));
+    }
+    
 }

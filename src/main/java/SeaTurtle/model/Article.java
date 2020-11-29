@@ -11,9 +11,9 @@ public class Article implements Comparable<Article> {
         this.url = null;
     }
     
-    public Article(String title, String link) {
+    public Article(String title, String url) {
         this.title = title;
-        this.url = link;
+        this.url = url;
     }
     
     public String getTitle() {
@@ -46,7 +46,9 @@ public class Article implements Comparable<Article> {
     public int hashCode() {
         int result = 6;
         result += this.title.hashCode();
-        result += this.url.hashCode();
+        if (this.url != null) {
+            result += this.url.hashCode();
+        }
 
         return result;
     }
