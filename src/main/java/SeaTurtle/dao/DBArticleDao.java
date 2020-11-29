@@ -100,7 +100,7 @@ public class DBArticleDao implements ArticleDao<Article, Integer> {
     @Override
     public void delete(Article article) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND url = ?");
+        prepstmt = con.prepareStatement("DELETE FROM Article WHERE title = ? AND url = ?");
         prepstmt.setString(1, article.getTitle());
         prepstmt.setString(2, article.getUrl());
         prepstmt.executeUpdate();
