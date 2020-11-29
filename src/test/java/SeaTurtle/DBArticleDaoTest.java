@@ -26,7 +26,7 @@ public class DBArticleDaoTest {
         dbArticleDao.dropTable();
     }
 
-    public ArrayList<Article> exampleBooks() {
+    public ArrayList<Article> exampleArticles() {
         ArrayList<Article> articles = new ArrayList<>();
         articles.add(new Article("test", "tester.test"));
         articles.add(new Article("history of apple's history", "apple.history"));
@@ -35,16 +35,16 @@ public class DBArticleDaoTest {
     }
 
     @Test
-    public void createsABookAndRetrievesFromDB() throws Exception {
-        Article testArticle = exampleBooks().get(0);
+    public void createsAnArticleAndRetrievesFromDB() throws Exception {
+        Article testArticle = exampleArticles().get(0);
         dbArticleDao.create(testArticle);
 
         assertTrue(dbArticleDao.list().contains(testArticle));
     }
 
     @Test
-    public void createsMultipleBooksAndRetrievesFromDB() throws SQLException{
-        ArrayList<Article> expectedArticles = exampleBooks();
+    public void createsMultipleArticlesAndRetrievesFromDB() throws SQLException{
+        ArrayList<Article> expectedArticles = exampleArticles();
         for (int i = 0; i < expectedArticles.size(); i++) {
             dbArticleDao.create(expectedArticles.get(i));
         }
@@ -53,7 +53,7 @@ public class DBArticleDaoTest {
     }
 
     @Test
-    public void createAndFindBookByTitleFromDB() throws SQLException {
+    public void createAndFindArticleByTitleFromDB() throws SQLException {
         Article testArticle = new Article("testingit", "testr.tetetest");
         dbArticleDao.create(testArticle);
 
