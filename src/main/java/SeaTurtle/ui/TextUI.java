@@ -29,7 +29,7 @@ public class TextUI {
         while(true) {
             this.help();
 
-            System.out.print("> ");
+            System.out.println("Anna komento:");
             String input = s.nextLine();
 
             switch (input) {
