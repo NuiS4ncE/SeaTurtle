@@ -45,6 +45,8 @@ public class TextUI {
                 case "l":
                     this.listBooks();
                     break;
+                case "e":
+                    this.find(s);
                 case "h":
                     this.help();
                     break;
@@ -262,13 +264,37 @@ public class TextUI {
         }
     }
 
+    /** 
+     * Lists both books and articles based on search term
+     */
+    public void find(Scanner s) {
+        ArrayList<Book> bookSearchResults = new ArrayList<>();
+        ArrayList<Article> articleSearchResults = new ArrayList<>();
+
+        System.out.print("anna otsikon hakutermi: ");
+        String l = s.nextLine();
+
+        try {
+            bookSearchResults = bookDao.findAndList(l);
+        } catch (SQLException e) {};
+        try {
+            articleSearchResults = articleDao.findAndList(l);
+        } catch (SQLException e) {};
+        
+        System.out.println(bookSearchResults);
+        System.out.println(articleSearchResults);
+
+    }
+
+
     public void help() {
         System.out.println("\n"
         + "Käytettävissä olevat komennot:\n" 
         + "[k] lisää uusi kirjavinkki\n"
-        + "[m] lisää tai päivitä kirjanmerkki\n"
         + "[a] lisää uusi artikkelivinkki\n"
+        + "[m] lisää tai päivitä kirjanmerkki\n"
         + "[l] listaa kaikki kirjavinkit\n"
+        + "[e] etsi lukuvinkki\n"
         + "---\n"
         + "[h] listaa komennot\n"
         + "[q] poistu ohjelmasta\n"
