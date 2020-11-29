@@ -54,10 +54,10 @@ public class DBArticleDaoTest {
 
     @Test
     public void createAndFindBookByTitleFromDB() throws SQLException {
-        Article testBook = new Article("testingit", "testr.tetetest");
-        dbArticleDao.create(testBook);
+        Article testArticle = new Article("testingit", "testr.tetetest");
+        dbArticleDao.create(testArticle);
 
-        assertTrue(dbArticleDao.findAndList(testBook.getTitle()).contains(testBook));
+        assertTrue(dbArticleDao.findAndList(testArticle.getTitle()).contains(testArticle));
     }
 
 }
