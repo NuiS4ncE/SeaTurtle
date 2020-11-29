@@ -88,8 +88,12 @@ public class Book implements Comparable<Book>{
     public int hashCode() {
         int result = 6;
         result += this.title.hashCode();
-        result += this.author.hashCode();
-        result += this.pageCount.hashCode();
+        if (this.author != null) {
+            result += this.author.hashCode();
+        }
+        if (this.pageCount != null) {
+            result += this.pageCount.hashCode();
+        }
 
         return result;
     }
