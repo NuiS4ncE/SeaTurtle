@@ -1,6 +1,7 @@
 package SeaTurtle.ui;
 
-import SeaTurtle.Book;
+import SeaTurtle.model.Article;
+import SeaTurtle.model.Book;
 import SeaTurtle.dao.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,13 +10,17 @@ import java.util.Scanner;
 
 public class TextUI {
 
-    private DBBookDao bookDao;
+    private BookDao bookDao;
+    private ArticleDao articleDao;
     private ArrayList<Book> books;
+    private ArrayList<Article> articles;
     private Scanner s;
 
-    public TextUI(Scanner s, DBBookDao bookDao) {
+    public TextUI(Scanner s, BookDao bookDao, ArticleDao articleDao) {
         this.bookDao = bookDao;
+        this.articleDao = articleDao;
         updateBooks();
+        updateArticles();
         this.s = s;
     }
     
@@ -30,6 +35,9 @@ public class TextUI {
             switch (input) {
                 case "k":
                     this.addBook(s);
+                    break;
+                case "a":
+                    this.addArticle(s);
                     break;
                 case "m":
                     this.updateBookmark(s);
@@ -117,15 +125,13 @@ public class TextUI {
         System.out.println("");
         System.out.println("kaikki kirjavinkit:");
         Collections.sort(books);
-        
-        System.out.println(books);
 
         if(books.isEmpty()) {
             System.out.println("ei kirjavinkkejä");
             return false;
         } else {
             for(Book book : books) {
-                System.out.println(books.indexOf(book)+1 + ") " + book.toString());
+                System.out.println("Kirja " + (books.indexOf(book) + 1) + ") " + book.toString());
             }
         }
         System.out.println("");
@@ -188,11 +194,80 @@ public class TextUI {
         }
     }
 
+    public void addArticle(Scanner s) {
+        
+        System.out.println("artikkelin nimi: ");
+        String title = s.nextLine();
+        while(title.isEmpty()) {
+            System.out.println("anna artikkelin nimi:");
+            title = s.nextLine();
+        }
+        Article newArticle = new Article(title);       
+
+        System.out.println("artikkelin URL-osoite: ");
+        String url = s.nextLine();
+        if (!url.isEmpty()) {
+            newArticle.setUrl(url);
+        }
+
+        try {
+            articleDao.create(newArticle);
+        } catch (SQLException e) {
+            System.out.print(e.getMessage());
+        }
+        updateArticles();
+        //dbService.createArticle(newArticle); 
+
+        System.out.println(ConsoleColors.GREEN +  "artikkelivinkki lisätty" + ConsoleColors.RESET);
+        
+        listArticles();
+        
+        while(true) {
+            System.out.println("[a] lisää uusi artikkelivinkki\n"
+            + "[v] palaa valikkoon\n");
+            String choice = s.nextLine();
+            if (choice.equals("a")) {
+                addArticle(s);
+                break;
+            } 
+            
+            else if (choice.equals("v")) {
+                return;
+            }   
+        }        
+    }
+    
+    public boolean listArticles() {
+        System.out.println("");
+        System.out.println("kaikki artikkelivinkit:");
+        Collections.sort(articles);
+
+        if(articles.isEmpty()) {
+            System.out.println("ei artikkelivinkkejä");
+            return false;
+        } else {
+            for (Article article : articles) {
+                System.out.println("Artikkeli " + (articles.indexOf(article) + 1) + ") " + article.toString());
+            }
+        }
+        System.out.println("");
+        return true;
+    }
+
+    public void updateArticles() {
+        try {
+            articles = articleDao.list();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
     public void help() {
         System.out.println("\n"
         + "Käytettävissä olevat komennot:\n" 
         + "[k] lisää uusi kirjavinkki\n"
         + "[m] lisää tai päivitä kirjanmerkki\n"
+        + "[a] lisää uusi artikkelivinkki\n"
         + "[l] listaa kaikki kirjavinkit\n"
         + "---\n"
         + "[h] listaa komennot\n"

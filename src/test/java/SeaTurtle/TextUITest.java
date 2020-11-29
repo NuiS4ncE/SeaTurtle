@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import SeaTurtle.dao.DBBookDao;
+import SeaTurtle.dao.*;
 import SeaTurtle.ui.*;
 
 public class TextUITest {
@@ -25,7 +25,10 @@ public class TextUITest {
     ByteArrayOutputStream out;
 
     @Mock
-    DBBookDao mockDBBookDao = new DBBookDao();
+    BookDao mockDBBookDao = new DBBookDao();
+
+    @Mock
+    ArticleDao mockDBArticleDao = null;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -35,6 +38,7 @@ public class TextUITest {
         out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         s = new Scanner(System.in);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
     }
 
     @After
@@ -46,7 +50,6 @@ public class TextUITest {
 
     @Test
     public void textUIHelp() {
-        textUI = new TextUI(s, mockDBBookDao);
         textUI.help();
 
         assertTrue(out.toString().contains("Käytettävissä"));
@@ -54,8 +57,6 @@ public class TextUITest {
 
     @Test
     public void TextUIExit() {
-        textUI = new TextUI(s, mockDBBookDao);
-        
         textUI.exit();
 
         assertTrue(out.toString().contains("Hei hei!"));
@@ -68,7 +69,7 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         s = new Scanner(System.in);
-        textUI = new TextUI(s, mockDBBookDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
 
         textUI.run();
 
@@ -99,7 +100,7 @@ public class TextUITest {
 
         s = new Scanner(System.in);
 
-        textUI = new TextUI(s, mockDBBookDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
 
         textUI.run();
 
@@ -112,7 +113,7 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
         
-        textUI = new TextUI(s, mockDBBookDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
 
         textUI.run();
 
@@ -125,7 +126,7 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
 
-        textUI = new TextUI(s, mockDBBookDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
 
         textUI.run();
 

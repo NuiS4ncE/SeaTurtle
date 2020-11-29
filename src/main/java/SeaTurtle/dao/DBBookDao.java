@@ -1,7 +1,7 @@
 package SeaTurtle.dao;
 
-import SeaTurtle.Book;
-import java.io.File;
+import SeaTurtle.model.Book;
+
 import java.sql.*;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;

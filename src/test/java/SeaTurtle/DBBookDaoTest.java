@@ -1,7 +1,7 @@
 package SeaTurtle;
 
 import SeaTurtle.dao.DBBookDao;
-import SeaTurtle.Book;
+import SeaTurtle.model.Book;
 import SeaTurtle.ui.TextUI;
 import io.cucumber.messages.internal.com.google.gson.internal.bind.SqlDateTypeAdapter;
 import org.junit.After;

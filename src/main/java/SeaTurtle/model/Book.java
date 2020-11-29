@@ -1,4 +1,4 @@
-package SeaTurtle;
+package SeaTurtle.model;
 
 import SeaTurtle.ui.ConsoleColors;
 
@@ -59,7 +59,7 @@ public class Book implements Comparable<Book>{
     
     @Override
     public String toString() {
-        StringBuilder bookDetails = new StringBuilder("Kirjan nimi: " + title + ".");
+        StringBuilder bookDetails = new StringBuilder(title + ".");
         if (author != null) {
             bookDetails.append(" Kirjoittaja: " + author + ".");
         }if (pageCount != null ) {
@@ -101,9 +101,7 @@ public class Book implements Comparable<Book>{
         }
 
         Book other = (Book) obj;         
-        return this.title.equals(other.getTitle())
-        && this.author.equals(other.getAuthor()) 
-        && this.pageCount.equals(other.getPageCount());
+        return this.toString().equals(other.toString());
         
     }
 }

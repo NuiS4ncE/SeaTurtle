@@ -1,5 +1,6 @@
 package SeaTurtle;
 
+import SeaTurtle.model.Book;
 import java.util.ArrayList;
 import java.util.Collections;
 import static org.junit.Assert.*;
