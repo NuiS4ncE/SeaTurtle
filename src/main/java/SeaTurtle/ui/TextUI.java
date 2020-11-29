@@ -276,7 +276,9 @@ public class TextUI {
 
         try {
             bookSearchResults = bookDao.findAndList(l);
-        } catch (SQLException e) {};
+        } catch (SQLException e) {
+            System.err.println(e);
+        };
         try {
             articleSearchResults = articleDao.findAndList(l);
         } catch (SQLException e) {};

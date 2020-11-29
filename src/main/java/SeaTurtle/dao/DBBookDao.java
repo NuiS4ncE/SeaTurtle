@@ -156,8 +156,8 @@ public class DBBookDao implements BookDao<Book, Integer> {
     public ArrayList<Book> findAndList(String searchWord) throws SQLException {
         startCon();
         ArrayList<Book> findBookList = new ArrayList<>();
-        prepstmt = con.prepareStatement("SELECT * FROM Book WHERE title LIKE ?");
-        prepstmt.setString(1, searchWord);
+        prepstmt = con.prepareStatement("SELECT * FROM Book WHERE title LIKE ?" );
+        prepstmt.setString(1, "%"+searchWord+"%");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
             //findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark")));
