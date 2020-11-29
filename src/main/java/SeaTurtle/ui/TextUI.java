@@ -131,7 +131,7 @@ public class TextUI {
             return false;
         } else {
             for(Book book : books) {
-                System.out.println("Kirja " + (books.indexOf(book) + 1) + ") " + book.toString());
+                System.out.println((books.indexOf(book) + 1) + ") " + book.toString());
             }
         }
         System.out.println("");
@@ -196,10 +196,10 @@ public class TextUI {
 
     public void addArticle(Scanner s) {
         
-        System.out.println("artikkelin nimi: ");
+        System.out.println("artikkelin otsikko: ");
         String title = s.nextLine();
         while(title.isEmpty()) {
-            System.out.println("anna artikkelin nimi:");
+            System.out.println("anna artikkelin otsikko:");
             title = s.nextLine();
         }
         Article newArticle = new Article(title);       
@@ -247,7 +247,7 @@ public class TextUI {
             return false;
         } else {
             for (Article article : articles) {
-                System.out.println("Artikkeli " + (articles.indexOf(article) + 1) + ") " + article.toString());
+                System.out.println((articles.indexOf(article) + 1) + ") " + article.toString());
             }
         }
         System.out.println("");

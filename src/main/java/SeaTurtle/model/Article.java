@@ -30,7 +30,7 @@ public class Article implements Comparable<Article> {
     
     @Override
     public String toString() {
-        StringBuilder articleDetails = new StringBuilder(title + ".");
+        StringBuilder articleDetails = new StringBuilder("Artikkeli: " + title + ".");
         if (url != null) {
             articleDetails.append(" <" + url + ">");
         }

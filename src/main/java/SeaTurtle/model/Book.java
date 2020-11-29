@@ -59,7 +59,7 @@ public class Book implements Comparable<Book>{
     
     @Override
     public String toString() {
-        StringBuilder bookDetails = new StringBuilder(title + ".");
+        StringBuilder bookDetails = new StringBuilder("Kirjan nimi: " + title + ".");
         if (author != null) {
             bookDetails.append(" Kirjoittaja: " + author + ".");
         }if (pageCount != null ) {
