@@ -52,6 +52,7 @@ public class DBArticleDao implements ArticleDao<Article, Integer> {
         );
 
         prepstmt.executeUpdate();
+        prepstmt.close();
         closeCon();
     }
     
@@ -60,6 +61,7 @@ public class DBArticleDao implements ArticleDao<Article, Integer> {
         startCon();
         prepstmt = con.prepareStatement("DROP TABLE Article");
         prepstmt.executeUpdate();
+        prepstmt.close();
         closeCon();
     }
 
@@ -72,6 +74,7 @@ public class DBArticleDao implements ArticleDao<Article, Integer> {
         prepstmt.setString(1, article.getTitle());
         prepstmt.setString(2, article.getUrl());
         prepstmt.executeUpdate();
+        prepstmt.close();
         closeCon();
     }
 
