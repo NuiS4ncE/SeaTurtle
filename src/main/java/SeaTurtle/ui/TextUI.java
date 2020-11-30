@@ -271,24 +271,21 @@ public class TextUI {
     public void find(Scanner s) {
         ArrayList<Book> bookSearchResults = new ArrayList<>();
         ArrayList<Article> articleSearchResults = new ArrayList<>();
+        String l = "";
 
         while (true) {
 
             System.out.println("anna otsikon hakutermi (tyhjällä pois hausta):");
-            String l = s.nextLine();
+            l = s.nextLine();
 
             if (l.equals(""))
                 return;
 
             try {
                 bookSearchResults = bookDao.findAndList(l);
-            } catch (SQLException e) {
-                System.err.println(e);
-            }
-
-            try {
                 articleSearchResults = articleDao.findAndList(l);
             } catch (SQLException e) {
+                System.err.println(e);
             }
 
             System.out.println("Löydetyt lukuvinkit");
@@ -299,10 +296,15 @@ public class TextUI {
     }
 
     public void help() {
-        System.out.println("\n" + "Käytettävissä olevat komennot:\n" + "[k] lisää uusi kirjavinkki\n"
-                + "[a] lisää uusi artikkelivinkki\n" + "[m] lisää tai päivitä kirjanmerkki\n"
-                + "[l] listaa kaikki kirjavinkit\n" + "[e] etsi lukuvinkki\n" + "---\n" + "[h] listaa komennot\n"
-                + "[q] poistu ohjelmasta\n");
+        System.out.println("\n" + "Käytettävissä olevat komennot:\n" 
+        + "[k] lisää uusi kirjavinkki\n"
+        + "[a] lisää uusi artikkelivinkki\n" 
+        + "[m] lisää tai päivitä kirjanmerkki\n"        
+        + "[l] listaa kaikki kirjavinkit\n" 
+        + "[e] etsi lukuvinkki\n" 
+        + "---\n" 
+        + "[h] listaa komennot\n"
+        + "[q] poistu ohjelmasta\n");
     }
 
     public void exit() {
