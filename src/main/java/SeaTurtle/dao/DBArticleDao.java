@@ -145,7 +145,7 @@ public class DBArticleDao implements ArticleDao<Article, Integer> {
         }
         if(findArticleList.isEmpty()){
             prepstmt = con.prepareStatement("SELECT * FROM Article WHERE url LIKE ?");
-            prepstmt.setString(1, searchWord);
+            prepstmt.setString(1, "%"+searchWord+"%");
             rs = prepstmt.executeQuery();
             while (rs.next()) {
                 findArticleList.add(new Article(rs.getString("title"), rs.getString("url")));
