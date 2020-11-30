@@ -2,6 +2,7 @@
 package SeaTurtle;
 
 import SeaTurtle.model.*;
+import SeaTurtle.ui.ConsoleColors;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -47,10 +48,29 @@ public class Stepdefs {
         book.setPageCount(pageCount);
         testbooks.add(book);
     }
-
+    
+    @When("a book with title {string}, {string} pages and bookmark for page {string} is created")
+    public void bookIsCreatedWithTitlePageCountAndBookmark(String title, String pageCount, String bookmark) {
+        Book book = new Book(title);
+        book.setPageCount(pageCount);
+        book.setBookmark(bookmark);
+        testbooks.add(book);
+    }
+    
     @When("a book with title {string}, author {string} and {string} pages is created")
-    public void bookIsCreatedWithAllDetails(String title, String author, String pageCount) {
-        Book book = new Book(title, author, pageCount);
+    public void bookIsCreatedWithAuthorTitleAndPageCount(String title, String author, String pageCount) {
+        Book book = new Book(title);
+        book.setAuthor(author);
+        book.setPageCount(pageCount);
+        testbooks.add(book);
+    }
+
+    @When("a book with title {string}, author {string}, {string} pages and bookmark for page {string} is created")
+    public void bookIsCreatedWithAllDetails(String title, String author, String pageCount, String bookmark) {
+        Book book = new Book(title);
+        book.setAuthor(author);
+        book.setPageCount(pageCount);
+        book.setBookmark(bookmark);
         testbooks.add(book);
     }
 
@@ -94,10 +114,20 @@ public class Stepdefs {
     public void returnBookTitleAndPageCountAsString(String title, String pageCount) {
         assertEquals("Kirjan nimi: " + title + ". " + pageCount + " sivua.", testbooks.get(0).toString());
     }
+    
+    @Then("book's title {string}, page count of {string} and bookmark for page {string} is returned")
+    public void returnBookTitlePageCountAndBookmarkAsString(String title, String pageCount, String bookmark) {
+        assertEquals("Kirjan nimi: " + title + ". " + pageCount + " sivua. Kirjanmerkki sivulla " + bookmark + ". Kirjasta luettu " + ConsoleColors.YELLOW + (int) Math.round(Integer.parseInt(bookmark) * 100.0/Integer.parseInt(pageCount)) + " %." + ConsoleColors.RESET, testbooks.get(0).toString());
+    }
 
     @Then("book's title {string}, author {string} and page count of {string} is returned")
-    public void returnBookAllDetailsAsString(String title, String author, String pageCount) {
+    public void returnBookAuthorTitleAndPageCountAsString(String title, String author, String pageCount) {
         assertEquals("Kirjan nimi: " + title + ". Kirjoittaja: " + author + ". " + pageCount + " sivua.", testbooks.get(0).toString());
+    }
+    
+    @Then("book's title {string}, author {string}, page count of {string} and bookmark for page {string} is returned")
+    public void returnBookAllDetailsAsString(String title, String author, String pageCount, String bookmark) {
+        assertEquals("Kirjan nimi: " + title + ". Kirjoittaja: " + author + ". " + pageCount + " sivua. Kirjanmerkki sivulla " + bookmark + ". Kirjasta luettu " + ConsoleColors.YELLOW + (int) Math.round(Integer.parseInt(bookmark) * 100.0/Integer.parseInt(pageCount)) + " %." + ConsoleColors.RESET, testbooks.get(0).toString());
     }
 
     @Then("only article's title {string} is returned")
