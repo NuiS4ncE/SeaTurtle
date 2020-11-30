@@ -101,7 +101,7 @@ public class DBArticleDao implements ArticleDao<Article, Integer> {
     @Override
     public void delete(Article article) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND url = ?");
+        prepstmt = con.prepareStatement("DELETE FROM Article WHERE title = ? AND url = ?");
         prepstmt.setString(1, article.getTitle());
         prepstmt.setString(2, article.getUrl());
         prepstmt.executeUpdate();
@@ -138,7 +138,7 @@ public class DBArticleDao implements ArticleDao<Article, Integer> {
         startCon();
         ArrayList<Article> findArticleList = new ArrayList<>();
         prepstmt = con.prepareStatement("SELECT * FROM Article WHERE title LIKE ?");
-        prepstmt.setString(1, searchWord);
+        prepstmt.setString(1, "%"+searchWord+"%");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
             findArticleList.add(new Article(rs.getString("title"), rs.getString("url")));

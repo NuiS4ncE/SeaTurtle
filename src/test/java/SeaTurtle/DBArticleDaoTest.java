@@ -9,8 +9,7 @@ import org.junit.Test;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class DBArticleDaoTest {
 
@@ -58,6 +57,37 @@ public class DBArticleDaoTest {
         dbArticleDao.create(testArticle);
 
         assertTrue(dbArticleDao.findAndList(testArticle.getTitle()).contains(testArticle));
+    }
+
+
+    @Test
+    public void articleCanBeReadFromDB() throws SQLException {
+        Article testArticle = new Article("testingit", "testr.tetetest");
+        dbArticleDao.create(testArticle);
+        Article readArticle = dbArticleDao.read(testArticle);
+
+        assertEquals(testArticle, readArticle);
+    }
+
+    @Test
+    public void articleCanBeUpdatedInDB() throws SQLException {
+        Article testArticle = new Article("testingit", "testr.tetetest");
+        dbArticleDao.create(testArticle);
+        testArticle.setUrl("test.fi");
+        dbArticleDao.update(testArticle);
+
+        assertEquals(dbArticleDao.findAndList(testArticle.getTitle()).get(0).getUrl(), "test.fi");
+    }
+
+    @Test
+    public void articleCanBeDeletedFromDB() throws SQLException {
+        Article testArticle = new Article("testingit", "testr.tetetest");
+        
+        dbArticleDao.create(testArticle);
+        assertTrue(dbArticleDao.findAndList(testArticle.getTitle()).contains(testArticle));
+        
+        dbArticleDao.delete(testArticle);
+        assertFalse(dbArticleDao.findAndList(testArticle.getTitle()).contains(testArticle));
     }
 
     @Test

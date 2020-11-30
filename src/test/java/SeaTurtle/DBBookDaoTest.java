@@ -35,9 +35,9 @@ public class DBBookDaoTest {
 
     public ArrayList<Book> exampleBooks() {
         ArrayList<Book> books = new ArrayList<>();        
-        books.add(new Book("test", "tester", "666"));
-        books.add(new Book("history of apple", "someone at apple", "70"));
-        books.add(new Book("computers r cool", "dijkstra", "1000"));
+        books.add(new Book("test", "tester", "666", "111", null));
+        books.add(new Book("history of apple", "someone at apple", "70", null, null));
+        books.add(new Book("computers r cool", "dijkstra", "1000", "22", null));
         return books;
     }
 
@@ -61,10 +61,21 @@ public class DBBookDaoTest {
 
     @Test
     public void createAndFindBookByTitleFromDB() throws SQLException {
-        Book testBook = new Book("testingit", "testr", "69");
+        Book testBook = new Book("testingit", "testr", "69", "0", null);
         dbBookDao.create(testBook);
 
         assertTrue(dbBookDao.findAndList(testBook.getTitle()).contains(testBook));
+    }
+    
+    @Test
+    public void updateBookmark() throws SQLException {
+        Book testBook = new Book("testingitagain", "supertestr", "69", "0", null);
+        dbBookDao.create(testBook);
+        testBook = dbBookDao.read(testBook);
+        testBook.setBookmark("2");
+        dbBookDao.updateBookmark(testBook);
+
+        assertEquals("2", dbBookDao.read(testBook).getBookmark());
     }
 
     @Test

@@ -54,7 +54,7 @@ public class DBBookDao implements BookDao<Book, Integer> {
             + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "title TEXT, "
             + "author TEXT, "
-            + "pagecount TEXT "
+            + "pagecount TEXT, "
             + "bookmark TEXT"
             + ")"
         );
@@ -78,14 +78,12 @@ public class DBBookDao implements BookDao<Book, Integer> {
     public void create(Book book) throws SQLException {
         startCon();
         prepstmt = con.prepareStatement("INSERT INTO Book "
-//        + "(title, author, pagecount, bookmark)"
-        + "(title, author, pagecount)"
-//        + "VALUES (?,?,?,?)");
-        + "VALUES (?,?,?)");
+        + "(title, author, pagecount, bookmark)"
+        + "VALUES (?,?,?,?)");
         prepstmt.setString(1, book.getTitle());
         prepstmt.setString(2, book.getAuthor());
         prepstmt.setString(3, book.getPageCount());
-//        prepstmt.setString(4, book.getBookmark());
+        prepstmt.setString(4, book.getBookmark());
         prepstmt.executeUpdate();
         prepstmt.close();
         closeCon();
@@ -104,7 +102,7 @@ public class DBBookDao implements BookDao<Book, Integer> {
         if (!rs.next()) {
             return null;
         } else {
-            returnBook = new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark"));
+            returnBook = new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark"), rs.getInt("id"));
         }
         rs.close();
         prepstmt.close();
@@ -125,13 +123,12 @@ public class DBBookDao implements BookDao<Book, Integer> {
         closeCon();
     }
     
-    public void update(Book book) throws SQLException {
+    @Override
+    public void updateBookmark(Book book) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("UPDATE Book SET author = ? AND pagecount = ? AND bookmark = ? WHERE title = ?");
-        prepstmt.setString(1, book.getAuthor());
-        prepstmt.setString(2, book.getPageCount());
-        prepstmt.setString(3, book.getBookmark());
-        prepstmt.setString(4, book.getTitle());
+        prepstmt = con.prepareStatement("UPDATE Book SET bookmark = ? WHERE id = ?");
+        prepstmt.setString(1, book.getBookmark());
+        prepstmt.setInt(2, book.getId());
         prepstmt.executeUpdate();
         prepstmt.close();
         closeCon();
@@ -144,8 +141,7 @@ public class DBBookDao implements BookDao<Book, Integer> {
         prepstmt = con.prepareStatement("SELECT * FROM Book");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-//            bookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark")));
-            bookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"))); 
+            bookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark"), rs.getInt("id")));
         }
         prepstmt.close();
         closeCon();
@@ -156,20 +152,19 @@ public class DBBookDao implements BookDao<Book, Integer> {
     public ArrayList<Book> findAndList(String searchWord) throws SQLException {
         startCon();
         ArrayList<Book> findBookList = new ArrayList<>();
-        prepstmt = con.prepareStatement("SELECT * FROM Book WHERE title LIKE ?");
-        prepstmt.setString(1, searchWord);
+        prepstmt = con.prepareStatement("SELECT * FROM Book WHERE title LIKE ?" );
+        prepstmt.setString(1, "%"+searchWord+"%");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            //findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark")));
-            findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
+            findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark"), rs.getInt("id")));
         }
         if(findBookList.isEmpty()){
             prepstmt = con.prepareStatement("SELECT * FROM Book WHERE author LIKE ?");
             prepstmt.setString(1, searchWord);
             rs = prepstmt.executeQuery();
             while (rs.next()) {
-                //findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark")));
-                findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
+                findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark"), rs.getInt("id")));
+                //findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
             }
         }
         prepstmt.close();

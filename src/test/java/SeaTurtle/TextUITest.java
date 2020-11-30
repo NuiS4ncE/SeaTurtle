@@ -28,7 +28,7 @@ public class TextUITest {
     BookDao mockDBBookDao = new DBBookDao();
 
     @Mock
-    ArticleDao mockDBArticleDao = null;
+    ArticleDao mockDBArticleDao = new DBArticleDao();
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -74,6 +74,20 @@ public class TextUITest {
         textUI.run();
 
         assertTrue(out.toString().contains("kirjan nimi"));
+        s.close();
+    }
+    
+    @Test
+    public void TextUIRunAndAddArticle() {
+        String data = "a\n\nTitle\nhttp://www.helsinki.fi/\n\nv\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+
+        s = new Scanner(System.in);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("artikkelin otsikko"));
         s.close();
     }
 /*
