@@ -163,6 +163,15 @@ public class DBBookDao implements BookDao<Book, Integer> {
             //findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark")));
             findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
         }
+        if(findBookList.isEmpty()){
+            prepstmt = con.prepareStatement("SELECT * FROM Book WHERE author LIKE ?");
+            prepstmt.setString(1, searchWord);
+            rs = prepstmt.executeQuery();
+            while (rs.next()) {
+                //findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark")));
+                findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
+            }
+        }
         prepstmt.close();
         closeCon();
 

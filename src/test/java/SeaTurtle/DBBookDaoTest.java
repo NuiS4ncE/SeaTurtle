@@ -67,4 +67,13 @@ public class DBBookDaoTest {
         assertTrue(dbBookDao.findAndList(testBook.getTitle()).contains(testBook));
     }
 
+    @Test
+    public void createAndFindBookByAuthorFromDB() throws SQLException {
+        Book testBook = new Book("testingit", "testr", "69");
+        dbBookDao.create(testBook);
+        System.out.println(dbBookDao.findAndList(testBook.getAuthor()).contains(testBook));
+        assertTrue(dbBookDao.findAndList(testBook.getAuthor()).contains(testBook));
+    }
+
+
 }

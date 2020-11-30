@@ -60,4 +60,13 @@ public class DBArticleDaoTest {
         assertTrue(dbArticleDao.findAndList(testArticle.getTitle()).contains(testArticle));
     }
 
+    @Test
+    public void createAndFindArticleByUrlFromDB() throws SQLException {
+        Article testArticle = new Article("testingitagain", "testragain.tetetest");
+        dbArticleDao.create(testArticle);
+
+        assertTrue(dbArticleDao.findAndList(testArticle.getUrl()).contains(testArticle));
+    }
+
+
 }
