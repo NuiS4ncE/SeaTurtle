@@ -162,7 +162,7 @@ public class TextUI {
                         if (book.getPageCount() != null) {
                             addBookmark(book);
                             try {
-                                bookDao.update(book);
+                                bookDao.updateBookmark(book);
                             } catch (SQLException e) {
                                 System.out.print(e.getMessage());
                             }
