@@ -1,6 +1,7 @@
 package SeaTurtle.dao;
 
 import SeaTurtle.model.Article;
+import SeaTurtle.model.Book;
 
 import java.sql.*;
 import java.util.*;
@@ -141,6 +142,14 @@ public class DBArticleDao implements ArticleDao<Article, Integer> {
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
             findArticleList.add(new Article(rs.getString("title"), rs.getString("url")));
+        }
+        if(findArticleList.isEmpty()){
+            prepstmt = con.prepareStatement("SELECT * FROM Article WHERE url LIKE ?");
+            prepstmt.setString(1, searchWord);
+            rs = prepstmt.executeQuery();
+            while (rs.next()) {
+                findArticleList.add(new Article(rs.getString("title"), rs.getString("url")));
+            }
         }
         prepstmt.close();
         closeCon();

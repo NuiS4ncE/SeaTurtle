@@ -8,25 +8,22 @@ public class Book implements Comparable<Book>{
     private String author;
     private String pageCount;
     private String bookmark;
+    private Integer id;
     
     public Book(String title) {
         this.title = title;
         this.author = null;
         this.pageCount = null;
         this.bookmark = null;
+        this.id = null;
     }
     
-    public Book(String title, String author, String pageCount, String bookmark) {
+    public Book(String title, String author, String pageCount, String bookmark, Integer id) {
         this.title = title;
         this.author = author;
         this.pageCount = pageCount;
         this.bookmark = bookmark;
-    }
-
-    public Book(String title, String author, String pageCount) {
-        this.title = title;
-        this.author = author;
-        this.pageCount = pageCount;
+        this.id = id;
     }
     
     public String getTitle() {
@@ -45,6 +42,10 @@ public class Book implements Comparable<Book>{
         return bookmark;
     }
     
+    public Integer getId() {
+        return id;
+    }
+    
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -54,7 +55,9 @@ public class Book implements Comparable<Book>{
     }
     
     public void setBookmark (String bookmark) {
-        this.bookmark = bookmark;
+        if(pageCount != null) {
+            this.bookmark = bookmark;
+        }
     }
     
     @Override
