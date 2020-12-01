@@ -1,7 +1,6 @@
 package SeaTurtle.dao;
 
 import SeaTurtle.model.Article;
-import SeaTurtle.model.Book;
 
 import java.sql.*;
 import java.util.*;

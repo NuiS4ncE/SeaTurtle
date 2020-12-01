@@ -37,7 +37,6 @@ public class DBBookDao implements BookDao<Book, Integer> {
 
     private void startCon() throws SQLException {
         con = DriverManager.getConnection(dbFile);
-//        System.out.println("Connection to SQLite has been established.");
         stmt = con.createStatement();
     }
 
@@ -60,6 +59,7 @@ public class DBBookDao implements BookDao<Book, Integer> {
         );
 
         prepstmt.executeUpdate();
+        prepstmt.close();
         closeCon();
     }
     

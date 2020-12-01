@@ -102,7 +102,6 @@ public class TextUI {
             System.out.print(e.getMessage());
         }
         updateBooks();
-        // dbService.createBook(newBook);
 
         System.out.println(ConsoleColors.GREEN + "kirjavinkki lisätty" + ConsoleColors.RESET);
 
@@ -220,7 +219,6 @@ public class TextUI {
             System.out.print(e.getMessage());
         }
         updateArticles();
-        // dbService.createArticle(newArticle);
 
         System.out.println(ConsoleColors.GREEN + "artikkelivinkki lisätty" + ConsoleColors.RESET);
 
