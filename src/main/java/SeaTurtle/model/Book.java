@@ -67,16 +67,17 @@ public class Book implements Comparable<Book>{
             bookDetails.append(" Kirjoittaja: " + author + ".");
         }if (pageCount != null ) {
             bookDetails.append(" "+ pageCount + " sivua.");
-        }if (bookmark != null) {
-            bookDetails.append(" Kirjanmerkki sivulla " + bookmark + ".");
-            int percentageRead = (int) Math.round(Integer.parseInt(bookmark) * 100.0/Integer.parseInt(pageCount));
-            bookDetails.append(" Kirjasta luettu ");
-            if(percentageRead == 0) {
-                bookDetails.append(ConsoleColors.RED + "0 %." + ConsoleColors.RESET);
-            } else if (percentageRead == 100) {
-                bookDetails.append(ConsoleColors.GREEN + "100 %." + ConsoleColors.RESET);
+            if (bookmark != null) {
+                bookDetails.append(" Kirjanmerkki sivulla " + bookmark + ".");
+                int percentageRead = (int) Math.round(Integer.parseInt(bookmark) * 100.0/Integer.parseInt(pageCount));
+                bookDetails.append(" Kirjasta luettu ");
+                if (percentageRead == 100) {
+                    bookDetails.append(ConsoleColors.GREEN + "100 %" + ConsoleColors.RESET + ".");
+                } else {
+                    bookDetails.append(ConsoleColors.YELLOW + percentageRead + " %" + ConsoleColors.RESET + ".");
+                }
             } else {
-                bookDetails.append(ConsoleColors.YELLOW + percentageRead + " %." + ConsoleColors.RESET);
+                bookDetails.append(" Kirjasta luettu " + ConsoleColors.RED + "0 %" + ConsoleColors.RESET + ".");
             }
         }
         return bookDetails.toString();
