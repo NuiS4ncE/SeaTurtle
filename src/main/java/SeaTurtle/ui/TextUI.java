@@ -83,7 +83,8 @@ public class TextUI {
             String pageCount = s.nextLine();
             if (pageCount.isEmpty()) {
                 break;
-            } else if (pageCount.matches("\\d+")) {
+            } 
+            else if (pageCount.matches("\\d+")) {
                 newBook.setPageCount(pageCount);
                 System.out.println(
                         "paina [m] jos haluat lisätä kirjaan kirjanmerkin tai mitä tahansa muuta näppäintä tallentaaksesi kirjavinkin");
@@ -93,7 +94,7 @@ public class TextUI {
                 }
                 break;
             }
-            System.out.println("anna sivumäärä numerona tai paina enter, jos haluat jättää kentän tyhjäksi");
+            //System.out.println("anna sivumäärä numerona tai paina enter, jos haluat jättää kentän tyhjäksi");
         }
 
         try {

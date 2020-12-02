@@ -65,7 +65,8 @@ public class TextUITest {
 
     @Test
     public void TextUIRunAndAddBook() {
-        String data = "k\n\nTitle\nAuthor\n\nv\nq\n";
+        //String data = "k\n\nTitle\nAuthor\n\nv\nq\n";
+        String data = "k\n\nTitle\nAuthor\n666\n\nv\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         s = new Scanner(System.in);
@@ -90,22 +91,6 @@ public class TextUITest {
         assertTrue(out.toString().contains("artikkelin otsikko"));
         s.close();
     }
-/*
-    @Test
-    public void TextUIAddBookTitleOnly() {
-        String data = "\nAuthor\n\n3\nv\n";
-        System.setIn(new ByteArrayInputStream(data.getBytes()));
-        s = new Scanner(System.in);
-
-        textUI = new TextUI(s, mockDBBookDao);
-        
-        textUI.addBook(s);
-
-        assertTrue(out.toString().contains("kirjan nimi"));
-    }
-
-*/
-
 
     @Test
     public void TextUIRunAndHelp() {
@@ -145,6 +130,20 @@ public class TextUITest {
         textUI.run();
 
         assertTrue(out.toString().contains("komentoa ei tunnistettu"));        
+    }
+
+
+    @Test
+    public void TextUIFindBook() {
+        String data = "e\nakuankka\n\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("Löydetyt lukuvinkit"));  
     }
 
 
