@@ -82,14 +82,14 @@ public class BookTest {
     @Test
     public void bookHasCorrectStringWithTitleAndPageCount() {
         book.setPageCount("200");
-        assertEquals("Kirjan nimi: Title. 200 sivua.", book.toString());
+        assertEquals("Kirjan nimi: Title. 200 sivua. Kirjasta luettu " + ConsoleColors.RED + "0 %" + ConsoleColors.RESET + ".", book.toString());
     }
     
     @Test
     public void bookHasCorrectStringWithTitlePageCountAndBookmark() {
         book.setPageCount("200");
         book.setBookmark("20");
-        assertEquals("Kirjan nimi: Title. 200 sivua. Kirjanmerkki sivulla 20. Kirjasta luettu " + ConsoleColors.YELLOW + "10 %." + ConsoleColors.RESET, book.toString());
+        assertEquals("Kirjan nimi: Title. 200 sivua. Kirjanmerkki sivulla 20. Kirjasta luettu " + ConsoleColors.YELLOW + "10 %" + ConsoleColors.RESET + ".", book.toString());
     }
     
     @Test
@@ -97,7 +97,7 @@ public class BookTest {
         book.setAuthor("Author");
         book.setPageCount("200");
         book.setBookmark("200");
-        assertEquals("Kirjan nimi: Title. Kirjoittaja: Author. 200 sivua. Kirjanmerkki sivulla 200. Kirjasta luettu " + ConsoleColors.GREEN + "100 %." + ConsoleColors.RESET, book.toString());
+        assertEquals("Kirjan nimi: Title. Kirjoittaja: Author. 200 sivua. Kirjanmerkki sivulla 200. Kirjasta luettu " + ConsoleColors.GREEN + "100 %" + ConsoleColors.RESET + ".", book.toString());
     }
     
     @Test
