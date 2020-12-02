@@ -16,6 +16,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import SeaTurtle.dao.*;
+import SeaTurtle.model.Book;
 import SeaTurtle.ui.*;
 
 public class TextUITest {
@@ -64,8 +65,7 @@ public class TextUITest {
 
 
     @Test
-    public void TextUIRunAndAddBook() {
-        //String data = "k\n\nTitle\nAuthor\n\nv\nq\n";
+    public void TextUIAddBook() {
         String data = "k\n\nTitle\nAuthor\n666\n\nv\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
@@ -77,9 +77,42 @@ public class TextUITest {
         assertTrue(out.toString().contains("kirjan nimi"));
         s.close();
     }
+
+    @Test
+    public void TextUIAddBookNoPages() {
+        String data = "Title\nAuthor\n\n\nv\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+
+        s = new Scanner(System.in);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+
+        textUI.addBook(s);
+
+        assertTrue(out.toString().contains("kirjan nimi"));
+        s.close();
+    }
+
     
     @Test
-    public void TextUIRunAndAddArticle() {
+    public void TextUIAddBookNoBookMark() {
+        String data = "Title\nAuthor\n666\nm\n1\n\nv\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+
+        s = new Scanner(System.in);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+
+        textUI.addBook(s);
+
+        assertTrue(out.toString().contains("kirjan nimi"));
+        s.close();
+    }
+
+
+
+
+
+    @Test
+    public void TextUIAddArticle() {
         String data = "a\n\nTitle\nhttp://www.helsinki.fi/\n\nv\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
@@ -120,7 +153,7 @@ public class TextUITest {
     }
 
     @Test
-    public void TextUIRunAndInvalidCommand() {
+    public void TextUIInvalidCommand() {
         String data = "aku\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
@@ -144,6 +177,42 @@ public class TextUITest {
         textUI.run();
 
         assertTrue(out.toString().contains("Löydetyt lukuvinkit"));  
+    }
+
+
+    @Test
+    public void TextUIAddBookmark() {
+        String data = "222\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+        
+        Book b = new Book("Title", "Author", "666", "",1);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI.addBookmark(b);
+        assertTrue(out.toString().contains("kirjanmerkin sivunumero"));  
+    }
+
+    @Test
+    public void TextUIListBooks() {
+        String data = "l\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+        
+
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI.run();
+
+    }    
+
+    @Test
+    public void TextUIUpdateBookmark() {
+        String data = "k\n\nTitle\nAuthor\n666\n\nv\nm\n\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI.run();
+
     }
 
 
