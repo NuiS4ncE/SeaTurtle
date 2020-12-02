@@ -1,12 +1,12 @@
 # Asennus- ja käyttöohje
 
-## Asentaminen
-
-*[Lisätään asennusohje myöhemmin]*
-
 ## Ohjelman käynnistäminen ja käyttäminen
 
-*[Lisätään käynnistämisohje myöhemmin]*
+Hae viimeisin julkaistu versio ohjelmasta GitHubin releaseista - linkki löytyy [README.md](https://github.com/NuiS4ncE/SeaTurtle/blob/main/README.md):stä. Mene hakemistoon, johon JAR-tiedoston latasit, ja käynnistä ohjelma komennolla:
+
+`java -jar SeaTurtle-all.jar`
+
+Jos ajettavan JAR-paketin nimi on joku muu, korvaa _SeaTurtle-all.jar_ oikealla tiedostonimellä.
 
 Ohjelman käynnistyessä näytetään käytettävissä olevat komennot. Voit listata käytettävissä olevat komennot kommennolla __h__.
 
