@@ -306,10 +306,14 @@ public class TextUI {
         System.out.println("anna uusi tag");
         String tag = s.nextLine();
 
+
         try {
-        tagDao.create(new Tag(tag));
-        System.out.println("---");
-        tagDao.list().forEach(System.out::println);
+            bookDao.list().forEach(System.out::println);
+            System.out.println("anna kirjan id");
+            String bookId = s.nextLine();
+            tagDao.create(new Tag(tag, bookId));
+             System.out.println("---");
+            tagDao.list().forEach(System.out::println);
         } catch (SQLException e) {
             System.err.println(e);
         }

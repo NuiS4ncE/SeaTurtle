@@ -6,7 +6,7 @@ public class Tag implements Comparable<Tag>{
     
     private String tag;
     private Integer id;
-    private Integer bookId;
+    private String bookId;
     
     public Tag(String tag) {
         this.tag = tag;
@@ -14,13 +14,13 @@ public class Tag implements Comparable<Tag>{
         this.bookId = null;
     }
 
-    public Tag(String tag, Integer id) {
+    public Tag(String tag, String bookId) {
         this.tag = tag;
-        this.id = id;
-        this.bookId = null;
+        this.id = null;
+        this.bookId = bookId;
     }
 
-    public Tag(String tag, Integer id, Integer bookId) {
+    public Tag(String tag, Integer id, String bookId) {
         this.tag = tag;
         this.id = id;
         this.bookId = bookId;
@@ -35,12 +35,12 @@ public class Tag implements Comparable<Tag>{
         this.tag = tag;
     }
     
-    public Integer getBookId() {
+    public String getBookId() {
         return this.bookId;
     }
 
-    public void setBookId(Integer i) {
-        this.bookId = i;
+    public void setBookId(String s) {
+        this.bookId = s;
     }
 
     public Integer getId() {
@@ -50,7 +50,7 @@ public class Tag implements Comparable<Tag>{
     
     @Override
     public String toString() {
-        return this.tag;
+        return this.tag + " " + this.bookId;
     }
 
 

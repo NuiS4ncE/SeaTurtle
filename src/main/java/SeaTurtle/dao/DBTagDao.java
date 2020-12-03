@@ -75,9 +75,10 @@ public class DBTagDao implements TagDao<Tag, Integer> {
     public void create(Tag tag) throws SQLException {
         startCon();
         prepstmt = con.prepareStatement("INSERT INTO Tag "
-        + "(tag)"
-        + "VALUES (?)");
+        + "(tag, bookid)"
+        + "VALUES (?, ?)");
         prepstmt.setString(1, tag.getTag());
+        prepstmt.setString(2, tag.getBookId());
         prepstmt.executeUpdate();
         prepstmt.close();
         closeCon();
@@ -93,7 +94,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         if (!rs.next()) {
             return null;
         } else {
-            returnTag = new Tag(rs.getString("tag"), rs.getInt("id"), rs.getInt("bookid"));
+            returnTag = new Tag(rs.getString("tag"), rs.getInt("id"), rs.getString("bookid"));
         }
         rs.close();
         prepstmt.close();
@@ -111,18 +112,6 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         closeCon();
     }
     
-    /*
-    @Override
-    public void updateBookmark(Tag tag) throws SQLException {
-        startCon();
-        prepstmt = con.prepareStatement("UPDATE Tag SET bookmark = ? WHERE id = ?");
-        prepstmt.setString(1, book.getBookmark());
-        prepstmt.setInt(2, book.getId());
-        prepstmt.executeUpdate();
-        prepstmt.close();
-        closeCon();
-    }
-    */
 
     @Override
     public ArrayList<Tag> list() throws SQLException {
@@ -131,7 +120,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         prepstmt = con.prepareStatement("SELECT * FROM Tag");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            tagList.add(new Tag(rs.getString("tag"), rs.getInt("id"), rs.getInt("bookid")));
+            tagList.add(new Tag(rs.getString("tag"), rs.getInt("id"), rs.getString("bookid")));
         }
         prepstmt.close();
         closeCon();
@@ -146,7 +135,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         prepstmt.setString(1, "%"+searchWord+"%");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            findTagList.add(new Tag(rs.getString("tag"), rs.getInt("id"), rs.getInt("bookid")));
+            findTagList.add(new Tag(rs.getString("tag"), rs.getInt("id"), rs.getString("bookid")));
         }
         prepstmt.close();
         closeCon();
