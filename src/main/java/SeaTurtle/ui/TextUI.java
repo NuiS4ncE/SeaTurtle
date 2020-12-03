@@ -12,13 +12,15 @@ public class TextUI {
 
     private BookDao bookDao;
     private ArticleDao articleDao;
+    private TagDao tagDao;
     private ArrayList<Book> books;
     private ArrayList<Article> articles;
     private Scanner s;
 
-    public TextUI(Scanner s, BookDao bookDao, ArticleDao articleDao) {
+    public TextUI(Scanner s, BookDao bookDao, ArticleDao articleDao, TagDao tagDao) {
         this.bookDao = bookDao;
         this.articleDao = articleDao;
+        this.tagDao = tagDao;
         updateBooks();
         updateArticles();
         this.s = s;

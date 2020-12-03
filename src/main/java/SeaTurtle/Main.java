@@ -12,9 +12,10 @@ public class Main {
          
         BookDao bookDao = new DBBookDao();
         ArticleDao articleDao = new DBArticleDao();
+        TagDao tagDao = new DBTagDao();
         Scanner s  = new Scanner(System.in);
 
-        TextUI UI = new TextUI(s, bookDao, articleDao);
+        TextUI UI = new TextUI(s, bookDao, articleDao, tagDao);
         UI.run();
         
         s.close();

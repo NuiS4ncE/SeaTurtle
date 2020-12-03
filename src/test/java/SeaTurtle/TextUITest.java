@@ -4,6 +4,7 @@ import java.lang.System;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.junit.After;
@@ -12,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
@@ -31,6 +33,10 @@ public class TextUITest {
     @Mock
     ArticleDao mockDBArticleDao = new DBArticleDao();
 
+    @Mock
+    TagDao mockDBTagDao = new DBTagDao();
+
+
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
@@ -39,7 +45,7 @@ public class TextUITest {
         out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         s = new Scanner(System.in);
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
     }
 
     @After
@@ -70,7 +76,7 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         s = new Scanner(System.in);
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
 
         textUI.run();
 
@@ -84,7 +90,7 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         s = new Scanner(System.in);
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
 
         textUI.addBook(s);
 
@@ -99,7 +105,7 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         s = new Scanner(System.in);
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
 
         textUI.addBook(s);
 
@@ -117,7 +123,7 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         s = new Scanner(System.in);
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
 
         textUI.run();
 
@@ -132,7 +138,7 @@ public class TextUITest {
 
         s = new Scanner(System.in);
 
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
 
         textUI.run();
 
@@ -145,7 +151,7 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
         
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
 
         textUI.run();
 
@@ -158,7 +164,7 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
 
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
 
         textUI.run();
 
@@ -172,7 +178,7 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
 
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
 
         textUI.run();
 
@@ -187,7 +193,7 @@ public class TextUITest {
         s = new Scanner(System.in);
         
         Book b = new Book("Title", "Author", "666", "",1);
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
         textUI.addBookmark(b);
         assertTrue(out.toString().contains("kirjanmerkin sivunumero"));  
     }
@@ -198,23 +204,24 @@ public class TextUITest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
         
-
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
         textUI.run();
-
     }    
+    
 
     @Test
     public void TextUIUpdateBookmark() {
-        String data = "k\n\nTitle\nAuthor\n666\n\nv\nm\n\nq\n";
+        String data = "\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
 
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao);
-        textUI.run();
+        textUI = Mockito.spy(new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao));
+        Mockito.doReturn(true).when(textUI).listBooks();
 
+        textUI.updateBookmark(s);
     }
 
+    
 
 
 }
