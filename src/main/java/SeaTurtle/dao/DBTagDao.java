@@ -3,12 +3,11 @@ package SeaTurtle.dao;
 import SeaTurtle.model.Tag;
 
 import java.sql.*;
-import java.sql.DatabaseMetaData;
+//import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-import java.util.List;
 
 public class DBTagDao implements TagDao<Tag, Integer> {
 
@@ -51,7 +50,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         prepstmt = con.prepareStatement("CREATE TABLE IF NOT EXISTS " 
             + "Tag (" 
             + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + "tag TEXT, "
+            + "tag TEXT "
             + ")"
         );
 

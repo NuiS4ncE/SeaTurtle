@@ -2,6 +2,7 @@ package SeaTurtle.ui;
 
 import SeaTurtle.model.Article;
 import SeaTurtle.model.Book;
+import SeaTurtle.model.Tag;
 import SeaTurtle.dao.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,9 +22,10 @@ public class TextUI {
         this.bookDao = bookDao;
         this.articleDao = articleDao;
         this.tagDao = tagDao;
+        this.s = s;
+
         updateBooks();
         updateArticles();
-        this.s = s;
     }
 
     public void run() {
@@ -56,6 +58,9 @@ public class TextUI {
                 case "q":
                     this.exit();
                     return;
+                case "f":  //testing purpose only
+                    this.addTag(s);
+                    break;
                 default:
                     System.out.println(ConsoleColors.RED + "komentoa ei tunnistettu." + ConsoleColors.RESET);
                     this.help();
@@ -295,6 +300,23 @@ public class TextUI {
             System.out.println();
         }
     }
+
+    public void addTag(Scanner s) {
+
+        System.out.println("anna uusi tag");
+        String tag = s.nextLine();
+
+        try {
+        tagDao.create(new Tag(tag));
+        tagDao.list().forEach(System.out::println);
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+
+
+    }
+
+
 
     public void help() {
         System.out.println("\n" + "Käytettävissä olevat komennot:\n" 
