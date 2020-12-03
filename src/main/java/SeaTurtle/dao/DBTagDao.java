@@ -50,7 +50,8 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         prepstmt = con.prepareStatement("CREATE TABLE IF NOT EXISTS " 
             + "Tag (" 
             + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + "tag TEXT "
+            + "tag TEXT, "
+            + "bookid INTEGER"
             + ")"
         );
 
@@ -92,7 +93,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         if (!rs.next()) {
             return null;
         } else {
-            returnTag = new Tag(rs.getString("tag"), rs.getInt("id"));
+            returnTag = new Tag(rs.getString("tag"), rs.getInt("id"), rs.getInt("bookid"));
         }
         rs.close();
         prepstmt.close();
@@ -130,7 +131,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         prepstmt = con.prepareStatement("SELECT * FROM Tag");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            tagList.add(new Tag(rs.getString("tag"), rs.getInt("id")));
+            tagList.add(new Tag(rs.getString("tag"), rs.getInt("id"), rs.getInt("bookid")));
         }
         prepstmt.close();
         closeCon();
@@ -145,7 +146,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         prepstmt.setString(1, "%"+searchWord+"%");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            findTagList.add(new Tag(rs.getString("tag"), rs.getInt("id")));
+            findTagList.add(new Tag(rs.getString("tag"), rs.getInt("id"), rs.getInt("bookid")));
         }
         prepstmt.close();
         closeCon();

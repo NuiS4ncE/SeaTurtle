@@ -308,6 +308,7 @@ public class TextUI {
 
         try {
         tagDao.create(new Tag(tag));
+        System.out.println("---");
         tagDao.list().forEach(System.out::println);
         } catch (SQLException e) {
             System.err.println(e);
