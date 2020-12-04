@@ -47,7 +47,7 @@ public class TextUI {
                     this.updateBookmark(s);
                     break;
                 case "l":
-                    this.listBooks();
+                    this.listOptions();
                     break;
                 case "e":
                     this.find(s);
@@ -136,6 +136,7 @@ public class TextUI {
 
         if (books.isEmpty()) {
             System.out.println("ei kirjavinkkejä");
+            System.out.println("");
             return false;
         } else {
             for (Book book : books) {
@@ -253,6 +254,7 @@ public class TextUI {
 
         if (articles.isEmpty()) {
             System.out.println("ei artikkelivinkkejä");
+            System.out.println("");
             return false;
         } else {
             for (Article article : articles) {
@@ -268,6 +270,34 @@ public class TextUI {
             articles = articleDao.list();
         } catch (SQLException e) {
             System.out.println(e);
+        }
+    }
+
+    public void listOptions() {
+        while (true) {
+            System.out.println("");
+            System.out.println("[k] listaa vain kirjavinkit"); 
+            System.out.println("[a] listaa vain artikkelivinkit");
+            System.out.println("(tyhjä tai enter) listaa kaikki vinkit");
+            System.out.println("[v] poistu valikkoon");
+            String input = s.nextLine();
+
+            switch (input) {
+                case "k":
+                    listBooks();
+                    break;
+                case "a":
+                    listArticles();
+                    break;
+                case "":
+                    listBooks();
+                    listArticles();
+                    break;
+                case "v":
+                    return;
+                default:
+                    System.out.println("tuntematon komento.");
+            }
         }
     }
 
@@ -328,7 +358,7 @@ public class TextUI {
         + "[k] lisää uusi kirjavinkki\n"
         + "[a] lisää uusi artikkelivinkki\n" 
         + "[m] lisää tai päivitä kirjanmerkki\n"        
-        + "[l] listaa kaikki kirjavinkit\n" 
+        + "[l] listaa lukuvinkit\n" 
         + "[e] etsi lukuvinkki\n" 
         + "---\n" 
         + "[h] listaa komennot\n"
