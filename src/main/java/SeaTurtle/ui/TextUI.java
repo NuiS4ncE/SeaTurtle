@@ -47,7 +47,7 @@ public class TextUI {
                     this.updateBookmark(s);
                     break;
                 case "l":
-                    this.listOptions();
+                    this.listBooks();
                     break;
                 case "e":
                     this.find(s);
@@ -273,61 +273,52 @@ public class TextUI {
         }
     }
 
-    public void listOptions() {
-        while (true) {
-            System.out.println("");
-            System.out.println("[k] listaa vain kirjavinkit"); 
-            System.out.println("[a] listaa vain artikkelivinkit");
-            System.out.println("(tyhjä tai enter) listaa kaikki vinkit");
-            System.out.println("[v] poistu valikkoon");
-            String input = s.nextLine();
-
-            switch (input) {
-                case "k":
-                    listBooks();
-                    break;
-                case "a":
-                    listArticles();
-                    break;
-                case "":
-                    listBooks();
-                    listArticles();
-                    break;
-                case "v":
-                    return;
-                default:
-                    System.out.println("tuntematon komento.");
-            }
-        }
-    }
-
-    /**
-     * Lists both books and articles based on search term
-     */
     public void find(Scanner s) {
         ArrayList<Book> bookSearchResults = new ArrayList<>();
         ArrayList<Article> articleSearchResults = new ArrayList<>();
-        String l = "";
 
         while (true) {
-
-            System.out.println("anna otsikon hakutermi (tyhjällä pois hausta):");
-            l = s.nextLine();
-
-            if (l.equals(""))
+            System.out.println("\n[k] hae vain kirjavinkeistä\n" 
+            + "[a] hae vain artikkelivinkeistä\n"
+            + "[ak] hae kaikista vinkeistä\n"
+            + "[v] poistu valikkoon\n");
+            String searchArea = s.nextLine();
+            
+            if (searchArea.equals("v")) {
                 return;
-
-            try {
-                bookSearchResults = bookDao.findAndList(l);
-                articleSearchResults = articleDao.findAndList(l);
-            } catch (SQLException e) {
-                System.err.println(e);
             }
 
-            System.out.println("Löydetyt lukuvinkit");
-            bookSearchResults.forEach(System.out::println);
-            articleSearchResults.forEach(System.out::println);
-            System.out.println();
+            while (true) {
+                System.out.println("anna hakutermi (tyhjällä takaisin edelliseen näkymään):");
+                String searchTerm = s.nextLine();
+
+                if (searchTerm.equals(""))
+                    break;
+
+                if (searchArea.contains("k")) {
+                    try {
+                        bookSearchResults = bookDao.findAndList(searchTerm);
+                    } catch (SQLException e) {
+                        System.err.println(e);
+                    }
+                }
+                
+                if (searchArea.contains("a")) {
+                    try {
+                        articleSearchResults = articleDao.findAndList(searchTerm);
+                    } catch (SQLException e) {
+                        System.err.println(e);
+                    }
+                }
+                
+                System.out.println("Löydetyt lukuvinkit:");
+                bookSearchResults.forEach(System.out::println);
+                articleSearchResults.forEach(System.out::println);
+                System.out.println();
+                bookSearchResults.clear();
+                articleSearchResults.clear();
+
+            }
         }
     }
 
@@ -358,7 +349,7 @@ public class TextUI {
         + "[k] lisää uusi kirjavinkki\n"
         + "[a] lisää uusi artikkelivinkki\n" 
         + "[m] lisää tai päivitä kirjanmerkki\n"        
-        + "[l] listaa lukuvinkit\n" 
+        + "[l] listaa kaikki kirjavinkit\n" 
         + "[e] etsi lukuvinkki\n" 
         + "---\n" 
         + "[h] listaa komennot\n"

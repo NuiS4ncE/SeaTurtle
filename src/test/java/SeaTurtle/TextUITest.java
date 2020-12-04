@@ -174,7 +174,33 @@ public class TextUITest {
 
     @Test
     public void TextUIFindBook() {
-        String data = "e\nakuankka\n\nq\n";
+        String data = "e\nk\nakuankka\n\nv\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("Löydetyt lukuvinkit"));  
+    }
+
+    @Test
+    public void TextUIFindArticle() {
+        String data = "e\na\nakuankka\n\nv\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("Löydetyt lukuvinkit"));  
+    }
+
+    @Test
+    public void TextUIFindArticleOrBook() {
+        String data = "e\nak\nakuankka\n\nv\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
 
