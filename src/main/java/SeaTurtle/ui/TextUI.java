@@ -73,7 +73,7 @@ public class TextUI {
 
         System.out.println("kirjan nimi: ");
         String title = s.nextLine();
-        while (title.isEmpty()) {
+        while (title.trim().isEmpty()) {
             System.out.println("anna kirjan nimi:");
             title = s.nextLine();
         }
@@ -81,7 +81,7 @@ public class TextUI {
 
         System.out.println("kirjan kirjoittaja: ");
         String author = s.nextLine();
-        if (!author.isEmpty()) {
+        if (!author.trim().isEmpty()) {
             newBook.setAuthor(author);
         }
 
@@ -210,7 +210,7 @@ public class TextUI {
 
         System.out.println("artikkelin otsikko: ");
         String title = s.nextLine();
-        while (title.isEmpty()) {
+        while (title.trim().isEmpty()) {
             System.out.println("anna artikkelin otsikko:");
             title = s.nextLine();
         }
@@ -218,7 +218,7 @@ public class TextUI {
 
         System.out.println("artikkelin URL-osoite: ");
         String url = s.nextLine();
-        if (!url.isEmpty()) {
+        if (!url.trim().isEmpty()) {
             newArticle.setUrl(url);
         }
 
