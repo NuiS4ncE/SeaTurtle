@@ -70,26 +70,26 @@ public class BookTest {
     
     @Test
     public void bookHasCorrectStringWithJustTitle() {
-        assertEquals("Kirjan nimi: Title.", book.toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE + "Title" + ConsoleColors.RESET + ".", book.toString());
     }
     
     @Test
     public void bookHasCorrectStringWithTitleAndAuthor() {
         book.setAuthor("Author");
-        assertEquals("Kirjan nimi: Title. Kirjoittaja: Author.", book.toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE + "Title" + ConsoleColors.RESET + ". Kirjoittaja: Author.", book.toString());
     }
     
     @Test
     public void bookHasCorrectStringWithTitleAndPageCount() {
         book.setPageCount("200");
-        assertEquals("Kirjan nimi: Title. 200 sivua. Kirjasta luettu " + ConsoleColors.RED + "0 %" + ConsoleColors.RESET + ".", book.toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE + "Title" + ConsoleColors.RESET + ". 200 sivua. Kirjasta luettu " + ConsoleColors.RED + "0 %" + ConsoleColors.RESET + ".", book.toString());
     }
     
     @Test
     public void bookHasCorrectStringWithTitlePageCountAndBookmark() {
         book.setPageCount("200");
         book.setBookmark("20");
-        assertEquals("Kirjan nimi: Title. 200 sivua. Kirjanmerkki sivulla 20. Kirjasta luettu " + ConsoleColors.YELLOW + "10 %" + ConsoleColors.RESET + ".", book.toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE + "Title" + ConsoleColors.RESET + ". 200 sivua. Kirjanmerkki sivulla 20. Kirjasta luettu " + ConsoleColors.YELLOW + "10 %" + ConsoleColors.RESET + ".", book.toString());
     }
     
     @Test
@@ -97,7 +97,7 @@ public class BookTest {
         book.setAuthor("Author");
         book.setPageCount("200");
         book.setBookmark("200");
-        assertEquals("Kirjan nimi: Title. Kirjoittaja: Author. 200 sivua. Kirjanmerkki sivulla 200. Kirjasta luettu " + ConsoleColors.GREEN + "100 %" + ConsoleColors.RESET + ".", book.toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE + "Title" + ConsoleColors.RESET + ". Kirjoittaja: Author. 200 sivua. Kirjanmerkki sivulla 200. Kirjasta luettu " + ConsoleColors.GREEN + "100 %" + ConsoleColors.RESET + ".", book.toString());
     }
     
     @Test
@@ -106,7 +106,7 @@ public class BookTest {
         books.add(book);
         books.add(new Book("Other"));
         Collections.sort(books);
-        assertEquals("Kirjan nimi: Other.", books.get(0).toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE + "Other" + ConsoleColors.RESET + ".", books.get(0).toString());
     }
     
     @Test

@@ -102,42 +102,42 @@ public class Stepdefs {
 
     @Then("only book's title {string} is returned")
     public void returnBookTitleAsString(String title) {
-        assertEquals("Kirjan nimi: " + title + ".", testbooks.get(0).toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE + title + ConsoleColors.RESET + ".", testbooks.get(0).toString());
     }
 
     @Then("book's title {string} and author {string} is returned")
     public void returnBookTitleAndAuthorAsString(String title, String author) {
-        assertEquals("Kirjan nimi: " + title + ". Kirjoittaja: " + author + ".", testbooks.get(0).toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE + title + ConsoleColors.RESET + ". Kirjoittaja: " + author + ".", testbooks.get(0).toString());
     }
 
     @Then("book's title {string} and page count of {string} is returned")
     public void returnBookTitleAndPageCountAsString(String title, String pageCount) {
-        assertEquals("Kirjan nimi: " + title + ". " + pageCount + " sivua. Kirjasta luettu " + ConsoleColors.RED + "0 %" + ConsoleColors.RESET + ".", testbooks.get(0).toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE + title + ConsoleColors.RESET + ". " + pageCount + " sivua. Kirjasta luettu " + ConsoleColors.RED + "0 %" + ConsoleColors.RESET + ".", testbooks.get(0).toString());
     }
     
     @Then("book's title {string}, page count of {string} and bookmark for page {string} is returned")
     public void returnBookTitlePageCountAndBookmarkAsString(String title, String pageCount, String bookmark) {
-        assertEquals("Kirjan nimi: " + title + ". " + pageCount + " sivua. Kirjanmerkki sivulla " + bookmark + ". Kirjasta luettu " + ConsoleColors.YELLOW + (int) Math.round(Integer.parseInt(bookmark) * 100.0/Integer.parseInt(pageCount)) + " %" + ConsoleColors.RESET + ".", testbooks.get(0).toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE + title + ConsoleColors.RESET + ". " + pageCount + " sivua. Kirjanmerkki sivulla " + bookmark + ". Kirjasta luettu " + ConsoleColors.YELLOW + (int) Math.round(Integer.parseInt(bookmark) * 100.0/Integer.parseInt(pageCount)) + " %" + ConsoleColors.RESET + ".", testbooks.get(0).toString());
     }
 
     @Then("book's title {string}, author {string} and page count of {string} is returned")
     public void returnBookAuthorTitleAndPageCountAsString(String title, String author, String pageCount) {
-        assertEquals("Kirjan nimi: " + title + ". Kirjoittaja: " + author + ". " + pageCount + " sivua. Kirjasta luettu " + ConsoleColors.RED + "0 %" + ConsoleColors.RESET + ".", testbooks.get(0).toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE+ title + ConsoleColors.RESET + ". Kirjoittaja: " + author + ". " + pageCount + " sivua. Kirjasta luettu " + ConsoleColors.RED + "0 %" + ConsoleColors.RESET + ".", testbooks.get(0).toString());
     }
     
     @Then("book's title {string}, author {string}, page count of {string} and bookmark for page {string} is returned")
     public void returnBookAllDetailsAsString(String title, String author, String pageCount, String bookmark) {
-        assertEquals("Kirjan nimi: " + title + ". Kirjoittaja: " + author + ". " + pageCount + " sivua. Kirjanmerkki sivulla " + bookmark + ". Kirjasta luettu " + ConsoleColors.YELLOW + (int) Math.round(Integer.parseInt(bookmark) * 100.0/Integer.parseInt(pageCount)) + " %" + ConsoleColors.RESET + ".", testbooks.get(0).toString());
+        assertEquals("Kirjan nimi: " + ConsoleColors.BLUE + title + ConsoleColors.RESET + ". Kirjoittaja: " + author + ". " + pageCount + " sivua. Kirjanmerkki sivulla " + bookmark + ". Kirjasta luettu " + ConsoleColors.YELLOW + (int) Math.round(Integer.parseInt(bookmark) * 100.0/Integer.parseInt(pageCount)) + " %" + ConsoleColors.RESET + ".", testbooks.get(0).toString());
     }
 
     @Then("only article's title {string} is returned")
     public void returnArticleTitleAsString(String title) {
-        assertEquals("Artikkeli: " + title + ".", testarticles.get(0).toString());
+        assertEquals("Artikkeli: " + ConsoleColors.YELLOW + title + ConsoleColors.RESET + ".", testarticles.get(0).toString());
     }
 
     @Then("article's title {string} and URL {string} is returned")
     public void returnArticleAllDetailsAsString(String title, String url) {
-        assertEquals("Artikkeli: " + title + ". <" + url + ">", testarticles.get(0).toString());
+        assertEquals("Artikkeli: " + ConsoleColors.YELLOW + title + ConsoleColors.RESET + ". <" + url + ">", testarticles.get(0).toString());
     }
     
 

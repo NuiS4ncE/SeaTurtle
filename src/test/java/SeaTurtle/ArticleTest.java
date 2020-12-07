@@ -2,6 +2,7 @@ package SeaTurtle;
 
 import SeaTurtle.model.Article;
 import SeaTurtle.model.Book;
+import SeaTurtle.ui.ConsoleColors;
 import java.util.ArrayList;
 import java.util.Collections;
 import static org.junit.Assert.*;
@@ -35,13 +36,13 @@ public class ArticleTest {
     
     @Test
     public void articleHasCorrectStringWithJustTitle() {
-        assertEquals("Artikkeli: Title.", article.toString());
+        assertEquals("Artikkeli: " + ConsoleColors.YELLOW + "Title" + ConsoleColors.RESET + ".", article.toString());
     }
     
     @Test
     public void articleHasCorrectStringWithTitleAndUrl() {
         article.setUrl("https://www.hs.fi/");
-        assertEquals("Artikkeli: Title. <https://www.hs.fi/>", article.toString());
+        assertEquals("Artikkeli: " + ConsoleColors.YELLOW + "Title" + ConsoleColors.RESET + ". <https://www.hs.fi/>", article.toString());
     }
     
     @Test
@@ -50,7 +51,7 @@ public class ArticleTest {
         articles.add(article);
         articles.add(new Article("Other"));
         Collections.sort(articles);
-        assertEquals("Artikkeli: Other.", articles.get(0).toString());
+        assertEquals("Artikkeli: " + ConsoleColors.YELLOW + "Other" + ConsoleColors.RESET + ".", articles.get(0).toString());
     }
     
     @Test
