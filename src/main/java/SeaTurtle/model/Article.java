@@ -1,6 +1,8 @@
 
 package SeaTurtle.model;
 
+import SeaTurtle.ui.ConsoleColors;
+
 public class Article implements Comparable<Article> {
     
     private String title;
@@ -30,7 +32,7 @@ public class Article implements Comparable<Article> {
     
     @Override
     public String toString() {
-        StringBuilder articleDetails = new StringBuilder("Artikkeli: " + title + ".");
+        StringBuilder articleDetails = new StringBuilder("Artikkeli: " + ConsoleColors.YELLOW + title + ConsoleColors.RESET + ".");
         if (url != null) {
             articleDetails.append(" <" + url + ">");
         }
