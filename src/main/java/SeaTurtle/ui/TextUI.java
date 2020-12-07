@@ -276,11 +276,13 @@ public class TextUI {
     public void find(Scanner s) {
         ArrayList<Book> bookSearchResults = new ArrayList<>();
         ArrayList<Article> articleSearchResults = new ArrayList<>();
+//        ArrayList<Tag> tagSearchResults = new ArrayList<>();
 
         while (true) {
             System.out.println("\n[k] hae vain kirjavinkeistä\n" 
             + "[a] hae vain artikkelivinkeistä\n"
             + "[ak] hae kaikista vinkeistä\n"
+            + "[t] hae tageista\n"
             + "[v] poistu valikkoon\n");
             String searchArea = s.nextLine();
             
@@ -294,6 +296,16 @@ public class TextUI {
 
                 if (searchTerm.equals(""))
                     break;
+
+                if (searchTerm.equals("t")) {
+                    /*
+                    try {
+                        tagSearchResults = tagDao.findAndList(searchTerm);
+                    } catch (SQLException e) {
+                        System.err.println(e);
+                    }
+                    */
+                }
 
                 if (searchArea.contains("k")) {
                     try {
@@ -314,9 +326,11 @@ public class TextUI {
                 System.out.println("Löydetyt lukuvinkit:");
                 bookSearchResults.forEach(System.out::println);
                 articleSearchResults.forEach(System.out::println);
+//                tagSearchResults.forEach(System.out::println);
                 System.out.println();
                 bookSearchResults.clear();
                 articleSearchResults.clear();
+//                tagSearchResults.clear();
 
             }
         }
