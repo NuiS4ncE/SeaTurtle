@@ -86,7 +86,7 @@ public class DBArticleDaoTest {
         dbArticleDao.create(testArticle);
         assertTrue(dbArticleDao.findAndList(testArticle.getTitle()).contains(testArticle));
         
-        dbArticleDao.delete(testArticle);
+        dbArticleDao.delete(testArticle.getTitle());
         assertFalse(dbArticleDao.findAndList(testArticle.getTitle()).contains(testArticle));
     }
 

@@ -9,7 +9,7 @@ public interface BookDao<T, K> {
     void dropTable() throws SQLException;
     void create(T object) throws SQLException;
     T read(T object) throws SQLException;
-    void delete(T object) throws SQLException;
+    void delete(String L, String M) throws SQLException;
     void updateBookmark(T object) throws SQLException;
     ArrayList<T> list() throws SQLException;
     ArrayList<T> findAndList(String L) throws SQLException;
