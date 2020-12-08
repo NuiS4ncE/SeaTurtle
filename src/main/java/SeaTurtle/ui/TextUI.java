@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import org.apache.commons.validator.UrlValidator;
 
 public class TextUI {
 
@@ -217,10 +218,18 @@ public class TextUI {
         }
         Article newArticle = new Article(title);
 
-        System.out.println("artikkelin URL-osoite: ");
-        String url = s.nextLine();
-        if (!url.trim().isEmpty()) {
-            newArticle.setUrl(url);
+        while (true) {
+            System.out.println("artikkelin URL-osoite (tai tyhjä): ");
+            String url = s.nextLine();
+            String[] schemes = {"http","https"};
+            UrlValidator urlValidator = new UrlValidator(schemes);
+            if (url.trim().isEmpty()) {
+                break;
+            } else if (urlValidator.isValid(url.trim())) {
+                newArticle.setUrl(url);
+                break;
+            }
+            System.out.println("URL-osoite oli virheellinen. anna oikeanmuotoinen URL-osoite (esim. https://www.hs.fi). paina enter, jos haluat jättää kentän tyhjäksi.");
         }
 
         try {
