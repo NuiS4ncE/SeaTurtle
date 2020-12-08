@@ -2,11 +2,14 @@
 package SeaTurtle.model;
 
 import SeaTurtle.ui.ConsoleColors;
+import org.apache.commons.validator.UrlValidator;
 
 public class Article implements Comparable<Article> {
     
     private String title;
     private String url;
+    private String[] schemes = {"http","https"};
+    private UrlValidator urlValidator = new UrlValidator(schemes);
     
     public Article(String title) {
         this.title = title;
@@ -14,6 +17,9 @@ public class Article implements Comparable<Article> {
     }
     
     public Article(String title, String url) {
+        if (!urlValidator.isValid(url.trim())) {
+            throw new IllegalArgumentException("URL-osoite oli virheellinen");
+        }
         this.title = title;
         this.url = url;
     }
@@ -27,6 +33,9 @@ public class Article implements Comparable<Article> {
     }
     
     public void setUrl (String url) {
+        if (!urlValidator.isValid(url.trim())) {
+            throw new IllegalArgumentException("URL-osoite oli virheellinen");
+        }
         this.url = url;
     }
     

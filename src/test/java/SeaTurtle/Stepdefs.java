@@ -139,6 +139,14 @@ public class Stepdefs {
     public void returnArticleAllDetailsAsString(String title, String url) {
         assertEquals("Artikkeli: " + ConsoleColors.YELLOW + title + ConsoleColors.RESET + ". <" + url + ">", testarticles.get(0).toString());
     }
+
+    @Then("adding invalid URL throws exception")
+    public void invalidURLThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Article failArticle = testarticles.get(0);
+            failArticle.setUrl("www.fi");
+        });
+    }
     
 
 }

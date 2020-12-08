@@ -27,9 +27,9 @@ public class DBArticleDaoTest {
 
     public ArrayList<Article> exampleArticles() {
         ArrayList<Article> articles = new ArrayList<>();
-        articles.add(new Article("test", "tester.test"));
-        articles.add(new Article("history of apple's history", "apple.history"));
-        articles.add(new Article("i like turtles", "joe mama"));
+        articles.add(new Article("test", "http://tester.net"));
+        articles.add(new Article("history of apple's history", "http://apple.com"));
+        articles.add(new Article("i like turtles", "http://joe.fi"));
         return articles;
     }
 
@@ -53,7 +53,7 @@ public class DBArticleDaoTest {
 
     @Test
     public void createAndFindArticleByTitleFromDB() throws SQLException {
-        Article testArticle = new Article("testingit", "testr.tetetest");
+        Article testArticle = new Article("testingit", "http://testr.net");
         dbArticleDao.create(testArticle);
 
         assertTrue(dbArticleDao.findAndList(testArticle.getTitle()).contains(testArticle));
@@ -62,7 +62,7 @@ public class DBArticleDaoTest {
 
     @Test
     public void articleCanBeReadFromDB() throws SQLException {
-        Article testArticle = new Article("testingit", "testr.tetetest");
+        Article testArticle = new Article("testingit", "http://testr.net");
         dbArticleDao.create(testArticle);
         Article readArticle = dbArticleDao.read(testArticle);
 
@@ -71,17 +71,17 @@ public class DBArticleDaoTest {
 
     @Test
     public void articleCanBeUpdatedInDB() throws SQLException {
-        Article testArticle = new Article("testingit", "testr.tetetest");
+        Article testArticle = new Article("testingit", "http://testr.net");
         dbArticleDao.create(testArticle);
-        testArticle.setUrl("test.fi");
+        testArticle.setUrl("http://test.fi");
         dbArticleDao.update(testArticle);
 
-        assertEquals(dbArticleDao.findAndList(testArticle.getTitle()).get(0).getUrl(), "test.fi");
+        assertEquals(dbArticleDao.findAndList(testArticle.getTitle()).get(0).getUrl(), "http://test.fi");
     }
 
     @Test
     public void articleCanBeDeletedFromDB() throws SQLException {
-        Article testArticle = new Article("testingit", "testr.tetetest");
+        Article testArticle = new Article("testingit", "http://testr.net");
         
         dbArticleDao.create(testArticle);
         assertTrue(dbArticleDao.findAndList(testArticle.getTitle()).contains(testArticle));
@@ -92,7 +92,7 @@ public class DBArticleDaoTest {
 
     @Test
     public void createAndFindArticleByUrlFromDB() throws SQLException {
-        Article testArticle = new Article("testingitagain", "testragain.tetetest");
+        Article testArticle = new Article("testingitagain", "http://testragain.net");
         dbArticleDao.create(testArticle);
 
         assertTrue(dbArticleDao.findAndList(testArticle.getUrl()).contains(testArticle));
