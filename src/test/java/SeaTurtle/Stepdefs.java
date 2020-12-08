@@ -147,6 +147,14 @@ public class Stepdefs {
             failArticle.setUrl("www.fi");
         });
     }
+
+    @Then("adding page count {string} throws exception")
+    public void invalidPageCountThrowsException(String pageCount) {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Book failBook = testbooks.get(0);
+            failBook.setPageCount(pageCount);
+        });
+    }
     
 
 }

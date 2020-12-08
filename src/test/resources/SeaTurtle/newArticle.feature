@@ -22,8 +22,3 @@ Feature: As a user I want to be able to add an article to my list
     Given Article list is initialized
     When an article with title "Test Article" and URL "https://www.hs.fi/" is created
     Then article's title "Test Article" and URL "https://www.hs.fi/" is returned
-
-  Scenario: Article with invalid URL not added
-    Given Article list is initialized
-    When an article with title "Test Article" is created
-    Then adding invalid URL throws exception
