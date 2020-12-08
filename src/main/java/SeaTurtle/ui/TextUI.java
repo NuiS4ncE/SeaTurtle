@@ -391,6 +391,11 @@ public class TextUI {
     public void deleteSubMenu(Scanner s) {
 
         while(true){
+            this.updateArticles();
+            this.updateBooks();
+            this.listBooks();
+            this.listArticles();
+
             System.out.println("\n[k] poista kirjavinkki\n"
                     + "[a] poista artikkelivinkki\n"
                     + "[v] poistu valikkoon\n");
@@ -431,7 +436,7 @@ public class TextUI {
                     }
                 }
                 System.out.println("Lukuvinkki poistettu!");
-
+                break;
             }
 
         }
