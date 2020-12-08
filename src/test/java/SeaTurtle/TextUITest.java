@@ -133,7 +133,7 @@ public class TextUITest {
     
     @Test
     public void TextUIAddArticleWithInvalidURL() {
-        String data = "a\n\nTitle\nhelsinki.fi/\n\nv\nq\n";
+        String data = "a\n\nTitle\nhelsinki.fi/\n\n\nv\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         s = new Scanner(System.in);

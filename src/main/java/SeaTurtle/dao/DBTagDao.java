@@ -51,6 +51,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
             + "Tag (" 
             + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "tag TEXT, "
+            + "type TEXT"
             + "bookid INTEGER"
             + ")"
         );
@@ -75,10 +76,11 @@ public class DBTagDao implements TagDao<Tag, Integer> {
     public void create(Tag tag) throws SQLException {
         startCon();
         prepstmt = con.prepareStatement("INSERT INTO Tag "
-        + "(tag, bookid)"
-        + "VALUES (?, ?)");
+        + "(tag, type, bookid)"
+        + "VALUES (?, ?, ?)");
         prepstmt.setString(1, tag.getTag());
-        prepstmt.setString(2, tag.getBookId());
+        prepstmt.setString(2, tag.getType());
+        prepstmt.setString(3, tag.getBookId());
         prepstmt.executeUpdate();
         prepstmt.close();
         closeCon();
@@ -94,7 +96,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         if (!rs.next()) {
             return null;
         } else {
-            returnTag = new Tag(rs.getString("tag"), rs.getInt("id"), rs.getString("bookid"));
+            returnTag = new Tag(rs.getString("type"), rs.getString("tag"), rs.getInt("id"), rs.getString("bookid"));
         }
         rs.close();
         prepstmt.close();
@@ -120,7 +122,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         prepstmt = con.prepareStatement("SELECT * FROM Tag");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            tagList.add(new Tag(rs.getString("tag"), rs.getInt("id"), rs.getString("bookid")));
+            tagList.add(new Tag(rs.getString("type"), rs.getString("tag"), rs.getInt("id"), rs.getString("bookid")));
         }
         prepstmt.close();
         closeCon();
@@ -135,7 +137,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         prepstmt.setString(1, "%"+searchWord+"%");
         ResultSet rs = prepstmt.executeQuery();
         while (rs.next()) {
-            findTagList.add(new Tag(rs.getString("tag"), rs.getInt("id"), rs.getString("bookid")));
+            findTagList.add(new Tag(rs.getString("type"), rs.getString("tag"), rs.getInt("id"), rs.getString("bookid")));
         }
         prepstmt.close();
         closeCon();

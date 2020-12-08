@@ -127,7 +127,7 @@ public class TextUI {
                 String tag = s.nextLine();
                 String bookId = Integer.toString(books.size());
                 try {
-                    tagDao.create(new Tag(tag, bookId));
+                    tagDao.create(new Tag("BOOK", tag, bookId));
                 } catch (SQLException e) {
                     System.err.println(e);
                 }
@@ -260,6 +260,24 @@ public class TextUI {
             System.out.print(e.getMessage());
         }
         updateArticles();
+        
+        while (true) {
+            System.out.println("paina [t] jos haluat lisätä tageja tai enter, jos et halua");
+            String addTag = s.nextLine();
+            if (addTag.isEmpty()) {
+                break;
+            }
+            else if (addTag.equals("t")) {
+                System.out.println("anna tagi:");
+                String tag = s.nextLine();
+                String articleId = Integer.toString(articles.size());
+                try {
+                    tagDao.create(new Tag("ARTICLE", tag, articleId));
+                } catch (SQLException e) {
+                    System.err.println(e);
+                }
+            }
+        }
 
         System.out.println(ConsoleColors.GREEN + "artikkelivinkki lisätty" + ConsoleColors.RESET);
 
@@ -372,13 +390,14 @@ public class TextUI {
 
         System.out.println("anna uusi tag");
         String tag = s.nextLine();
+        
 
 
         try {
             bookDao.list().forEach(System.out::println);
             System.out.println("anna kirjan id");
             String bookId = s.nextLine();
-            tagDao.create(new Tag(tag, bookId));
+            tagDao.create(new Tag("BOOK", tag, bookId));
              System.out.println("---");
             tagDao.list().forEach(System.out::println);
         } catch (SQLException e) {

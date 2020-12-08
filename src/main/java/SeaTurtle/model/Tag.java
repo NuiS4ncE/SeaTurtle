@@ -6,23 +6,27 @@ public class Tag implements Comparable<Tag>{
     
     private String tag;
     private Integer id;
+    private String type;
     private String bookId;
     
-    public Tag(String tag) {
+    public Tag(String type, String tag) {
         this.tag = tag;
         this.id = null;
+        this.type = type;
         this.bookId = null;
     }
 
-    public Tag(String tag, String bookId) {
+    public Tag(String type, String tag, String bookId) {
         this.tag = tag;
         this.id = null;
+        this.type = type;
         this.bookId = bookId;
     }
 
-    public Tag(String tag, Integer id, String bookId) {
+    public Tag(String type, String tag, Integer id, String bookId) {
         this.tag = tag;
         this.id = id;
+        this.type = type;
         this.bookId = bookId;
     }
 
@@ -46,11 +50,22 @@ public class Tag implements Comparable<Tag>{
     public Integer getId() {
         return this.id;
     }
+    
+    public String getType() {
+        return this.type;
+    }    
+    
+    public void setType(String type) {
+        this.type = type;
+    }
 
     
     @Override
     public String toString() {
-        return this.tag + " " + this.bookId;
+        if (this.type.equals("ARTICLE")) {
+            return this.tag + " (Artikkeli " + this.bookId + ")";
+        }
+        return this.tag + " (Kirja " + this.bookId + ")";
     }
 
 
