@@ -72,7 +72,7 @@ public class TextUITest {
 
     @Test
     public void TextUIAddBook() {
-        String data = "k\n\nTitle\nAuthor\n666\n\nv\nq\n";
+        String data = "k\n\nTitle\nAuthor\n666\n\n\nv\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         s = new Scanner(System.in);

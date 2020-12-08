@@ -49,6 +49,7 @@ public class TextUI {
                     break;
                 case "l":
                     this.listBooks();
+                    this.listArticles();
                     break;
                 case "e":
                     this.find(s);
@@ -391,7 +392,7 @@ public class TextUI {
         + "[k] lisää uusi kirjavinkki\n"
         + "[a] lisää uusi artikkelivinkki\n" 
         + "[m] lisää tai päivitä kirjanmerkki\n"        
-        + "[l] listaa kaikki kirjavinkit\n" 
+        + "[l] listaa kaikki lukuvinkit\n" 
         + "[e] etsi lukuvinkki\n" 
         + "---\n" 
         + "[h] listaa komennot\n"
