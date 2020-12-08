@@ -72,7 +72,7 @@ public class TextUITest {
 
     @Test
     public void TextUIAddBook() {
-        String data = "k\n\nTitle\nAuthor\n666\n\nv\nq\n";
+        String data = "k\n\nTitle\nAuthor\n666\n\n\nv\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         s = new Scanner(System.in);
@@ -128,6 +128,20 @@ public class TextUITest {
         textUI.run();
 
         assertTrue(out.toString().contains("artikkelin otsikko"));
+        s.close();
+    }
+    
+    @Test
+    public void TextUIAddArticleWithInvalidURL() {
+        String data = "a\n\nTitle\nhelsinki.fi/\n\nv\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+
+        s = new Scanner(System.in);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("URL-osoite oli virheellinen"));
         s.close();
     }
 

@@ -35,6 +35,7 @@ dependencies {
     testImplementation 'io.cucumber:cucumber-java:6.8.1'
     testImplementation 'io.cucumber:cucumber-junit:6.8.1'
     testImplementation 'junit:junit:4.13'
+    compile group: 'commons-validator', name: 'commons-validator', version: '1.7'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.32.3.2'
 }
 
