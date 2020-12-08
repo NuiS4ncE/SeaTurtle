@@ -1,11 +1,13 @@
 
 package SeaTurtle;
 
+import SeaTurtle.dao.*;
 import SeaTurtle.model.*;
 import SeaTurtle.ui.ConsoleColors;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.*;
@@ -13,6 +15,37 @@ import static org.junit.Assert.*;
 public class Stepdefs {
     List<Book> testbooks;
     List<Article> testarticles;
+    BookDao dbBookDao;
+    ArticleDao dbArticleDao;
+    
+    private void databaseInitialized() throws SQLException {
+        dbBookDao = new DBBookDao("jdbc:sqlite:seaturtletest_cucumber.db");
+        dbArticleDao = new DBArticleDao("jdbc:sqlite:seaturtletest_cucumber.db");
+        
+        for (Book b : testbooks) {
+            Book book = new Book(b.getTitle());
+            if (b.getAuthor() != null) {
+                book.setAuthor(b.getAuthor());
+            }
+            if (b.getPageCount() != null) {
+                book.setPageCount(b.getPageCount());
+            }
+            dbBookDao.create(book);
+        }
+        
+        for (Article a : testarticles) {
+            Article article = new Article(a.getTitle());
+            if (a.getUrl() != null) {
+                article.setUrl(a.getUrl());
+            }
+            dbArticleDao.create(article);
+        }
+    }
+    
+    private void databaseDropped() throws SQLException {
+        dbBookDao.dropTable();
+        dbArticleDao.dropTable();
+    }
     
     // GIVEN
     
@@ -155,6 +188,19 @@ public class Stepdefs {
             failBook.setPageCount(pageCount);
         });
     }
-    
+
+    @Then("searching {string} returns {int} results")
+    public void searchReturnsNumberOfResults(String search, int results) throws SQLException {
+        databaseInitialized();
+        
+        ArrayList<Book> bookSearchResults = new ArrayList<>();
+        bookSearchResults = dbBookDao.findAndList(search);
+        ArrayList<Article> articleSearchResults = new ArrayList<>();
+        articleSearchResults = dbArticleDao.findAndList(search);
+        
+        assertEquals(results, bookSearchResults.size() + articleSearchResults.size());
+        
+        databaseDropped();
+    }
 
 }

@@ -19,9 +19,6 @@ public class Book implements Comparable<Book>{
     }
     
     public Book(String title, String author, String pageCount, String bookmark, Integer id) {
-        if (!pageCount.matches("\\d+") || Integer.parseInt(pageCount) < 0) {
-            throw new IllegalArgumentException("sivumäärän on oltava positiivinen numero");
-        }
         this.title = title;
         this.author = author;
         this.pageCount = pageCount;

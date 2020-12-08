@@ -17,9 +17,6 @@ public class Article implements Comparable<Article> {
     }
     
     public Article(String title, String url) {
-        if (!urlValidator.isValid(url.trim())) {
-            throw new IllegalArgumentException("URL-osoite oli virheellinen");
-        }
         this.title = title;
         this.url = url;
     }
