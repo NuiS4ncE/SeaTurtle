@@ -1,6 +1,7 @@
 package SeaTurtle;
 
 import SeaTurtle.dao.DBBookDao;
+import SeaTurtle.model.Article;
 import SeaTurtle.model.Book;
 import SeaTurtle.ui.TextUI;
 import io.cucumber.messages.internal.com.google.gson.internal.bind.SqlDateTypeAdapter;
@@ -15,9 +16,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import SeaTurtle.dao.DBBookDao;
+
+import static org.junit.Assert.*;
 
 public class DBBookDaoTest {
 
@@ -84,6 +85,17 @@ public class DBBookDaoTest {
         dbBookDao.create(testBook);
         System.out.println(dbBookDao.findAndList(testBook.getAuthor()).contains(testBook));
         assertTrue(dbBookDao.findAndList(testBook.getAuthor()).contains(testBook));
+    }
+
+    @Test
+    public void bookCanBeDeletedFromDB() throws SQLException {
+        Book testBook = new Book("testingitasd", "testerman", "662326", null, 1234);
+
+        dbBookDao.create(testBook);
+        assertTrue(dbBookDao.findAndList(testBook.getTitle()).contains(testBook));
+
+        dbBookDao.delete(testBook.getTitle(), testBook.getAuthor());
+        assertFalse(dbBookDao.findAndList(testBook.getTitle()).contains(testBook));
     }
 
 
