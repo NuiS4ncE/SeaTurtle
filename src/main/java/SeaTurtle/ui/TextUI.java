@@ -54,6 +54,9 @@ public class TextUI {
                 case "e":
                     this.find(s);
                     break;
+                case "p":
+                    this.deleteSubMenu(s);
+                    break;
                 case "h":
                     this.help();
                     break;
@@ -385,15 +388,69 @@ public class TextUI {
 
     }
 
+    public void deleteSubMenu(Scanner s) {
+
+        while(true){
+            this.updateArticles();
+            this.updateBooks();
+            this.listBooks();
+            this.listArticles();
+
+            System.out.println("\n[k] poista kirjavinkki\n"
+                    + "[a] poista artikkelivinkki\n"
+                    + "[v] poistu valikkoon\n");
+            String searchArea = s.nextLine();
+
+            if (searchArea.equals("v")) {
+                return;
+            }
+
+            while (true) {
+
+                if (searchArea.contains("k")) {
+                    System.out.println("anna poistettavan kirjan nimi (tyhjällä takaisin edelliseen näkymään):");
+                    String deleteTitle = s.nextLine();
+                    if (deleteTitle.equals("")) break;
+
+                    System.out.println("ja kirjoittajan nimi (tyhjällä takaisin edelliseen näkymään)");
+                    String deleteAuthor = s.nextLine();
+                    if (deleteAuthor.equals("")) break;
+
+                    try {
+                        bookDao.delete(deleteTitle, deleteAuthor);
+                    } catch (SQLException e) {
+                        System.err.println(e);
+                    }
+
+                }
+
+                if (searchArea.contains("a")) {
+                    System.out.println("anna poistettavan artikkelin nimi (tyhjällä takaisin edelliseen näkymään):");
+                    String deleteArticle = s.nextLine();
+                    if (deleteArticle.equals("")) break;
+
+                    try {
+                        articleDao.delete(deleteArticle);
+                    } catch (SQLException e) {
+                        System.err.println(e);
+                    }
+                }
+                System.out.println("Lukuvinkki poistettu!");
+                break;
+            }
+
+        }
+    }
 
 
     public void help() {
         System.out.println("\n" + "Käytettävissä olevat komennot:\n" 
         + "[k] lisää uusi kirjavinkki\n"
         + "[a] lisää uusi artikkelivinkki\n" 
-        + "[m] lisää tai päivitä kirjanmerkki\n"        
+        + "[m] lisää tai päivitä kirjanmerkki\n"
         + "[l] listaa kaikki lukuvinkit\n" 
-        + "[e] etsi lukuvinkki\n" 
+        + "[e] etsi lukuvinkki\n"
+        + "[p] poista lukuvinkki\n"
         + "---\n" 
         + "[h] listaa komennot\n"
         + "[q] poistu ohjelmasta\n");

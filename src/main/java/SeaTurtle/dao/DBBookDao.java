@@ -111,15 +111,13 @@ public class DBBookDao implements BookDao<Book, Integer> {
     }
 
     @Override
-    public void delete(Book book) throws SQLException {
+    public void delete(String title, String author) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND author = ? AND pagecount = ? AND bookmark = ?");
-        prepstmt.setString(1, book.getTitle());
-        prepstmt.setString(2, book.getAuthor());
-        prepstmt.setString(3, book.getPageCount());
-        prepstmt.setString(4, book.getBookmark());
+        prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND author = ?");
+        prepstmt.setString(1, title);
+        prepstmt.setString(2, author);
         prepstmt.executeUpdate();
-        //prepstmt.close();
+        prepstmt.close();
         closeCon();
     }
     
