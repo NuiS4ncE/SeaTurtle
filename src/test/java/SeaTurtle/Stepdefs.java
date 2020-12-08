@@ -22,23 +22,16 @@ public class Stepdefs {
         dbBookDao = new DBBookDao("jdbc:sqlite:seaturtletest_cucumber.db");
         dbArticleDao = new DBArticleDao("jdbc:sqlite:seaturtletest_cucumber.db");
         
-        for (Book b : testbooks) {
-            Book book = new Book(b.getTitle());
-            if (b.getAuthor() != null) {
-                book.setAuthor(b.getAuthor());
+        if (testbooks != null) {
+            for (Book b : testbooks) {
+                dbBookDao.create(b);
             }
-            if (b.getPageCount() != null) {
-                book.setPageCount(b.getPageCount());
-            }
-            dbBookDao.create(book);
         }
         
-        for (Article a : testarticles) {
-            Article article = new Article(a.getTitle());
-            if (a.getUrl() != null) {
-                article.setUrl(a.getUrl());
+        if (testarticles != null) {
+            for (Article a : testarticles) {
+                dbArticleDao.create(a);
             }
-            dbArticleDao.create(article);
         }
     }
     
@@ -107,6 +100,15 @@ public class Stepdefs {
         testbooks.add(book);
     }
 
+    @When("a bookmark for {string} on page {string} is added")
+    public void bookMarkIsCreated(String title, String bookmark) {
+        for (Book b : testbooks) {
+            if (b.getTitle().equals(title)) {
+                b.setBookmark(bookmark);
+            }
+        }
+    }
+
     @When("an article with title {string} is created")
     public void articleIsCreatedWithTitle(String title) {
         Article article = new Article(title);
@@ -173,6 +175,26 @@ public class Stepdefs {
         assertEquals("Artikkeli: " + ConsoleColors.YELLOW + title + ConsoleColors.RESET + ". <" + url + ">", testarticles.get(0).toString());
     }
 
+    @Then("{int} per cent of the book is read")
+    public void percentOfBookLeft(int percent) {
+        assertTrue(testbooks.get(0).toString().contains(percent +" %"));
+    }
+
+    @Then("read percentage is colored red")
+    public void percentColorIsRed() {
+        assertTrue(testbooks.get(0).toString().contains(ConsoleColors.RED));
+    }
+
+    @Then("read percentage is colored yellow")
+    public void percentColorIsYellow() {
+        assertTrue(testbooks.get(0).toString().contains(ConsoleColors.YELLOW));
+    }
+
+    @Then("read percentage is colored green")
+    public void percentColorIsGreen() {
+        assertTrue(testbooks.get(0).toString().contains(ConsoleColors.GREEN));
+    }
+
     @Then("adding invalid URL throws exception")
     public void invalidURLThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> {
@@ -199,6 +221,24 @@ public class Stepdefs {
         articleSearchResults = dbArticleDao.findAndList(search);
         
         assertEquals(results, bookSearchResults.size() + articleSearchResults.size());
+        
+        databaseDropped();
+    }
+
+    @Then("all added books are in the database")
+    public void booksAreSavedInDatabase() throws SQLException {
+        databaseInitialized();
+        
+        assertEquals(testbooks, dbBookDao.list());
+        
+        databaseDropped();
+    }
+
+    @Then("all added articles are in the database")
+    public void articlesAreSavedInDatabase() throws SQLException {
+        databaseInitialized();
+        
+        assertEquals(testarticles, dbArticleDao.list());
         
         databaseDropped();
     }

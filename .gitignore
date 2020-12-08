@@ -13,6 +13,7 @@ build
 bin/
 seaturtle.db
 seaturtletest.db
+seaturtletest_cucumber.db
 
 # Ignore vscode directories
 .vscode
