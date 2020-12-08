@@ -443,8 +443,6 @@ public class TextUI {
         + "[k] lisää uusi kirjavinkki\n"
         + "[a] lisää uusi artikkelivinkki\n" 
         + "[m] lisää tai päivitä kirjanmerkki\n"
-        + "[l] listaa kaikki kirjavinkit\n" 
-        + "[e] etsi lukuvinkki\n"
         + "[l] listaa kaikki lukuvinkit\n" 
         + "[e] etsi lukuvinkki\n"
         + "[p] poista lukuvinkki\n"
