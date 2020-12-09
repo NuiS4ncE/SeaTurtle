@@ -29,6 +29,10 @@ public class TextUI {
         updateArticles();
     }
 
+    public void setBooks(ArrayList<Book> books) {
+        this.books = books;
+    }
+
     public void run() {
 
         while (true) {

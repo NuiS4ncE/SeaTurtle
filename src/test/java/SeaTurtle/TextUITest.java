@@ -14,12 +14,15 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import static org.mockito.Mockito.*;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import SeaTurtle.dao.*;
 import SeaTurtle.model.Book;
 import SeaTurtle.ui.*;
+import java.sql.SQLException;
 
 public class TextUITest {
 
@@ -302,14 +305,22 @@ public class TextUITest {
 
     @Test
     public void TextUIUpdateBookmark() {
-        String data = "\n";
+        ArrayList<Book> testBooks = new ArrayList<>();
+        Book testBook = new Book ("Title", "Author", "666", "222", 1); 
+        testBooks.add(testBook);
+
+        String data = "m\n1\n444\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
+
         s = new Scanner(System.in);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+        textUI.setBooks(testBooks);
 
-        textUI = Mockito.spy(new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao));
-        Mockito.doReturn(true).when(textUI).listBooks();
+        textUI.run();
 
-        textUI.updateBookmark(s);
+        assertTrue(out.toString().contains("kaikki kirjavinkit:"));
+        s.close();
+
     }
 
     @Test
