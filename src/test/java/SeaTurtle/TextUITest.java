@@ -97,7 +97,6 @@ public class TextUITest {
         assertTrue(out.toString().contains("kirjan nimi"));
         s.close();
     }
-
     
     @Test
     public void TextUIAddBookNoBookMark() {
@@ -113,8 +112,19 @@ public class TextUITest {
         s.close();
     }
 
+    @Test
+    public void TextUIAddBookWithATag() {
+        String data = "Title\nAuthor\n666\nm\n1\nt\nwriting\n\nv\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
 
+        s = new Scanner(System.in);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
 
+        textUI.addBook(s);
+
+        assertTrue(out.toString().contains("kirjan nimi"));
+        s.close();
+    }
 
 
     @Test
@@ -142,6 +152,20 @@ public class TextUITest {
         textUI.run();
 
         assertTrue(out.toString().contains("URL-osoite oli virheellinen"));
+        s.close();
+    }
+
+    @Test
+    public void TextUIAddArticleWithTag() {
+        String data = "a\n\nTitle\nhttp://www.helsinki.fi/\nt\nwriting\n\nv\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+
+        s = new Scanner(System.in);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("artikkelin otsikko"));
         s.close();
     }
 
@@ -225,6 +249,44 @@ public class TextUITest {
         assertTrue(out.toString().contains("Löydetyt lukuvinkit"));  
     }
 
+    @Test
+    public void TextUIFindTag() {
+        String data = "e\nt\nakuankka\n\nv\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("Löydetyt lukuvinkit"));  
+    }
+
+    @Test
+    public void TextUIDeleteBook() {
+        String data = "p\nk\nTitle\nAuthor\nv\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("Lukuvinkki poistettu!"));  
+    }
+
+    @Test
+    public void TextUIDeleteArticle() {
+        String data = "p\na\nTitle\nv\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("Lukuvinkki poistettu!"));  
+    }
 
     @Test
     public void TextUIAddBookmark() {
@@ -239,17 +301,6 @@ public class TextUITest {
     }
 
     @Test
-    public void TextUIListBooks() {
-        String data = "l\nq\n";
-        System.setIn(new ByteArrayInputStream(data.getBytes()));
-        s = new Scanner(System.in);
-        
-        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
-        textUI.run();
-    }    
-    
-
-    @Test
     public void TextUIUpdateBookmark() {
         String data = "\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
@@ -261,7 +312,27 @@ public class TextUITest {
         textUI.updateBookmark(s);
     }
 
+    @Test
+    public void TextUIListBooks() {
+        String data = "l\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+        
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+        textUI.run();
+    }    
+
+    @Test
+    public void TextUIAddTag() {
+        String data = "l\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+        textUI.addTag(s);
+
+        assertTrue(out.toString().contains("anna uusi tag"));
+    }    
     
-
-
+    
 }
