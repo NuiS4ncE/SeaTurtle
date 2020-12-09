@@ -182,7 +182,7 @@ public class TextUI {
         if (listBooks()) {
             while (true) {
                 System.out.println(
-                        "anna sen kirjan numero, jolle haluat asettaa kirjanmerkin, tai paina enter palataksesi valikkoon: ");
+                    "anna sen kirjan numero, jolle haluat asettaa kirjanmerkin, tai paina enter palataksesi valikkoon: ");
                 String selectBook = s.nextLine();
                 if (selectBook.isEmpty()) {
                     break;
@@ -347,7 +347,7 @@ public class TextUI {
                 if (searchTerm.equals(""))
                     break;
 
-                if (searchTerm.equals("t")) {
+                if (searchArea.equals("t")) {
                     try {
                         tagSearchResults = tagDao.findAndList(searchTerm);
                     } catch (SQLException e) {
