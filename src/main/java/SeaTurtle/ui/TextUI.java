@@ -110,7 +110,7 @@ public class TextUI {
                 }
                 break;
             }
-            System.out.println("anna sivumäärä positiivisena numerona tai paina enter, jos haluat jättää kentän tyhjäksi");
+            System.out.println(ConsoleColors.RED + "anna sivumäärä positiivisena numerona tai paina enter, jos haluat jättää kentän tyhjäksi" + ConsoleColors.RESET);
         }
 
         String newBookId = "";
@@ -130,7 +130,6 @@ public class TextUI {
             else if (addTag.equals("t")) {
                 System.out.println("anna tagi:");
                 String tag = s.nextLine();
-                //String bookId = Integer.toString(books.size());
                 try {
                     tagDao.create(new Tag("BOOK", tag, newBookId));
                 } catch (SQLException e) {
@@ -206,11 +205,11 @@ public class TextUI {
                             listBooks();
                             break;
                         } else {
-                            System.out.println("kirjalla ei ole sivumäärää, joten kirjanmerkkiä ei voida lisätä");
+                            System.out.println(ConsoleColors.RED + "kirjalla ei ole sivumäärää, joten kirjanmerkkiä ei voida lisätä" + ConsoleColors.RESET);
                             System.out.println("");
                         }
                     } else {
-                        System.out.println("väärä kirjan numero");
+                        System.out.println(ConsoleColors.RED + "väärä kirjan numero" + ConsoleColors.RESET);
                         System.out.println("");
                     }
                 }
@@ -230,8 +229,9 @@ public class TextUI {
                 book.setBookmark(bookmark);
                 break;
             }
-            System.out.println(
-                    "sivunumero ei saa olla negatiivinen tai sivumäärää suurempi. paina enter, jos haluat jättää kentän tyhjäksi.");
+            System.out.println(ConsoleColors.RED +
+                    "sivunumero ei saa olla negatiivinen tai sivumäärää suurempi. paina enter, jos haluat jättää kentän tyhjäksi."
+                    + ConsoleColors.RESET);
         }
     }
 
@@ -240,7 +240,7 @@ public class TextUI {
         System.out.println("artikkelin otsikko: ");
         String title = s.nextLine();
         while (title.trim().isEmpty()) {
-            System.out.println("anna artikkelin otsikko:");
+            System.out.println("anna artikkelin otsikko: ");
             title = s.nextLine();
         }
         Article newArticle = new Article(title);
@@ -256,7 +256,7 @@ public class TextUI {
                 newArticle.setUrl(url);
                 break;
             }
-            System.out.println("URL-osoite oli virheellinen. anna oikeanmuotoinen URL-osoite (esim. https://www.hs.fi). paina enter, jos haluat jättää kentän tyhjäksi.");
+            System.out.println(ConsoleColors.RED + "URL-osoite oli virheellinen. anna oikeanmuotoinen URL-osoite (esim. https://www.hs.fi). paina enter, jos haluat jättää kentän tyhjäksi." + ConsoleColors.RESET);
         }
 
         try {
