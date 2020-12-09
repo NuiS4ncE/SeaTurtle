@@ -389,8 +389,6 @@ public class TextUI {
         System.out.println("anna uusi tag");
         String tag = s.nextLine();
         
-
-
         try {
             bookDao.list().forEach(System.out::println);
             System.out.println("anna kirjan id");
@@ -401,8 +399,6 @@ public class TextUI {
         } catch (SQLException e) {
             System.err.println(e);
         }
-
-
     }
 
     public void deleteSubMenu(Scanner s) {

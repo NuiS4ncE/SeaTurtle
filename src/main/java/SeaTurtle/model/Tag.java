@@ -46,7 +46,7 @@ public class Tag implements Comparable<Tag>{
     public void setBookId(String bookId) {
         this.bookId = bookId;
     }
-
+    
     public Integer getId() {
         return this.id;
     }
