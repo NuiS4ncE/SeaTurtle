@@ -51,7 +51,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
             + "Tag (" 
             + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "tag TEXT, "
-            + "type TEXT"
+            + "type TEXT,"
             + "bookid INTEGER"
             + ")"
         );
