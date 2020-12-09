@@ -114,8 +114,9 @@ public class TextUI {
             System.out.println("anna sivumäärä positiivisena numerona tai paina enter, jos haluat jättää kentän tyhjäksi");
         }
 
+        String newBookId = "";
         try {
-            bookDao.create(newBook);
+            newBookId = bookDao.create(newBook);
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
@@ -130,9 +131,9 @@ public class TextUI {
             else if (addTag.equals("t")) {
                 System.out.println("anna tagi:");
                 String tag = s.nextLine();
-                String bookId = Integer.toString(books.size()); //EI TOIMI NÄIN
+                //String bookId = Integer.toString(books.size());
                 try {
-                    tagDao.create(new Tag("BOOK", tag, bookId));
+                    tagDao.create(new Tag("BOOK", tag, newBookId));
                 } catch (SQLException e) {
                     System.err.println(e);
                 }
