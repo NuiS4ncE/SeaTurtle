@@ -2,6 +2,7 @@ package SeaTurtle.dao;
 
 import java.sql.*;
 import java.util.ArrayList;
+import SeaTurtle.model.Book;
 
 public interface BookDao<T, K> {
 
@@ -13,4 +14,5 @@ public interface BookDao<T, K> {
     void updateBookmark(T object) throws SQLException;
     ArrayList<T> list() throws SQLException;
     ArrayList<T> findAndList(String L) throws SQLException;
+    Book findBookById(Integer I) throws SQLException;
 }

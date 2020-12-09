@@ -147,6 +147,16 @@ public class DBBookDao implements BookDao<Book, Integer> {
     }
 
     @Override
+    public Book findBookById(Integer id) throws SQLException {
+        startCon();
+        prepstmt = con.prepareStatement("SELECT * FROM book WHERE id IS ?");
+        prepstmt.setInt(1, id);
+        ResultSet rs = prepstmt.executeQuery();
+        return new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark"), rs.getInt("id"));
+    }
+
+
+    @Override
     public ArrayList<Book> findAndList(String searchWord) throws SQLException {
         startCon();
         ArrayList<Book> findBookList = new ArrayList<>();
@@ -162,7 +172,6 @@ public class DBBookDao implements BookDao<Book, Integer> {
             rs = prepstmt.executeQuery();
             while (rs.next()) {
                 findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark"), rs.getInt("id")));
-                //findBookList.add(new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount")));
             }
         }
         prepstmt.close();

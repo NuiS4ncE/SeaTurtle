@@ -113,6 +113,17 @@ public class DBTagDao implements TagDao<Tag, Integer> {
         prepstmt.close();
         closeCon();
     }
+
+    @Override
+    public void deleteById(Integer id) throws SQLException {
+        startCon();
+        prepstmt = con.prepareStatement("DELETE FROM Tag WHERE id = ?");
+        prepstmt.setInt(1, id);
+        prepstmt.executeUpdate();
+        prepstmt.close();
+        closeCon();
+
+    }
     
 
     @Override
@@ -144,5 +155,26 @@ public class DBTagDao implements TagDao<Tag, Integer> {
 
         return findTagList;
     }
+
+    @Override
+    public ArrayList<Tag> findTagsByBookId(Integer bookId) throws SQLException {
+        startCon();
+        ArrayList<Tag> findTagList = new ArrayList<>();
+        prepstmt = con.prepareStatement("SELECT * FROM Tag WHERE bookid IS ?" );
+        prepstmt.setInt(1, bookId);
+        ResultSet rs = prepstmt.executeQuery();
+        while (rs.next()) {
+            findTagList.add(new Tag(rs.getString("type"), rs.getString("tag"), rs.getInt("id"), rs.getString("bookid")));
+        }
+        prepstmt.close();
+        closeCon();
+
+
+
+
+        return findTagList;
+    }
+
+
 
 }
