@@ -326,7 +326,7 @@ public class TextUI {
     public void find(Scanner s) {
         ArrayList<Book> bookSearchResults = new ArrayList<>();
         ArrayList<Article> articleSearchResults = new ArrayList<>();
-//        ArrayList<Tag> tagSearchResults = new ArrayList<>();
+        ArrayList<Tag> tagSearchResults = new ArrayList<>();
 
         while (true) {
             System.out.println("\n[k] hae vain kirjavinkeistä\n" 
@@ -348,13 +348,11 @@ public class TextUI {
                     break;
 
                 if (searchTerm.equals("t")) {
-                    /*
                     try {
                         tagSearchResults = tagDao.findAndList(searchTerm);
                     } catch (SQLException e) {
                         System.err.println(e);
                     }
-                    */
                 }
 
                 if (searchArea.contains("k")) {
@@ -376,11 +374,11 @@ public class TextUI {
                 System.out.println("Löydetyt lukuvinkit:");
                 bookSearchResults.forEach(System.out::println);
                 articleSearchResults.forEach(System.out::println);
-//                tagSearchResults.forEach(System.out::println);
+                tagSearchResults.forEach(System.out::println);
                 System.out.println();
                 bookSearchResults.clear();
                 articleSearchResults.clear();
-//                tagSearchResults.clear();
+                tagSearchResults.clear();
 
             }
         }
