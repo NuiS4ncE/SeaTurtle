@@ -63,9 +63,8 @@ public class TextUI {
                 case "q":
                     this.exit();
                     return;
-                case "f":  //testing purpose only
+                case "t":
                     this.editTags(s);
-                    //this.addTag(s);
                     break;
                 default:
                     System.out.println(ConsoleColors.RED + "komentoa ei tunnistettu." + ConsoleColors.RESET);
@@ -386,24 +385,6 @@ public class TextUI {
         }
     }
 
-    public void addTag(Scanner s) {
-
-        System.out.println("anna uusi tag");
-        String tag = s.nextLine();
-        
-        try {
-            bookDao.list().forEach(System.out::println);
-            System.out.println("anna kirjan id");
-            String bookId = s.nextLine();
-            tagDao.create(new Tag("BOOK", tag, bookId));
-             System.out.println("---");
-            tagDao.list().forEach(System.out::println);
-        } catch (SQLException e) {
-            System.err.println(e);
-        }
-    }
-
-
     public void editTags(Scanner s) {
 
         ArrayList<Book> books;
@@ -427,9 +408,7 @@ public class TextUI {
                     System.out.println("[l] lisää tag, [p] poista tag (tyhjällä pois)");
                     String input = s.nextLine();
                     
-                    if (input.isEmpty()) {
-                        break;
-                    } else if (input.equals("l")) {
+                    if (input.equals("l")) {
                         appendTag(s, "BOOK", bookId);
                     } else if (input.equals("p")) {
                         removeTag(s, bookId);
@@ -469,8 +448,6 @@ public class TextUI {
     }
 
     public void appendTag(Scanner s, String type, int id) {
-        ArrayList<Tag> tags = null;
-
         while(true) {
             System.out.println("anna lisättävä tag (tyhjällä pois)");
             String input = s.nextLine();
@@ -484,7 +461,6 @@ public class TextUI {
             } catch (SQLException e) {
                 System.out.println(e);
             }
-
         }
     }
 
@@ -554,6 +530,7 @@ public class TextUI {
         + "[l] listaa kaikki lukuvinkit\n" 
         + "[e] etsi lukuvinkki\n"
         + "[p] poista lukuvinkki\n"
+        + "[t] muokkaa tageja\n"
         + "---\n" 
         + "[h] listaa komennot\n"
         + "[q] poistu ohjelmasta\n");
