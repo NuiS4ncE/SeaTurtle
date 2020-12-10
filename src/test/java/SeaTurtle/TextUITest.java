@@ -377,7 +377,7 @@ public class TextUITest {
         Book testBook = new Book ("Title", "Author", "666", "222", 1); 
         testBooks.add(testBook);
         
-        String data = "t\n1\nl\nkoira\n\n\nq\n";
+        String data = "t\nk\n1\nl\nkoira\n\n\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
         
@@ -396,7 +396,7 @@ public class TextUITest {
         Book testBook = new Book ("Title", "Author", "666", "222", 1); 
         testBooks.add(testBook);
         
-        String data = "t\n1\nl\nkoira\n\n1\np\n1\n\n\nq\n";
+        String data = "t\nk\n1\nl\nkoira\n\n1\np\n1\n\n\nq\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
         
