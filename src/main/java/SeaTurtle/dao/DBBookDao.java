@@ -159,7 +159,10 @@ public class DBBookDao implements BookDao<Book, Integer> {
         prepstmt = con.prepareStatement("SELECT * FROM book WHERE id IS ?");
         prepstmt.setInt(1, id);
         ResultSet rs = prepstmt.executeQuery();
-        return new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark"), rs.getInt("id"));
+        Book book = new Book(rs.getString("title"), rs.getString("author"), rs.getString("pagecount"), rs.getString("bookmark"), rs.getInt("id"));
+        prepstmt.close();
+        closeCon();
+        return book;
     }
 
 

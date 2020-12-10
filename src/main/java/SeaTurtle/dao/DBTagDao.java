@@ -157,7 +157,7 @@ public class DBTagDao implements TagDao<Tag, Integer> {
     }
     
     @Override
-    public ArrayList<Integer> findBookIdsByTag(String searchWord) throws SQLException {
+    public ArrayList<Integer> findIdsByTag(String searchWord) throws SQLException {
         startCon();
         ArrayList<Integer> bookIds = new ArrayList<>();
         prepstmt = con.prepareStatement("SELECT bookid FROM Tag WHERE tag LIKE ?" );

@@ -138,6 +138,9 @@ public class TextUI {
                 String tag = s.nextLine();
                 try {
                     tagDao.create(new Tag("BOOK", tag, newBookId));
+                    System.out.println();
+                    System.out.println(ConsoleColors.GREEN + "tagi lisätty" + ConsoleColors.RESET);
+                    System.out.println();
                 } catch (SQLException e) {
                     System.err.println(e);
                 }
@@ -286,6 +289,9 @@ public class TextUI {
                 try {
                     tagDao.create(new Tag("ARTICLE", tag, newArticleId));
                     //tagDao.create(new Tag("ARTICLE", tag, articleId));
+                    System.out.println();
+                    System.out.println(ConsoleColors.GREEN + "tagi lisätty" + ConsoleColors.RESET);
+                    System.out.println();
                 } catch (SQLException e) {
                     System.err.println(e);
                 }
@@ -363,15 +369,19 @@ public class TextUI {
                 if (searchArea.equals("t")) {
                     try {
                         tagSearchResults = tagDao.findAndList(searchTerm);
-                        ArrayList<Integer> bookIds = tagDao.findBookIdsByTag(searchTerm);
+                        ArrayList<Integer> ids= tagDao.findIdsByTag(searchTerm);
                         System.out.println("Löydetyt lukuvinkit:");
                         int i = 0;
-                        for (int bookId : bookIds) {
-                            System.out.println("Tagi: " + tagSearchResults.get(i) + ". " + bookDao.findBookById(bookId));
+                        for (int id : ids) {
+                            if(tagSearchResults.get(i).getType().equals("BOOK")) {
+                                System.out.println("Tagi: " + tagSearchResults.get(i) + ". " + bookDao.findBookById(id));
+                            } else {
+                                System.out.println("Tagi: " + tagSearchResults.get(i) + ". " + articleDao.findArticleById(id));
+                            }
                             i++;
                         }
                         tagSearchResults.clear();
-                        bookIds.clear();
+                        ids.clear();
                     } catch (SQLException e) {
                         System.err.println(e);
                     }

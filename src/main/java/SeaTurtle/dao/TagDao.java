@@ -12,7 +12,7 @@ public interface TagDao<T, K> {
     void delete(T object) throws SQLException;
     ArrayList<T> list() throws SQLException;
     ArrayList<T> findAndList(String L) throws SQLException;
-    ArrayList<Integer> findBookIdsByTag(String searchWord) throws SQLException;
+    ArrayList<Integer> findIdsByTag(String searchWord) throws SQLException;
     ArrayList<T> findTagsByBookId(Integer I) throws SQLException;
     void deleteById(Integer I) throws SQLException;
     ArrayList<T> findTagsByIdAndType(Integer I, String S) throws SQLException;
