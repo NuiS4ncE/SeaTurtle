@@ -1,5 +1,6 @@
 package SeaTurtle.dao;
 
+import SeaTurtle.model.Article;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -15,5 +16,6 @@ public interface ArticleDao<T, K>  {
     void update(T object) throws SQLException;
     ArrayList<T> list() throws SQLException;
     ArrayList<T> findAndList(String L) throws SQLException;
+    Article findArticleById(Integer I) throws SQLException;
     
 }

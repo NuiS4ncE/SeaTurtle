@@ -161,5 +161,18 @@ public class DBArticleDao implements ArticleDao<Article, Integer> {
 
         return findArticleList;
     }
+    
+    @Override
+    public Article findArticleById(Integer id) throws SQLException {
+        startCon();
+        prepstmt = conn.prepareStatement("SELECT * FROM article WHERE id IS ?");
+        prepstmt.setInt(1, id);
+        ResultSet rs = prepstmt.executeQuery();
+        Article article = new Article(rs.getString("title"), rs.getString("url"), rs.getInt("id"));
+        prepstmt.close();
+        closeCon();
+        
+        return article;
+    }
 
 }
