@@ -33,6 +33,10 @@ public class TextUI {
         this.books = books;
     }
 
+    public void setArticles(ArrayList<Article> articles) {
+        this.articles = articles;
+    }
+
     public void run() {
 
         while (true) {

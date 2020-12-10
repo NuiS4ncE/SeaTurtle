@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import SeaTurtle.model.Article;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -420,6 +421,45 @@ public class TextUITest {
 
         assertTrue(out.toString().contains("anna uusi tag"));
     }    
-  */  
-    
+  */
+
+    @Test
+    public void TextUIRemoveBook() {
+        ArrayList<Book> testBooks = new ArrayList<>();
+        Book testBook = new Book ("Titlerer", "Authorrer", "6669", null, 123);
+        testBooks.add(testBook);
+
+        String data = "p\nk\nTitlerer\nAuthorrer\nv\nq";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+        textUI.setBooks(testBooks);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("Lukuvinkki poistettu!"));
+        s.close();
+    }
+
+    @Test
+    public void TextUIRemoveArticle() {
+        ArrayList<Article> testArticles = new ArrayList<>();
+        Article testArticle = new Article ("Titlerer", "https://www.hs.fi");
+        testArticles.add(testArticle);
+
+        String data = "p\na\nTitlerer\nhttps://www.hs.fi\nv\nq";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+        textUI.setArticles(testArticles);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("Lukuvinkki poistettu!"));
+        s.close();
+    }
+
+
 }
