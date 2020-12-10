@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.validator.UrlValidator;
 
 public class TextUI {
@@ -31,6 +33,10 @@ public class TextUI {
 
     public void setBooks(ArrayList<Book> books) {
         this.books = books;
+    }
+
+    public void setArticles(ArrayList<Article> articles) {
+        this.articles = articles;
     }
 
     public void run() {
@@ -110,7 +116,7 @@ public class TextUI {
                 }
                 break;
             }
-            System.out.println("anna sivumäärä positiivisena numerona tai paina enter, jos haluat jättää kentän tyhjäksi");
+            System.out.println(ConsoleColors.RED + "anna sivumäärä positiivisena numerona tai paina enter, jos haluat jättää kentän tyhjäksi" + ConsoleColors.RESET);
         }
 
         String newBookId = "";
@@ -130,7 +136,6 @@ public class TextUI {
             else if (addTag.equals("t")) {
                 System.out.println("anna tagi:");
                 String tag = s.nextLine();
-                //String bookId = Integer.toString(books.size());
                 try {
                     tagDao.create(new Tag("BOOK", tag, newBookId));
                 } catch (SQLException e) {
@@ -206,11 +211,11 @@ public class TextUI {
                             listBooks();
                             break;
                         } else {
-                            System.out.println("kirjalla ei ole sivumäärää, joten kirjanmerkkiä ei voida lisätä");
+                            System.out.println(ConsoleColors.RED + "kirjalla ei ole sivumäärää, joten kirjanmerkkiä ei voida lisätä" + ConsoleColors.RESET);
                             System.out.println("");
                         }
                     } else {
-                        System.out.println("väärä kirjan numero");
+                        System.out.println(ConsoleColors.RED + "väärä kirjan numero" + ConsoleColors.RESET);
                         System.out.println("");
                     }
                 }
@@ -230,8 +235,9 @@ public class TextUI {
                 book.setBookmark(bookmark);
                 break;
             }
-            System.out.println(
-                    "sivunumero ei saa olla negatiivinen tai sivumäärää suurempi. paina enter, jos haluat jättää kentän tyhjäksi.");
+            System.out.println(ConsoleColors.RED +
+                    "sivunumero ei saa olla negatiivinen tai sivumäärää suurempi. paina enter, jos haluat jättää kentän tyhjäksi."
+                    + ConsoleColors.RESET);
         }
     }
 
@@ -240,7 +246,7 @@ public class TextUI {
         System.out.println("artikkelin otsikko: ");
         String title = s.nextLine();
         while (title.trim().isEmpty()) {
-            System.out.println("anna artikkelin otsikko:");
+            System.out.println("anna artikkelin otsikko: ");
             title = s.nextLine();
         }
         Article newArticle = new Article(title);
@@ -256,7 +262,7 @@ public class TextUI {
                 newArticle.setUrl(url);
                 break;
             }
-            System.out.println("URL-osoite oli virheellinen. anna oikeanmuotoinen URL-osoite (esim. https://www.hs.fi). paina enter, jos haluat jättää kentän tyhjäksi.");
+            System.out.println(ConsoleColors.RED + "URL-osoite oli virheellinen. anna oikeanmuotoinen URL-osoite (esim. https://www.hs.fi). paina enter, jos haluat jättää kentän tyhjäksi." + ConsoleColors.RESET);
         }
 
         try {
@@ -355,6 +361,15 @@ public class TextUI {
                 if (searchArea.equals("t")) {
                     try {
                         tagSearchResults = tagDao.findAndList(searchTerm);
+                        ArrayList<Integer> bookIds = tagDao.findBookIdsByTag(searchTerm);
+                        System.out.println("Löydetyt lukuvinkit:");
+                        int i = 0;
+                        for (int bookId : bookIds) {
+                            System.out.println("Tagi: " + tagSearchResults.get(i) + ". " + bookDao.findBookById(bookId));
+                            i++;
+                        }
+                        tagSearchResults.clear();
+                        bookIds.clear();
                     } catch (SQLException e) {
                         System.err.println(e);
                     }
@@ -363,6 +378,9 @@ public class TextUI {
                 if (searchArea.contains("k")) {
                     try {
                         bookSearchResults = bookDao.findAndList(searchTerm);
+                        System.out.println("Löydetyt lukuvinkit:");
+                        bookSearchResults.forEach(System.out::println);
+                        bookSearchResults.clear();
                     } catch (SQLException e) {
                         System.err.println(e);
                     }
@@ -371,19 +389,15 @@ public class TextUI {
                 if (searchArea.contains("a")) {
                     try {
                         articleSearchResults = articleDao.findAndList(searchTerm);
+                        System.out.println("Löydetyt lukuvinkit:");
+                        articleSearchResults.forEach(System.out::println);
+                        articleSearchResults.clear();
                     } catch (SQLException e) {
                         System.err.println(e);
                     }
                 }
                 
-                System.out.println("Löydetyt lukuvinkit:");
-                bookSearchResults.forEach(System.out::println);
-                articleSearchResults.forEach(System.out::println);
-                tagSearchResults.forEach(System.out::println);
                 System.out.println();
-                bookSearchResults.clear();
-                articleSearchResults.clear();
-                tagSearchResults.clear();
 
             }
         }
@@ -468,6 +482,19 @@ public class TextUI {
             } catch (SQLException e) {
                 System.out.println(e);
             }
+            
+            ArrayList<Tag> tags = null;
+            try {
+                System.out.println();
+                System.out.println(ConsoleColors.GREEN + "tagi lisätty" + ConsoleColors.RESET);
+                tags = tagDao.findTagsByBookId(id);
+                System.out.println();
+                System.out.println("Kirjan tagit:");
+                tags.forEach(System.out::println);
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+   
         }
     }
 
