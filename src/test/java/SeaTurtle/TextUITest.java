@@ -320,7 +320,44 @@ public class TextUITest {
 
         assertTrue(out.toString().contains("kaikki kirjavinkit:"));
         s.close();
+    }
 
+    @Test
+    public void TextUIDoesNotUpdateBookmarkOnBookWithoutPageCount() {
+        ArrayList<Book> testBooks = new ArrayList<>();
+        Book testBook = new Book ("Title", "Author", null, null, 1); 
+        testBooks.add(testBook);
+
+        String data = "m\n1\n\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+
+        s = new Scanner(System.in);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+        textUI.setBooks(testBooks);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("kirjalla ei ole sivumäärää"));
+        s.close();
+    }
+
+    @Test
+    public void TextUIDoesNotUpdateBookmarkInvalidId() {
+        ArrayList<Book> testBooks = new ArrayList<>();
+        Book testBook = new Book ("Title", "Author", "666", "222", 1); 
+        testBooks.add(testBook);
+
+        String data = "m\n3\n\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+
+        s = new Scanner(System.in);
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+        textUI.setBooks(testBooks);
+
+        textUI.run();
+
+        assertTrue(out.toString().contains("väärä kirjan numero"));
+        s.close();
     }
 
     @Test
@@ -331,7 +368,46 @@ public class TextUITest {
         
         textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
         textUI.run();
-    }    
+    }
+
+    @Test
+    public void TextUIAddTagToExistingBook() {
+        ArrayList<Book> testBooks = new ArrayList<>();
+        Book testBook = new Book ("Title", "Author", "666", "222", 1); 
+        testBooks.add(testBook);
+        
+        String data = "t\n1\nl\nkoira\n\n\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+        
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+        textUI.setBooks(testBooks);
+        
+        textUI.run();
+
+        assertTrue(out.toString().contains("ID"));
+        s.close();
+    }
+
+    @Test
+    public void TextUIRemoveTagFromExistingBook() {
+        ArrayList<Book> testBooks = new ArrayList<>();
+        Book testBook = new Book ("Title", "Author", "666", "222", 1); 
+        testBooks.add(testBook);
+        
+        String data = "t\n1\nl\nkoira\n\n1\np\n1\n\n\nq\n";
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        s = new Scanner(System.in);
+        
+        textUI = new TextUI(s, mockDBBookDao, mockDBArticleDao, mockDBTagDao);
+        textUI.setBooks(testBooks);
+        
+        textUI.run();
+
+        assertTrue(out.toString().contains("ID"));
+        s.close();
+    }
+    
 /*
     @Test
     public void TextUIAddTag() {
