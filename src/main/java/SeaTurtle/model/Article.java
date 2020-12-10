@@ -10,17 +10,26 @@ public class Article implements Comparable<Article> {
     private String url;
     private String[] schemes = {"http","https"};
     private UrlValidator urlValidator = new UrlValidator(schemes);
+    private Integer id;
     
     public Article(String title) {
         this.title = title;
         this.url = null;
+        this.id = null;
     }
     
     public Article(String title, String url) {
         this.title = title;
         this.url = url;
+        this.id = null;
     }
     
+    public Article(String title, String url, Integer id) {
+        this.title = title;
+        this.url = url;
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -28,6 +37,11 @@ public class Article implements Comparable<Article> {
     public String getUrl() {
         return url;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
     
     public void setUrl (String url) {
         if (!urlValidator.isValid(url.trim())) {

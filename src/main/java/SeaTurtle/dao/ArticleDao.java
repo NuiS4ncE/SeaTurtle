@@ -3,11 +3,13 @@ package SeaTurtle.dao;
 import java.sql.*;
 import java.util.ArrayList;
 
+import org.apache.commons.beanutils.converters.StringConverter;
+
 public interface ArticleDao<T, K>  {
 
     void createTable() throws SQLException;
     void dropTable() throws SQLException;
-    void create(T object) throws SQLException;
+    String create(T object) throws SQLException;
     T read(T object) throws SQLException;
     void delete(String L) throws SQLException;
     void update(T object) throws SQLException;

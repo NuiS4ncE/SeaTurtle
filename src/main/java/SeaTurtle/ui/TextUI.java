@@ -265,8 +265,9 @@ public class TextUI {
             System.out.println(ConsoleColors.RED + "URL-osoite oli virheellinen. anna oikeanmuotoinen URL-osoite (esim. https://www.hs.fi). paina enter, jos haluat jättää kentän tyhjäksi." + ConsoleColors.RESET);
         }
 
+        String newArticleId = "";
         try {
-            articleDao.create(newArticle);
+            newArticleId = articleDao.create(newArticle);
         } catch (SQLException e) {
             System.out.print(e.getMessage());
         }
@@ -281,9 +282,10 @@ public class TextUI {
             else if (addTag.equals("t")) {
                 System.out.println("anna tagi:");
                 String tag = s.nextLine();
-                String articleId = Integer.toString(articles.size());
+                //String articleId = Integer.toString(articles.size());
                 try {
-                    tagDao.create(new Tag("ARTICLE", tag, articleId));
+                    tagDao.create(new Tag("ARTICLE", tag, newArticleId));
+                    //tagDao.create(new Tag("ARTICLE", tag, articleId));
                 } catch (SQLException e) {
                     System.err.println(e);
                 }
@@ -405,34 +407,50 @@ public class TextUI {
 
     public void editTags(Scanner s) {
 
-        ArrayList<Book> books;
-        ArrayList<Article> articles;
+        ArrayList<Book> books = null;
+        ArrayList<Article> articles = null;
+
+        System.out.println("\nHaluan muokata [k]irjoja tai [a]rtikkeleita");
+        String hintType = s.nextLine();
+
+        String type = null;    
 
         try{
-            books = bookDao.list();
-            articles = articleDao.list();
-
+            if (hintType.equals("k")) {
+                books = bookDao.list();
+                type = "BOOK";
+            } else if (hintType.equals("a")) {
+                articles = articleDao.list();
+                type = "ARTICLE";
+            } else {
+                return;
+            }
             while(true) {
-                books.forEach(b -> { System.out.println("ID: " + b.getId() +", " + b); });
-                System.out.println("\nAnna kirjan ID, jonka tietoja haluat muokata (tyhjällä pois)");
+                
+                if (hintType.equals("k")) {
+                    books.forEach(b -> { System.out.println("ID: " + b.getId() +", " + b); });
+                } else {
+                    articles.forEach(a -> { System.out.println("ID: " + a.getId() +", " + a); });
+                }
+
+                System.out.println("\nAnna vinkin ID, jonka tietoja haluat muokata (tyhjällä pois)");
                 String id = s.nextLine();
     
                 if (id.isEmpty()) {
                     return;
                 } else {
-                    int bookId = Integer.parseInt(id);
-
-                    ArrayList<Tag> tags = tagDao.findTagsByBookId(bookId);
-                    System.out.println("\nKirjan tagit:");
+                    int hintId = Integer.parseInt(id);
+                    ArrayList<Tag> tags = tagDao.findTagsByIdAndType(hintId, type);
+                    System.out.println("\nVinkin tagit:");
                     tags.forEach(System.out::println);
 
                     System.out.println("[l] lisää tag, [p] poista tag (tyhjällä pois)");
                     String input = s.nextLine();
                     
                     if (input.equals("l")) {
-                        appendTag(s, "BOOK", bookId);
+                        appendTag(s, type, hintId);
                     } else if (input.equals("p")) {
-                        removeTag(s, bookId);
+                        removeTag(s, type, hintId);
                     }
                 }
             }
@@ -441,7 +459,7 @@ public class TextUI {
         }
     }
 
-    public void removeTag(Scanner s, int id) {
+    public void removeTag(Scanner s, String type, int id) {
         ArrayList<Tag> tags = null;
         while(true) {
             System.out.println("anna poistettavan tagin id (tyhjällä pois)");
@@ -453,7 +471,8 @@ public class TextUI {
 
             try {
                 tagDao.deleteById(Integer.parseInt(input));
-                tags = tagDao.findTagsByBookId(id);
+                //tags = tagDao.findTagsByBookId(id);
+                tags = tagDao.findTagsByIdAndType(id, type);
             } catch (SQLException e) {
                 System.out.println(ConsoleColors.RED + "Huono ID" + ConsoleColors.RESET);
             }
@@ -462,7 +481,7 @@ public class TextUI {
                 System.out.println();
                 tags.forEach(System.out::println);
             } else {
-                System.out.println("Kirjalla ei ole enää tageja");
+                System.out.println("Vinkillä ei ole enää tageja");
                 return;
             }
         }
@@ -487,9 +506,9 @@ public class TextUI {
             try {
                 System.out.println();
                 System.out.println(ConsoleColors.GREEN + "tagi lisätty" + ConsoleColors.RESET);
-                tags = tagDao.findTagsByBookId(id);
+                tags = tagDao.findTagsByIdAndType(id, type);
                 System.out.println();
-                System.out.println("Kirjan tagit:");
+                System.out.println("Vinkin tagit:");
                 tags.forEach(System.out::println);
             } catch (SQLException e) {
                 System.out.println(e);

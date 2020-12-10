@@ -15,4 +15,5 @@ public interface TagDao<T, K> {
     ArrayList<Integer> findBookIdsByTag(String searchWord) throws SQLException;
     ArrayList<T> findTagsByBookId(Integer I) throws SQLException;
     void deleteById(Integer I) throws SQLException;
+    ArrayList<T> findTagsByIdAndType(Integer I, String S) throws SQLException;
 }

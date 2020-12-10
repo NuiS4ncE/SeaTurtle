@@ -62,10 +62,12 @@ public class Tag implements Comparable<Tag>{
     
     @Override
     public String toString() {
+        /*
         if (this.type.equals("ARTICLE")) {
             return this.tag + " (Artikkeli " + this.bookId + ")";
         }
         //return this.tag + " (Kirja " + this.bookId + ")" + " (id  " + this.id + ")";
+        */
         return this.tag + " (id  " + this.id + ")";
     }
 
