@@ -1,3 +1,4 @@
+@DatabaseNeeded
 Feature: As a user I want to be able to search books and articles
 
   Scenario: Search lists all books and articles where name has specified word

@@ -4,6 +4,8 @@ package SeaTurtle;
 import SeaTurtle.dao.*;
 import SeaTurtle.model.*;
 import SeaTurtle.ui.ConsoleColors;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -17,11 +19,23 @@ public class Stepdefs {
     List<Article> testarticles;
     BookDao dbBookDao;
     ArticleDao dbArticleDao;
+    TagDao dbTagDao;
     
-    private void databaseInitialized() throws SQLException {
+    @Before("@DatabaseNeeded")
+    public void setUp() throws SQLException {
         dbBookDao = new DBBookDao("jdbc:sqlite:seaturtletest_cucumber.db");
         dbArticleDao = new DBArticleDao("jdbc:sqlite:seaturtletest_cucumber.db");
-        
+        dbTagDao =  new DBTagDao("jdbc:sqlite:seaturtletest_cucumber.db");
+    }
+    
+    @After("@DatabaseNeeded")
+    public void tearDown() throws SQLException {
+        dbBookDao.dropTable();
+        dbArticleDao.dropTable();
+        dbTagDao.dropTable();
+    }
+    
+    private void saveToDatabase() throws SQLException {
         if (testbooks != null) {
             for (Book b : testbooks) {
                 dbBookDao.create(b);
@@ -35,9 +49,9 @@ public class Stepdefs {
         }
     }
     
-    private void databaseDropped() throws SQLException {
-        dbBookDao.dropTable();
-        dbArticleDao.dropTable();
+    private void updateFromDatabase() throws SQLException {
+        testbooks = dbBookDao.list();
+        testarticles = dbArticleDao.list();
     }
     
     // GIVEN
@@ -120,6 +134,46 @@ public class Stepdefs {
         Article article = new Article(title);
         article.setUrl(url);
         testarticles.add(article);
+    }
+
+    @When("a book with title {string} and author {string} is deleted")
+    public void bookIsDeleted(String title, String author) throws SQLException {
+        saveToDatabase();
+        
+        dbBookDao.delete(title, author);
+        
+        updateFromDatabase();
+    }
+
+    @When("an article with title {string} is deleted")
+    public void articleIsDeleted(String title) throws SQLException {
+        saveToDatabase();
+        
+        dbArticleDao.delete(title);
+        
+        updateFromDatabase();
+    }
+
+    @When("a tag {string} is added to the book with title {string}")
+    public void tagIsAddedToBook(String tag, String title) throws SQLException {
+        saveToDatabase();
+        
+        ArrayList<Book> bookSearchResults = new ArrayList<>();
+        bookSearchResults = dbBookDao.findAndList(title);
+        Book tagToBook = bookSearchResults.get(0);
+        
+        dbTagDao.create(new Tag("BOOK", tag, String.valueOf(tagToBook.getId())));
+    }
+
+    @When("a tag {string} is added to the article with title {string}")
+    public void tagIsAddedToArticle(String tag, String title) throws SQLException {
+        saveToDatabase();
+        
+        ArrayList<Article> articleSearchResults = new ArrayList<>();
+        articleSearchResults = dbArticleDao.findAndList(title);
+        Article tagToArticle = articleSearchResults.get(0);
+        
+        dbTagDao.create(new Tag("ARTICLE", tag, String.valueOf(tagToArticle.getId())));
     }
     
     
@@ -213,7 +267,7 @@ public class Stepdefs {
 
     @Then("searching {string} returns {int} results")
     public void searchReturnsNumberOfResults(String search, int results) throws SQLException {
-        databaseInitialized();
+        saveToDatabase();
         
         ArrayList<Book> bookSearchResults = new ArrayList<>();
         bookSearchResults = dbBookDao.findAndList(search);
@@ -221,26 +275,51 @@ public class Stepdefs {
         articleSearchResults = dbArticleDao.findAndList(search);
         
         assertEquals(results, bookSearchResults.size() + articleSearchResults.size());
+    }
+
+    @Then("searching books with title {string} returns {int} results")
+    public void searchBooksReturnsNumberOfResults(String search, int results) throws SQLException {
+        saveToDatabase();
         
-        databaseDropped();
+        ArrayList<Book> bookSearchResults = new ArrayList<>();
+        bookSearchResults = dbBookDao.findAndList(search);
+        ArrayList<Article> articleSearchResults = new ArrayList<>();
+        articleSearchResults = dbArticleDao.findAndList(search);
+        
+        assertEquals(results, bookSearchResults.size());
+    }
+
+    @Then("searching tag {string} returns {int} results")
+    public void searchTagReturnsNumberOfResults(String tag, int results) throws SQLException {
+        ArrayList<Integer> tagSearchResults = dbTagDao.findIdsByTag(tag);
+        
+        assertEquals(results, tagSearchResults.size());
+    }
+
+    @Then("searching articles with title {string} returns {int} results")
+    public void searchArticlesReturnsNumberOfResults(String search, int results) throws SQLException {
+        saveToDatabase();
+        
+        ArrayList<Book> bookSearchResults = new ArrayList<>();
+        bookSearchResults = dbBookDao.findAndList(search);
+        ArrayList<Article> articleSearchResults = new ArrayList<>();
+        articleSearchResults = dbArticleDao.findAndList(search);
+        
+        assertEquals(results, articleSearchResults.size());
     }
 
     @Then("all added books are in the database")
     public void booksAreSavedInDatabase() throws SQLException {
-        databaseInitialized();
+        saveToDatabase();
         
         assertEquals(testbooks, dbBookDao.list());
-        
-        databaseDropped();
     }
 
     @Then("all added articles are in the database")
     public void articlesAreSavedInDatabase() throws SQLException {
-        databaseInitialized();
+        saveToDatabase();
         
         assertEquals(testarticles, dbArticleDao.list());
-        
-        databaseDropped();
     }
 
 }

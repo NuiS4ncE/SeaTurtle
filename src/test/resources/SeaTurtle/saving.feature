@@ -1,3 +1,4 @@
+@DatabaseNeeded
 Feature: As a user I want my books and articles to be saved permanently
 
   Scenario: Book is saved into database
