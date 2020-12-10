@@ -370,6 +370,9 @@ public class TextUI {
                             System.out.println("Tagi: " + tagSearchResults.get(i) + ". " + bookDao.findBookById(bookId));
                             i++;
                         }
+
+                        
+
                         tagSearchResults.clear();
                         bookIds.clear();
                     } catch (SQLException e) {
@@ -410,7 +413,7 @@ public class TextUI {
         ArrayList<Book> books = null;
         ArrayList<Article> articles = null;
 
-        System.out.println("\nHaluan muokata [k]irjoja tai [a]rtikkeleita");
+        System.out.println("\nHaluan muokata [k]irjoja tai [a]rtikkeleita (tyhjällä pois)");
         String hintType = s.nextLine();
 
         String type = null;    
@@ -471,7 +474,6 @@ public class TextUI {
 
             try {
                 tagDao.deleteById(Integer.parseInt(input));
-                //tags = tagDao.findTagsByBookId(id);
                 tags = tagDao.findTagsByIdAndType(id, type);
             } catch (SQLException e) {
                 System.out.println(ConsoleColors.RED + "Huono ID" + ConsoleColors.RESET);
