@@ -1,18 +1,12 @@
 package SeaTurtle;
 
 import SeaTurtle.model.Tag;
-import SeaTurtle.ui.TextUI;
-import io.cucumber.messages.internal.com.google.gson.internal.bind.SqlDateTypeAdapter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import SeaTurtle.dao.DBTagDao;
 
@@ -35,6 +29,8 @@ public class DBTagDaoTest {
     public ArrayList<Tag> exampleTags() {
         ArrayList<Tag> tags = new ArrayList<>();        
         tags.add(new Tag("BOOK", "tagi", 1, "3"));
+        tags.add(new Tag("BOOK", "tag2", 2, "3"));
+
 
         return tags;
     }
@@ -48,8 +44,44 @@ public class DBTagDaoTest {
     }
 
     @Test
+    public void createTagAndReadFromDB() throws Exception {
+        Tag testTag = exampleTags().get(0);
+        dbTagDao.create(testTag);
+        
+        assertEquals(dbTagDao.read(testTag), testTag);
+    }
+
+    @Test
+    public void createTagAndReadNotFoundFromDB() throws Exception {
+        Tag testTag = exampleTags().get(0);
+        dbTagDao.create(testTag);
+        
+        assertEquals(dbTagDao.read(new Tag("BOOK", "togi", 7, "666")), null);
+    }
+ 
+    @Test
+    public void createAndDeleteFromDB() throws SQLException {
+        Tag testTag = exampleTags().get(0);
+        dbTagDao.create(testTag);
+        assertTrue(dbTagDao.list().contains(testTag));
+
+        dbTagDao.delete(testTag);
+        assertTrue(!dbTagDao.list().contains(testTag));
+    }
+
+    @Test
+    public void createAndDeleteByIdFromDB() throws SQLException {
+        Tag testTag = exampleTags().get(0);
+        dbTagDao.create(testTag);
+        assertTrue(dbTagDao.list().contains(testTag));
+
+        dbTagDao.deleteById(1);
+        assertTrue(!dbTagDao.list().contains(testTag));
+    }
+
+    @Test
     public void createAndFindTagByTitleFromDB() throws SQLException {
-        Tag testTag = new Tag("BOOK", "tagi", 1, "3");
+        Tag testTag = exampleTags().get(0);
         dbTagDao.create(testTag);
 
         assertTrue(dbTagDao.findAndList(testTag.getTag()).contains(testTag));
@@ -57,11 +89,20 @@ public class DBTagDaoTest {
 
     @Test
     public void createAndFindTagByBookIdFromDB() throws SQLException {
-        Tag testTag = new Tag("BOOK", "tagi", 1, "3");
+        Tag testTag = exampleTags().get(0);
         dbTagDao.create(testTag);
 
         assertTrue(dbTagDao.findTagsByBookId(Integer.parseInt(testTag.getBookId())).contains(testTag));
     }
+/*
+    @Test
+    public void createAndFindIdByTagFromDB() throws SQLException {
+        Tag testTag = exampleTags().get(0);
+        dbTagDao.create(testTag);
+
+        assertTrue(dbTagDao.findIdsByTag("tagi").contains("3"));
+    }
+*/
 
 
 
