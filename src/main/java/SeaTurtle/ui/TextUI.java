@@ -392,8 +392,11 @@ public class TextUI {
     public void editTags(Scanner s) {
 
         ArrayList<Book> books;
+        ArrayList<Article> articles;
+
         try{
             books = bookDao.list();
+            articles = articleDao.list();
 
             while(true) {
                 books.forEach(b -> { System.out.println("ID: " + b.getId() +", " + b); });
