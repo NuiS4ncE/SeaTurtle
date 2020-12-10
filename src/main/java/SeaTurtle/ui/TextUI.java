@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.validator.UrlValidator;
 
 public class TextUI {
@@ -359,6 +361,15 @@ public class TextUI {
                 if (searchArea.equals("t")) {
                     try {
                         tagSearchResults = tagDao.findAndList(searchTerm);
+                        ArrayList<Integer> bookIds = tagDao.findBookIdsByTag(searchTerm);
+                        System.out.println("Löydetyt lukuvinkit:");
+                        int i = 0;
+                        for (int bookId : bookIds) {
+                            System.out.println("Tagi: " + tagSearchResults.get(i) + ". " + bookDao.findBookById(bookId));
+                            i++;
+                        }
+                        tagSearchResults.clear();
+                        bookIds.clear();
                     } catch (SQLException e) {
                         System.err.println(e);
                     }
@@ -367,6 +378,9 @@ public class TextUI {
                 if (searchArea.contains("k")) {
                     try {
                         bookSearchResults = bookDao.findAndList(searchTerm);
+                        System.out.println("Löydetyt lukuvinkit:");
+                        bookSearchResults.forEach(System.out::println);
+                        bookSearchResults.clear();
                     } catch (SQLException e) {
                         System.err.println(e);
                     }
@@ -375,19 +389,15 @@ public class TextUI {
                 if (searchArea.contains("a")) {
                     try {
                         articleSearchResults = articleDao.findAndList(searchTerm);
+                        System.out.println("Löydetyt lukuvinkit:");
+                        articleSearchResults.forEach(System.out::println);
+                        articleSearchResults.clear();
                     } catch (SQLException e) {
                         System.err.println(e);
                     }
                 }
                 
-                System.out.println("Löydetyt lukuvinkit:");
-                bookSearchResults.forEach(System.out::println);
-                articleSearchResults.forEach(System.out::println);
-                tagSearchResults.forEach(System.out::println);
                 System.out.println();
-                bookSearchResults.clear();
-                articleSearchResults.clear();
-                tagSearchResults.clear();
 
             }
         }
@@ -469,6 +479,19 @@ public class TextUI {
             } catch (SQLException e) {
                 System.out.println(e);
             }
+            
+            ArrayList<Tag> tags = null;
+            try {
+                System.out.println();
+                System.out.println(ConsoleColors.GREEN + "tagi lisätty" + ConsoleColors.RESET);
+                tags = tagDao.findTagsByBookId(id);
+                System.out.println();
+                System.out.println("Kirjan tagit:");
+                tags.forEach(System.out::println);
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+   
         }
     }
 
