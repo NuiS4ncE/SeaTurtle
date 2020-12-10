@@ -175,6 +175,11 @@ public class Stepdefs {
         
         dbTagDao.create(new Tag("ARTICLE", tag, String.valueOf(tagToArticle.getId())));
     }
+
+    @When("the tag {string} is deleted")
+    public void tagIsDeleted(String tag) throws SQLException {
+        dbTagDao.delete(new Tag("BOOK", tag));
+    }
     
     
     // THEN
@@ -292,6 +297,20 @@ public class Stepdefs {
     @Then("searching tag {string} returns {int} results")
     public void searchTagReturnsNumberOfResults(String tag, int results) throws SQLException {
         ArrayList<Integer> tagSearchResults = dbTagDao.findIdsByTag(tag);
+        
+        assertEquals(results, tagSearchResults.size());
+    }
+
+    @Then("searching tags for book {string} returns {int} results")
+    public void searchTagForBookReturnsNumberOfResults(String title, int results) throws SQLException {
+        saveToDatabase();
+        
+        ArrayList<Book> bookSearchResults = new ArrayList<>();
+        bookSearchResults = dbBookDao.findAndList(title);
+        
+        Book foundBook = bookSearchResults.get(0);
+        
+        ArrayList<Integer> tagSearchResults = dbTagDao.findTagsByIdAndType(foundBook.getId(), "BOOK");
         
         assertEquals(results, tagSearchResults.size());
     }
