@@ -451,9 +451,11 @@ public class TextUI {
                 } else {
                     int hintId = Integer.parseInt(id);
                     ArrayList<Tag> tags = tagDao.findTagsByIdAndType(hintId, type);
-                    System.out.println("\nVinkin tagit:");
+                    if (!tags.isEmpty()) {
+                        System.out.println("\nVinkin tagit:");
+                    }
                     tags.forEach(System.out::println);
-
+                    System.out.println();
                     System.out.println("[l] lisää tag, [p] poista tag (tyhjällä pois)");
                     String input = s.nextLine();
                     
