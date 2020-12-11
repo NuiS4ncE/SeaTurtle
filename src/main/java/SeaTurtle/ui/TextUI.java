@@ -558,9 +558,9 @@ public class TextUI {
                     String deleteTitle = s.nextLine();
                     if (deleteTitle.equals("")) break;
 
-                    System.out.println("ja kirjoittajan nimi (tyhjällä takaisin edelliseen näkymään)");
+                    System.out.println("ja kirjoittajan nimi");
                     String deleteAuthor = s.nextLine();
-                    if (deleteAuthor.equals("")) break;
+                    //if (deleteAuthor.equals("")) break;
 
                     try {
                         bookDao.delete(deleteTitle, deleteAuthor);
