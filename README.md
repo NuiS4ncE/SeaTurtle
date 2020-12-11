@@ -12,7 +12,7 @@
 - [Asennus- ja käyttöohje](https://github.com/NuiS4ncE/SeaTurtle/blob/main/documentation/Kayttoohje.md)
 
 ## Viimeisin release 
-- [Donatello](https://github.com/NuiS4ncE/SeaTurtle/releases/tag/v0.1_Donatello)
+- [Leonardo](https://github.com/NuiS4ncE/SeaTurtle/releases/tag/v1.0_Leonardo)
 
 
 
