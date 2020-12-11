@@ -120,9 +120,14 @@ public class DBBookDao implements BookDao<Book, Integer> {
     @Override
     public void delete(String title, String author) throws SQLException {
         startCon();
-        prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND author = ?");
-        prepstmt.setString(1, title);
-        prepstmt.setString(2, author);
+        if (author == null) {
+            prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ?");
+            prepstmt.setString(1, title);
+        } else {
+            prepstmt = con.prepareStatement("DELETE FROM Book WHERE title = ? AND author = ?");
+            prepstmt.setString(1, title);
+            prepstmt.setString(2, author);
+        }
         prepstmt.executeUpdate();
         prepstmt.close();
         closeCon();

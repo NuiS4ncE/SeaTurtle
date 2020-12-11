@@ -560,7 +560,7 @@ public class TextUI {
 
                     System.out.println("ja kirjoittajan nimi");
                     String deleteAuthor = s.nextLine();
-                    //if (deleteAuthor.equals("")) break;
+                    if (deleteAuthor.equals("")) deleteAuthor = null;
 
                     try {
                         bookDao.delete(deleteTitle, deleteAuthor);
