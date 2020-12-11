@@ -448,7 +448,7 @@ public class TextUITest {
         Article testArticle = new Article ("Titlerer", "https://www.hs.fi");
         testArticles.add(testArticle);
 
-        String data = "p\na\nTitlerer\nhttps://www.hs.fi\nv\nq";
+        String data = "p\na\nTitlerer\nv\nq";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         s = new Scanner(System.in);
 
