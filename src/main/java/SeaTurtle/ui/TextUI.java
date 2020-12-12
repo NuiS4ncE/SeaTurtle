@@ -124,21 +124,19 @@ public class TextUI {
             System.out.print(e.getMessage());
         }
         updateBooks();
-        
-        while (true) {
-            System.out.println("paina [t] jos haluat lisätä tageja tai enter, jos et halua");
-            String addTag = s.nextLine();
-            if (addTag.isEmpty()) {
-                break;
-            }
-            else if (addTag.equals("t")) {
-                System.out.println("anna tagi:");
+
+        System.out.println("paina [t] jos haluat lisätä tageja tai enter, jos et halua");
+        String addTag = s.nextLine();
+        if (addTag.equals("t")) {
+            while(true) {
+                System.out.println("anna tagi (tyhjällä pois):");
                 String tag = s.nextLine();
+                if (tag.isEmpty()) {
+                    break;
+                }
                 try {
                     tagDao.create(new Tag("BOOK", tag, newBookId));
-                    System.out.println();
                     System.out.println(ConsoleColors.GREEN + "tagi lisätty" + ConsoleColors.RESET);
-                    System.out.println();
                 } catch (SQLException e) {
                     System.err.println(e);
                 }
