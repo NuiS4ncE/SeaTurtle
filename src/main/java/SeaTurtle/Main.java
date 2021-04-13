@@ -19,5 +19,6 @@ public class Main {
         UI.run();
         
         s.close();
+        System.out.println("Goodbye SeaTurtle!");
     }
 }
